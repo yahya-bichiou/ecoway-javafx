@@ -1,0 +1,15 @@
+/* Normal row background */
+.table-row-cell {
+    -fx-background-color: white;
+}
+
+/* Hover effect */
+.table-row-cell:hover {
+    -fx-background-color: #9e6de0; /* Light gray hover */
+}
+
+/* Selected row */
+.table-row-cell:filled:selected, .table-row-cell:focused:selected {
+    -fx-background-color: #9e6de0;  /* Blue selection */
+    -fx-text-fill: white;
+}
