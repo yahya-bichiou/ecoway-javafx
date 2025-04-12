@@ -5,11 +5,41 @@
 
 /* Hover effect */
 .table-row-cell:hover {
-    -fx-background-color: #9e6de0; /* Light gray hover */
+    -fx-background-color: #9e6de0;
+}
+
+.table-view .column-header {
+    -fx-background-color: white;
+}
+.table-view .column-header-background {
+    -fx-background-color: white;
 }
 
 /* Selected row */
 .table-row-cell:filled:selected, .table-row-cell:focused:selected {
     -fx-background-color: #9e6de0;  /* Blue selection */
     -fx-text-fill: white;
+}
+
+/* Changes the text size for all table cells */
+.table-view .table-cell {
+    -fx-font-size: 14px;
+    -fx-text-fill: #a1a1a1;
+}
+
+/* Changes the text size for table header labels */
+.table-view .column-header .label {
+    -fx-font-size: 16px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 0 10 10;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-row-cell {
+    -fx-border-color: #cccccc;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-insets: 0;
+    -fx-border-style: solid;
+    -fx-padding: 10 0 10 10;
 }
