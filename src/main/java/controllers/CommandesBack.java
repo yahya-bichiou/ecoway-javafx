@@ -3,6 +3,7 @@ package controllers;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -173,4 +174,15 @@ public class CommandesBack {
         }
     }
 
+    public void livrerCommande(ActionEvent actionEvent) {
+        Commandes selectedCommande = commandeTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedCommande != null) {
+            selectedCommande.setStatus("en livraison");
+            CommandeService commandeService = new CommandeService();
+            commandeService.update(selectedCommande);
+            commandeTableView.refresh();
+        } else {
+            System.out.println("Please select a commande to mark as 'en livraison'.");
+        }    }
 }

@@ -43,19 +43,20 @@ public class CommandeService implements Cart <Commandes> {
 
     @Override
     public void update(Commandes item) {
-        String query = "UPDATE commande SET status = ?, mode_Paiement = ?, date = ?, prix = ?, produits = ? WHERE id = ?";
+        String query = "UPDATE commande SET client_id = ?, status = ?, mode_Paiement = ?, date = ?, prix = ?, produits = ? WHERE id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, item.getStatus());
-            ps.setString(2, item.getMode_paiement());
+            ps.setInt(1, item.getClient_id());
+            ps.setString(2, item.getStatus());
+            ps.setString(3, item.getMode_paiement());
 
             LocalDate localDate = item.getDate();  // assuming it's LocalDate
             LocalDateTime localDateTime = localDate.atStartOfDay();  // set time to 00:00
-            ps.setTimestamp(3, Timestamp.valueOf(localDateTime));
+            ps.setTimestamp(4, Timestamp.valueOf(localDateTime));
 
-            ps.setDouble(4, item.getPrix());
-            ps.setString(5, item.getProduits());
-            ps.setInt(6, item.getId());
+            ps.setDouble(5, item.getPrix());
+            ps.setString(6, item.getProduits());
+            ps.setInt(7, item.getId());
 
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {

@@ -23,16 +23,17 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button alignment="CENTER" layoutX="125.0" layoutY="366.0" mnemonicParsing="false" onAction="#ajouterCommandeAction" prefHeight="43.0" prefWidth="149.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Ajouter" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" layoutX="126.0" layoutY="387.0" mnemonicParsing="false" onAction="#ajouterCommandeAction" prefHeight="36.0" prefWidth="149.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Ajouter" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" layoutX="126.0" layoutY="423.0" mnemonicParsing="false" onAction="#canncelAddCommande" prefHeight="43.0" prefWidth="149.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Annuler" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" layoutX="126.0" layoutY="430.0" mnemonicParsing="false" onAction="#canncelAddCommande" prefHeight="36.0" prefWidth="149.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Annuler" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
+            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="353.0" prefWidth="300.0" text="ERRORS" textAlignment="CENTER" textFill="RED" />
          </children>
       </Pane>
       <Button fx:id="closeButton" layoutX="1496.0" layoutY="14.0" mnemonicParsing="false" onAction="#closeApp" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #ff1b1b; -fx-background-radius: 20;" text="X" textFill="WHITE">

@@ -119,6 +119,11 @@
                               <Font size="16.0" />
                            </font>
                         </Button>
+                        <Button alignment="CENTER" layoutX="702.0" layoutY="540.0" mnemonicParsing="false" onAction="#livrerCommande" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Livrer" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
                      </children>
                   </Pane>
                   <Pane layoutX="100.0" layoutY="700.0" prefHeight="600.0" prefWidth="1076.0" style="-fx-background-color: #ffffff; -fx-border-color: #d9dadb; -fx-border-radius: 10; -fx-background-radius: 10;">

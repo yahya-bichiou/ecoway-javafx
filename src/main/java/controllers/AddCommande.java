@@ -28,6 +28,8 @@ public class AddCommande {
     private TextField prixTextField;
     @FXML
     private TextField produitsTextField;
+    @FXML
+    private Label errorLabel;
 
     @FXML
     private Button closeButton;
@@ -56,14 +58,65 @@ public class AddCommande {
     @FXML
     void ajouterCommandeAction() {
 
-        int clientId = Integer.parseInt(client_idTextField.getText());
-        String status = statusTextField.getText();
-        String modeDePaiement = mode_paiementTextField.getText();
-        LocalDate date = dateDatePicker.getValue();
-        float prix = Float.parseFloat(prixTextField.getText());
-        String produits = produitsTextField.getText();
+        errorLabel.setText("");  // Reset error label
 
-        Commandes c = new Commandes(clientId,status,modeDePaiement,date,prix,produits);
+        // Check Client ID
+        if (client_idTextField.getText().isEmpty()) {
+            errorLabel.setText("Le champ Client ID est vide !");
+            return;
+        }
+        int clientId;
+        try {
+            clientId = Integer.parseInt(client_idTextField.getText());
+        } catch (NumberFormatException e) {
+            errorLabel.setText("Client ID doit être un nombre !");
+            return;
+        }
+
+        // Check Status
+        if (statusTextField.getText().isEmpty()) {
+            errorLabel.setText("Le champ Status est vide !");
+            return;
+        }
+
+        // Check Mode de Paiement
+        if (mode_paiementTextField.getText().isEmpty()) {
+            errorLabel.setText("Le champ Mode de Paiement est vide !");
+            return;
+        }
+
+        // Check Date
+        if (dateDatePicker.getValue() == null) {
+            errorLabel.setText("La date est obligatoire !");
+            return;
+        }
+        if (dateDatePicker.getValue().isAfter(LocalDate.now())) {
+            errorLabel.setText("La date ne peut pas être dans le futur !");
+            return;
+        }
+
+        // Check Prix
+        if (prixTextField.getText().isEmpty()) {
+            errorLabel.setText("Le champ Prix est vide !");
+            return;
+        }
+        float prix;
+        try {
+            prix = Float.parseFloat(prixTextField.getText());
+        } catch (NumberFormatException e) {
+            errorLabel.setText("Prix doit être un nombre valide !");
+            return;
+        }
+
+        // Check Produits
+        if (produitsTextField.getText().isEmpty()) {
+            errorLabel.setText("Le champ Produits est vide !");
+            return;
+        }
+
+        // If all checks pass
+        Commandes c = new Commandes(clientId, statusTextField.getText(), mode_paiementTextField.getText(),
+                dateDatePicker.getValue(), prix, produitsTextField.getText());
         CommandeService cs = new CommandeService();
         cs.add(c);
 
@@ -79,6 +132,10 @@ public class AddCommande {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    @FXML
+    public void initialize() {
+        errorLabel.setText("");
     }
 }
