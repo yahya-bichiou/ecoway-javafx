@@ -6,24 +6,27 @@ public class user {
     private String email;
     private String password;
     private String imageProfile;
+    private String role;
 
 
 
     public user(){}
 
-    public user( String name, String email, String password, String imageProfile) {
+    public user( String name, String email, String password, String imageProfile, String role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.imageProfile = imageProfile;
+        this.role = role;
     }
 
-    public user(Long id, String name, String email, String password, String imageProfile) {
+    public user(Long id, String name, String email, String password, String imageProfile, String role) {
         this.id = Math.toIntExact(id);
         this.name = name;
         this.email = email;
         this.password = password;
         this.imageProfile = imageProfile;
+        this.role = role;
     }
 
     public int getId() {
@@ -32,6 +35,14 @@ public class user {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getName() {

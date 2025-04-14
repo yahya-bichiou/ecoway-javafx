@@ -1,9 +1,11 @@
 C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\utils\MaConnexion.java
-C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\controllers\DashboardController.java
-C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\controllers\LoginController.java
-C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\controllers\RegisterController.java
+C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\frontoffice\controllers\ProfileController.java
+C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\frontoffice\main\Main.java
+C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\frontoffice\controllers\RegisterController.java
+C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\frontoffice\controllers\userController.java
+C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\backoffice\main\MainBack.java
 C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\models\user.java
-C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\tn\esprit\Main.java
+C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\backoffice\controllers\UserListController.java
+C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\frontoffice\controllers\LoginController.java
 C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\services\userService.java
-C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\controllers\userController.java
 C:\Users\noussa\OneDrive\Desktop\java\gestionuser\src\main\java\interfaces\iService.java

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f0f1f5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backoffice.controllers.EditUserListController">
+    <children>
+        <VBox alignment="CENTER" layoutX="50.0" layoutY="30.0" prefHeight="340.0" prefWidth="500.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <Label text="Modifier Utilisateur" style="-fx-text-fill: #503f71;">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="nameField" promptText="Nom" style="-fx-background-radius: 5;" />
+                <TextField fx:id="emailField" promptText="Email" style="-fx-background-radius: 5;" />
+                <TextField fx:id="passwordField" promptText="Mot de passe" style="-fx-background-radius: 5;" />
+                <TextField fx:id="imageProfileField" promptText="Image de profil" style="-fx-background-radius: 5;" />
+                <TextField fx:id="roleField" promptText="Rôle" style="-fx-background-radius: 5;" />
+                <HBox alignment="CENTER" spacing="20.0">
+                    <children>
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Enregistrer" textFill="WHITE">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #a8b7cb; -fx-background-radius: 50px;" text="Annuler" textFill="WHITE">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

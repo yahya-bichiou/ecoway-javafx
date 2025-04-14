@@ -12,13 +12,10 @@ public class userService implements iService<user> {
 
     Connection cnx = MaConnexion.getInstance().getConn();
 
-
-
-
     @Override
     public void add(user user) {
-
-        String SQL="INSERT INTO user (name, email, password,imageProfile)" + "VALUES (?,?,?,?)";
+        String defaultRole = "User"; // Default role
+        String SQL = "INSERT INTO user (name, email, password, imageProfile, role) VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement st = cnx.prepareStatement(SQL);
@@ -26,6 +23,7 @@ public class userService implements iService<user> {
             st.setString(2, user.getEmail());
             st.setString(3, user.getPassword());
             st.setString(4, user.getImageProfile());
+            st.setString(5, defaultRole); // Enforce default role
             st.executeUpdate();
             System.out.println("User added");
         } catch (SQLException e) {
@@ -33,21 +31,25 @@ public class userService implements iService<user> {
         }
     }
 
+
     @Override
     public void update(user user) {
-        String SQL = "UPDATE user SET name = ?, email = ?, password = ?, imageProfile = ? WHERE id = ?";
+        String SQL = "UPDATE user SET name = ?, email = ?, password = ?, imageProfile = ? , role = ?  WHERE id = ?";
         try (PreparedStatement ps = cnx.prepareStatement(SQL)){
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
             ps.setString(4, user.getImageProfile());
-            ps.setInt(5, user.getId());
+            ps.setString(5, user.getRole());
+            ps.setInt(6, user.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
     }
+
+
 
     @Override
     public void delete(user user) {
@@ -70,10 +72,12 @@ public class userService implements iService<user> {
             ResultSet res = st.executeQuery(SQL);
             while (res.next()) {
                 user u = new user();
+                u.setId(res.getInt("id"));
                 u.setName(res.getString("name"));
                 u.setEmail(res.getString("email"));
                 u.setPassword(res.getString("password"));
                 u.setImageProfile(res.getString("imageProfile"));
+                u.setRole(res.getString("role"));
                 users.add(u);
             }
         } catch (SQLException e) {
@@ -89,10 +93,11 @@ public class userService implements iService<user> {
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next(); // Returns true if credentials are valid.
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("SQL Error: " + e.getMessage());
             return false;
         }
+
     }
 
     public boolean emailExists(String email) {
@@ -107,13 +112,30 @@ public class userService implements iService<user> {
         }
     }
 
-    public boolean addUser(String name, String email, String password, String imageProfile) {
-        String query = "INSERT INTO user (name, email, password, imageProfile) VALUES (?, ?, ?, ?)";
+    public boolean promoteToAdmin(int userId) {
+
+
+        String query = "UPDATE user SET role = 'Admin' WHERE id = ?";
+        try (PreparedStatement statement = cnx.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public boolean addUser(String name, String email, String password, String imageProfile,String role) {
+
+        String query = "INSERT INTO user (name, email, password, imageProfile,role) VALUES (?, ?, ?, ?,?)";
         try (PreparedStatement statement = cnx.prepareStatement(query)) {
             statement.setString(1, name);
             statement.setString(2, email);
             statement.setString(3, password);
             statement.setString(4, imageProfile);
+            statement.setString(5, role);
             statement.executeUpdate();
             return true; // Returns true if the user is successfully added.
         } catch (Exception e) {
