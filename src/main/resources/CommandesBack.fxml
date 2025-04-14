@@ -93,18 +93,28 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="commandeTableView" layoutX="50.0" layoutY="100.0" prefHeight="450.0" prefWidth="976.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;" stylesheets="@style.css">
+                        <TableView fx:id="commandeTableView" layoutX="50.0" layoutY="100.0" prefHeight="421.0" prefWidth="976.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;" stylesheets="@style.css">
                            <columns>
                               <TableColumn fx:id="idCol" prefWidth="50" text="ID" />
-                              <TableColumn fx:id="clientIdCol" text="Client ID" />
-                              <TableColumn fx:id="statusCol" text="Status" />
-                              <TableColumn fx:id="modeCol" text="Mode Paiement" />
-                              <TableColumn fx:id="dateCol" text="Date" />
-                              <TableColumn fx:id="prixCol" text="Prix" />
-                              <TableColumn fx:id="produitsCol" text="Produits" />
+                              <TableColumn fx:id="clientIdCol" prefWidth="100" text="CLIENT ID" />
+                              <TableColumn fx:id="statusCol" prefWidth="120" text="STATUS" />
+                              <TableColumn fx:id="modeCol" prefWidth="150" text="MODE PAIEMENT" />
+                              <TableColumn fx:id="dateCol" prefWidth="100" text="DATE" />
+                              <TableColumn fx:id="prixCol" prefWidth="100" text="PRIX" />
+                              <TableColumn fx:id="produitsCol" prefWidth="400" text="PRODUITS" />
                            </columns>
                         </TableView>
                         <Button alignment="CENTER" layoutX="845.0" layoutY="29.0" mnemonicParsing="false" onAction="#addCommande" prefHeight="43.0" prefWidth="181.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Ajouter Commande" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="CENTER" layoutX="924.0" layoutY="540.0" mnemonicParsing="false" onAction="#deleteCommande" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Delete" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="CENTER" layoutX="812.0" layoutY="540.0" mnemonicParsing="false" onAction="#editCommande" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Edit" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -121,13 +131,13 @@
                         <TableView fx:id="livraisonTableView" layoutX="50.0" layoutY="100.0" prefHeight="450.0" prefWidth="976.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;" stylesheets="@style.css">
                            <columns>
                               <TableColumn fx:id="id" prefWidth="50" text="ID" />
-                              <TableColumn fx:id="commande" text="Commande ID" />
-                              <TableColumn fx:id="livreur" text="Livreur" />
-                              <TableColumn fx:id="adresse" text="Adresse" />
-                              <TableColumn fx:id="date" text="Date" />
-                              <TableColumn fx:id="status" text="Status" />
-                              <TableColumn fx:id="mode" text="Mode" />
-                              <TableColumn fx:id="prix" text="Prix" />
+                              <TableColumn fx:id="commande" text="COMMANDE ID" />
+                              <TableColumn fx:id="livreur" text="LIVREUR" />
+                              <TableColumn fx:id="adresse" text="ADRESSE" />
+                              <TableColumn fx:id="date" text="DATE" />
+                              <TableColumn fx:id="status" text="STATUS" />
+                              <TableColumn fx:id="mode" text="MODE" />
+                              <TableColumn fx:id="prix" text="PRIX" />
                            </columns>
                         </TableView>
                      </children>

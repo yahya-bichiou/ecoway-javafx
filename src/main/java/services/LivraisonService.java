@@ -19,7 +19,7 @@ public class LivraisonService implements LivraisonInterface <Livraisons> {
     public void add(Livraisons l) {
         String query = "INSERT INTO livraison (commande_id,livreur,adresse,date,status,mode,prix) VALUES (?,?,?,?,?,?,?)";
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, l.getCommandeId());
+            ps.setInt(1, l.getCommande_id());
             ps.setString(2, l.getLivreur());
             ps.setString(3, l.getAdresse());
             ps.setTimestamp(4, Timestamp.valueOf(l.getDate()));
@@ -42,7 +42,7 @@ public class LivraisonService implements LivraisonInterface <Livraisons> {
     public void update(Livraisons l) {
         String query = "UPDATE livraison SET commande_id = ?, livreur = ?, adresse = ?, date = ?, status = ?, mode = ?, prix = ? WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, l.getCommandeId());
+            ps.setInt(1, l.getCommande_id());
             ps.setString(2, l.getLivreur());
             ps.setString(3, l.getAdresse());
             ps.setTimestamp(4, Timestamp.valueOf(l.getDate()));
@@ -89,7 +89,7 @@ public class LivraisonService implements LivraisonInterface <Livraisons> {
             while (rs.next()) {
                 Livraisons l = new Livraisons();
                 l.setId(rs.getInt("id"));
-                l.setCommandeId(rs.getInt("commande_id"));
+                l.setCommande_id(rs.getInt("commande_id"));
                 l.setLivreur(rs.getString("livreur"));
                 l.setAdresse(rs.getString("adresse"));
                 l.setDate(rs.getTimestamp("date").toLocalDateTime());

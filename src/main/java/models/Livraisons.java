@@ -4,24 +4,24 @@ import java.time.LocalDateTime;
 
 public class Livraisons {
 
-    private int id,commandeId;
+    private int id,commande_id;
     private String livreur, adresse, status, mode;
     private float prix;
     private LocalDateTime date;
 
     public Livraisons() {}
 
-    public Livraisons(String livreur, String adresse, String status, String mode, float prix, LocalDateTime date, int commandeId) {
+    public Livraisons(String livreur, String adresse, String status, String mode, float prix, LocalDateTime date, int commande_id) {
         this.livreur = livreur;
         this.adresse = adresse;
         this.status = status;
         this.mode = mode;
         this.prix = prix;
         this.date = date;
-        this.commandeId = commandeId;
+        this.commande_id = commande_id;
     }
 
-    public Livraisons(int id, String livreur, String adresse, String status, String mode, float prix, LocalDateTime date, int commandeId) {
+    public Livraisons(int id, String livreur, String adresse, String status, String mode, float prix, LocalDateTime date, int commande_id) {
         this.id = id;
         this.livreur = livreur;
         this.adresse = adresse;
@@ -29,7 +29,7 @@ public class Livraisons {
         this.mode = mode;
         this.prix = prix;
         this.date = date;
-        this.commandeId = commandeId;
+        this.commande_id = commande_id;
     }
 
     public int getId() {
@@ -88,11 +88,11 @@ public class Livraisons {
         this.date = date;
     }
 
-    public int getCommandeId() {
-        return commandeId;
+    public int getCommande_id() {
+        return commande_id;
     }
 
-    public void setCommandeId(int commandeId) {
-        this.commandeId = commandeId;
+    public void setCommande_id(int commande_id) {
+        this.commande_id = commande_id;
     }
 }

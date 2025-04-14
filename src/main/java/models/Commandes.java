@@ -39,14 +39,6 @@ public class Commandes {
         this.id = id;
     }
 
-    public int getClientId() {
-        return client_id;
-    }
-
-    public void setClientId(int client_id) {
-        this.client_id = client_id;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -55,11 +47,19 @@ public class Commandes {
         this.status = status;
     }
 
-    public String getModeDePaiement() {
+    public int getClient_id() {
+        return client_id;
+    }
+
+    public void setClient_id(int client_id) {
+        this.client_id = client_id;
+    }
+
+    public String getMode_paiement() {
         return mode_paiement;
     }
 
-    public void setModeDePaiement(String mode_paiement) {
+    public void setMode_paiement(String mode_paiement) {
         this.mode_paiement = mode_paiement;
     }
 

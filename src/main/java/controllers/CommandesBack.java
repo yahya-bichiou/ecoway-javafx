@@ -13,7 +13,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import models.Commandes;
+import models.Livraisons;
 import services.CommandeService;
+import services.LivraisonService;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -38,6 +40,26 @@ public class CommandesBack {
     private TableColumn<Commandes, Float> prixCol;
     @FXML
     private TableColumn<Commandes, String> produitsCol;
+
+    @FXML
+    private TableView<Livraisons> livraisonTableView;
+    @FXML
+    private TableColumn<Livraisons, Integer> id;
+    @FXML
+    private TableColumn<Livraisons, Integer> commande;
+    @FXML
+    private TableColumn<Livraisons, String> livreur;
+    @FXML
+    private TableColumn<Livraisons, String> adresse;
+    @FXML
+    private TableColumn<Livraisons, LocalDate> date;
+    @FXML
+    private TableColumn<Livraisons, String> status;
+    @FXML
+    private TableColumn<Livraisons, String> mode;
+    @FXML
+    private TableColumn<Livraisons, Float> prix;
+
     @FXML
     private Button closeButton;
 
@@ -49,18 +71,12 @@ public class CommandesBack {
     @FXML
     void addCommande() {
         try {
-            // Load the AddCommande FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddCommande.fxml"));
             Parent root = loader.load();
-
-            // Create a new Scene with the loaded root node
             Scene scene = new Scene(root);
-
-            // Get the current stage (window)
             Stage stage = (Stage) closeButton.getScene().getWindow();
-
-            // Set the new scene
             stage.setScene(scene);
+            stage.setFullScreen(true);
             stage.show();
 
         } catch (IOException e) {
@@ -69,9 +85,26 @@ public class CommandesBack {
     }
 
     @FXML
-    public void initialize() {
-        System.out.println("Initializing table...");
+    void deleteCommande() {
+        Commandes selectedCommande = commandeTableView.getSelectionModel().getSelectedItem();
+        if (selectedCommande != null) {
+            CommandeService commandeService = new CommandeService();
+            commandeService.delete(selectedCommande);
+            commandeTableView.getItems().remove(selectedCommande);
+            System.out.println("Commande deleted successfully!");
+        } else {
+            System.out.println("Please select a commande to delete.");
+        }
+    }
 
+    @FXML
+    void editCommande() {
+
+    }
+
+    @FXML
+    public void initialize() {
+        System.out.println("Initializing commande table...");
         try {
             // Set up columns
             idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -87,6 +120,31 @@ public class CommandesBack {
             List<Commandes> commandes = cs.select();
             ObservableList<Commandes> observableList = FXCollections.observableArrayList(commandes);
             commandeTableView.setItems(observableList);
+
+            System.out.println("Table initialized successfully.");
+
+        } catch (Exception e) {
+            System.out.println("ERROR during table initialization: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        System.out.println("Initializing livraison table...");
+        try {
+            // Set up columns
+            id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            commande.setCellValueFactory(new PropertyValueFactory<>("commande_id"));
+            livreur.setCellValueFactory(new PropertyValueFactory<>("livreur"));
+            adresse.setCellValueFactory(new PropertyValueFactory<>("adresse"));
+            date.setCellValueFactory(new PropertyValueFactory<>("date"));
+            status.setCellValueFactory(new PropertyValueFactory<>("status"));
+            mode.setCellValueFactory(new PropertyValueFactory<>("mode"));
+            prix.setCellValueFactory(new PropertyValueFactory<>("prix"));
+
+            // Load data
+            LivraisonService cs = new LivraisonService();
+            List<Livraisons> livraisons = cs.getAll();
+            ObservableList<Livraisons> observableList2 = FXCollections.observableArrayList(livraisons);
+            livraisonTableView.setItems(observableList2);
 
             System.out.println("Table initialized successfully.");
 
