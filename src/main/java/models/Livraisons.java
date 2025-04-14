@@ -1,17 +1,17 @@
 package models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Livraisons {
 
     private int id,commande_id;
     private String livreur, adresse, status, mode;
     private float prix;
-    private LocalDateTime date;
+    private LocalDate date;
 
     public Livraisons() {}
 
-    public Livraisons(String livreur, String adresse, String status, String mode, float prix, LocalDateTime date, int commande_id) {
+    public Livraisons(String livreur, String adresse, String status, String mode, float prix, LocalDate date, int commande_id) {
         this.livreur = livreur;
         this.adresse = adresse;
         this.status = status;
@@ -21,7 +21,7 @@ public class Livraisons {
         this.commande_id = commande_id;
     }
 
-    public Livraisons(int id, String livreur, String adresse, String status, String mode, float prix, LocalDateTime date, int commande_id) {
+    public Livraisons(int id, String livreur, String adresse, String status, String mode, float prix, LocalDate date, int commande_id) {
         this.id = id;
         this.livreur = livreur;
         this.adresse = adresse;
@@ -80,11 +80,11 @@ public class Livraisons {
         this.prix = prix;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

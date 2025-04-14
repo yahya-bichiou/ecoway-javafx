@@ -58,7 +58,7 @@ public class AddCommande {
     @FXML
     void ajouterCommandeAction() {
 
-        errorLabel.setText("");  // Reset error label
+        errorLabel.setText("");
 
         // Check Client ID
         if (client_idTextField.getText().isEmpty()) {

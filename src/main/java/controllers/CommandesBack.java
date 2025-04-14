@@ -12,7 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.Commandes;
 import models.Livraisons;
 import services.CommandeService;
@@ -25,6 +28,7 @@ import java.util.List;
 
 public class CommandesBack {
 
+    public Pane backgroundPane;
     @FXML
     private TableView<Commandes> commandeTableView;
     @FXML
@@ -92,6 +96,19 @@ public class CommandesBack {
             CommandeService commandeService = new CommandeService();
             commandeService.delete(selectedCommande);
             commandeTableView.getItems().remove(selectedCommande);
+            System.out.println("Commande deleted successfully!");
+        } else {
+            System.out.println("Please select a commande to delete.");
+        }
+    }
+
+    @FXML
+    void deleteLivraison() {
+        Livraisons selectedLivraison = livraisonTableView.getSelectionModel().getSelectedItem();
+        if (selectedLivraison != null) {
+            LivraisonService livraisonService = new LivraisonService();
+            livraisonService.delete(selectedLivraison.getId());
+            livraisonTableView.getItems().remove(selectedLivraison);
             System.out.println("Commande deleted successfully!");
         } else {
             System.out.println("Please select a commande to delete.");
@@ -176,13 +193,35 @@ public class CommandesBack {
 
     public void livrerCommande(ActionEvent actionEvent) {
         Commandes selectedCommande = commandeTableView.getSelectionModel().getSelectedItem();
-
         if (selectedCommande != null) {
+            backgroundPane.setVisible(true);
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddLivraison.fxml"));
+                Parent root = loader.load();
+                AddLivraison controller = loader.getController();
+                controller.setCommande(selectedCommande);
+                Stage newStage = new Stage();
+                newStage.setTitle("Ajouter Livraison");
+                newStage.setScene(new Scene(root));
+                newStage.initOwner(closeButton.getScene().getWindow());
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                newStage.initStyle(StageStyle.UNDECORATED);
+                newStage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             selectedCommande.setStatus("en livraison");
             CommandeService commandeService = new CommandeService();
             commandeService.update(selectedCommande);
             commandeTableView.refresh();
+            LivraisonService cs = new LivraisonService();
+            List<Livraisons> livraisons = cs.getAll();
+            ObservableList<Livraisons> observableList2 = FXCollections.observableArrayList(livraisons);
+            livraisonTableView.setItems(observableList2);
+            livraisonTableView.refresh();
+            backgroundPane.setVisible(false);
         } else {
             System.out.println("Please select a commande to mark as 'en livraison'.");
-        }    }
+        }
+    }
 }

@@ -133,18 +133,23 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="livraisonTableView" layoutX="50.0" layoutY="100.0" prefHeight="450.0" prefWidth="976.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;" stylesheets="@style.css">
+                        <TableView fx:id="livraisonTableView" layoutX="50.0" layoutY="100.0" prefHeight="421.0" prefWidth="976.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;" stylesheets="@style.css">
                            <columns>
                               <TableColumn fx:id="id" prefWidth="50" text="ID" />
-                              <TableColumn fx:id="commande" text="COMMANDE ID" />
-                              <TableColumn fx:id="livreur" text="LIVREUR" />
-                              <TableColumn fx:id="adresse" text="ADRESSE" />
-                              <TableColumn fx:id="date" text="DATE" />
-                              <TableColumn fx:id="status" text="STATUS" />
-                              <TableColumn fx:id="mode" text="MODE" />
-                              <TableColumn fx:id="prix" text="PRIX" />
+                              <TableColumn fx:id="commande" prefWidth="150" text="COMMANDE ID" />
+                              <TableColumn fx:id="livreur" prefWidth="100" text="LIVREUR" />
+                              <TableColumn fx:id="adresse" prefWidth="150" text="ADRESSE" />
+                              <TableColumn fx:id="date" prefWidth="150" text="DATE" />
+                              <TableColumn fx:id="status" prefWidth="100" text="STATUS" />
+                              <TableColumn fx:id="mode" prefWidth="100" text="MODE" />
+                              <TableColumn fx:id="prix" prefWidth="100" text="PRIX" />
                            </columns>
                         </TableView>
+                        <Button alignment="CENTER" layoutX="924.0" layoutY="541.0" mnemonicParsing="false" onAction="#deleteLivraison" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Delete" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
                      </children>
                   </Pane>
                </children>
@@ -152,5 +157,6 @@
         </content>
       </ScrollPane>
       <Line endX="160.0" endY="-7.62939453125E-6" layoutX="100.0" layoutY="70.0" startX="-100.0" stroke="#565656" />
+      <Pane fx:id="backgroundPane" prefHeight="865.0" prefWidth="1536.0" styleClass="transparent-pane" stylesheets="@popup.css" visible="false" />
    </children>
 </AnchorPane>

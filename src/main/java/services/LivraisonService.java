@@ -5,6 +5,8 @@ import models.Livraisons;
 import utils.Connexion;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,9 @@ public class LivraisonService implements LivraisonInterface <Livraisons> {
             ps.setInt(1, l.getCommande_id());
             ps.setString(2, l.getLivreur());
             ps.setString(3, l.getAdresse());
-            ps.setTimestamp(4, Timestamp.valueOf(l.getDate()));
+            LocalDate localDate = l.getDate();  // assuming it's LocalDate
+            LocalDateTime localDateTime = localDate.atStartOfDay();  // set time to 00:00
+            ps.setTimestamp(4, Timestamp.valueOf(localDateTime));
             ps.setString(5, l.getStatus());
             ps.setString(6, l.getMode());
             ps.setDouble(7, l.getPrix());
@@ -45,7 +49,9 @@ public class LivraisonService implements LivraisonInterface <Livraisons> {
             ps.setInt(1, l.getCommande_id());
             ps.setString(2, l.getLivreur());
             ps.setString(3, l.getAdresse());
-            ps.setTimestamp(4, Timestamp.valueOf(l.getDate()));
+            LocalDate localDate = l.getDate();  // assuming it's LocalDate
+            LocalDateTime localDateTime = localDate.atStartOfDay();  // set time to 00:00
+            ps.setTimestamp(4, Timestamp.valueOf(localDateTime));
             ps.setString(5, l.getStatus());
             ps.setString(6, l.getMode());
             ps.setDouble(7, l.getPrix());
@@ -92,7 +98,7 @@ public class LivraisonService implements LivraisonInterface <Livraisons> {
                 l.setCommande_id(rs.getInt("commande_id"));
                 l.setLivreur(rs.getString("livreur"));
                 l.setAdresse(rs.getString("adresse"));
-                l.setDate(rs.getTimestamp("date").toLocalDateTime());
+                l.setDate(rs.getTimestamp("date").toLocalDateTime().toLocalDate());
                 l.setStatus(rs.getString("status"));
                 l.setMode(rs.getString("mode"));
                 l.setPrix(rs.getFloat("prix"));
