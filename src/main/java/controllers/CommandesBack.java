@@ -99,7 +99,26 @@ public class CommandesBack {
 
     @FXML
     void editCommande() {
+        Commandes selectedCommande = commandeTableView.getSelectionModel().getSelectedItem();
 
+        if (selectedCommande != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditCommande.fxml"));
+                Parent root = loader.load();
+                EditCommande editController = loader.getController();
+                editController.setCommande(selectedCommande);
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) closeButton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.setFullScreen(true);
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Please select a commande to edit.");
+        }
     }
 
     @FXML
