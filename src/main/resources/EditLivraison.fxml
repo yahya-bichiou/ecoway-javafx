@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="478.0" prefWidth="400.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddLivraison">
+<AnchorPane prefHeight="478.0" prefWidth="400.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditLivraison">
    <children>
       <Pane prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #ffffff; -fx-border-color: #d9dadb; -fx-border-radius: 10; -fx-background-radius: 10;">
          <children>
@@ -17,12 +17,12 @@
             <TextField fx:id="adresseTextField" layoutX="127.0" layoutY="163.0" promptText="adresse" />
             <TextField fx:id="livreurTextField" layoutX="127.0" layoutY="122.0" promptText="livreur" />
             <DatePicker fx:id="dateDatePicker" layoutX="126.0" layoutY="243.0" prefHeight="25.0" prefWidth="149.0" />
-            <Label layoutX="116.0" layoutY="54.0" text="Ajouter une Livraison">
+            <Label layoutX="112.0" layoutY="54.0" text="Modifier une Livraison">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button alignment="CENTER" layoutX="126.0" layoutY="387.0" mnemonicParsing="false" onAction="#ajouterLivraisonAction" prefHeight="36.0" prefWidth="149.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Ajouter" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" layoutX="126.0" layoutY="387.0" mnemonicParsing="false" onAction="#modifierLivraisonAction" prefHeight="36.0" prefWidth="149.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Modifier" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font size="16.0" />
                </font>

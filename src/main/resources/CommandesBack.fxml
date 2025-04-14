@@ -150,6 +150,11 @@
                               <Font size="16.0" />
                            </font>
                         </Button>
+                        <Button alignment="CENTER" layoutX="810.0" layoutY="541.0" mnemonicParsing="false" onAction="#editLivraison" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Edit" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
                      </children>
                   </Pane>
                </children>

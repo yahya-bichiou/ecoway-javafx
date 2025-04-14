@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +10,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import models.Commandes;
 import models.Livraisons;
 import services.CommandeService;
 import services.LivraisonService;
@@ -19,12 +17,8 @@ import services.LivraisonService;
 import java.io.IOException;
 import java.time.LocalDate;
 
-public class AddLivraison {
+public class EditLivraison {
 
-    @FXML
-    public Button closeButton;
-    @FXML
-    public Label errorLabel;
     @FXML
     public TextField modeTextField;
     @FXML
@@ -35,14 +29,24 @@ public class AddLivraison {
     public TextField livreurTextField;
     @FXML
     public DatePicker dateDatePicker;
+    @FXML
+    public Button closeButton;
+    @FXML
+    public Label errorLabel;
 
-    private Commandes commande;
+    private Livraisons livraison;
 
-    public void setCommande(Commandes commande) {
-        this.commande = commande;
+    public void setLivraison(Livraisons livraison) {
+        this.livraison = livraison;
+        modeTextField.setText(livraison.getMode());
+        statusTextField.setText(livraison.getStatus());
+        adresseTextField.setText(livraison.getAdresse());
+        dateDatePicker.setValue(livraison.getDate());
+        livreurTextField.setText(livraison.getLivreur());
     }
 
-    public void ajouterLivraisonAction() {
+    @FXML
+    public void modifierLivraisonAction() {
 
         // Check livreur
         if (livreurTextField.getText().isEmpty()) {
@@ -78,31 +82,20 @@ public class AddLivraison {
             return;
         }
 
-        String mode = modeTextField.getText();
-        float prix=0;
-        int commande_id=0;
+        // If all validations pass, update the livraison
+        livraison.setLivreur(livreurTextField.getText());
+        livraison.setStatus(statusTextField.getText());
+        livraison.setAdresse(adresseTextField.getText());
+        livraison.setDate(dateDatePicker.getValue());
+        livraison.setMode(modeTextField.getText());
 
-        if (commande != null) {
-            prix = commande.getPrix();
-            commande_id = commande.getId();
-        }
-        if (mode.equalsIgnoreCase("Normal")) {
-            prix += 10;
-        } else if (mode.equalsIgnoreCase("Express")) {
-            prix += 20;
-        } else if (mode.equalsIgnoreCase("Same Day")) {
-            prix += 50;
-        }
-        Livraisons l = new Livraisons(livreurTextField.getText(), adresseTextField.getText(), statusTextField.getText(), mode,
-                prix, dateDatePicker.getValue(), commande_id);
-        LivraisonService ls = new LivraisonService();
-        ls.add(l);
-
+        LivraisonService service= new LivraisonService();
+        service.update(livraison);
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
-
     }
 
+    @FXML
     public void closeApp() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();

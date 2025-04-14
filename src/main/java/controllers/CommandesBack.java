@@ -150,6 +150,38 @@ public class CommandesBack {
     }
 
     @FXML
+    void editLivraison() {
+        Livraisons selectedLivraison = livraisonTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedLivraison != null) {
+            backgroundPane.setVisible(true);
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditLivraison.fxml"));
+                Parent root = loader.load();
+                EditLivraison editController = loader.getController();
+                editController.setLivraison(selectedLivraison);
+                Stage newStage = new Stage();
+                newStage.setTitle("Edit Livraison");
+                newStage.setScene(new Scene(root));
+                newStage.initOwner(closeButton.getScene().getWindow());
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                newStage.initStyle(StageStyle.UNDECORATED);
+                newStage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            LivraisonService cs = new LivraisonService();
+            List<Livraisons> livraisons = cs.getAll();
+            ObservableList<Livraisons> observableList2 = FXCollections.observableArrayList(livraisons);
+            livraisonTableView.setItems(observableList2);
+            livraisonTableView.refresh();
+            backgroundPane.setVisible(false);
+        } else {
+            System.out.println("Please select a livraison to edit.");
+        }
+    }
+
+    @FXML
     public void initialize() {
         System.out.println("Initializing commande table...");
         try {
