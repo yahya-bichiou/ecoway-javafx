@@ -96,6 +96,16 @@ public class CommandesBack {
             CommandeService commandeService = new CommandeService();
             commandeService.delete(selectedCommande);
             commandeTableView.getItems().remove(selectedCommande);
+            LivraisonService livraisonService = new LivraisonService();
+            livraisonService.delete(selectedCommande.getId());
+            Livraisons toDelete = null;
+            for (Livraisons l : livraisonTableView.getItems()) {
+                if (l.getCommande_id() == selectedCommande.getId()) {
+                    toDelete = l;
+                    break;
+                }
+            }
+            livraisonTableView.getItems().remove(toDelete);
             System.out.println("Commande deleted successfully!");
         } else {
             System.out.println("Please select a commande to delete.");
@@ -109,7 +119,7 @@ public class CommandesBack {
             LivraisonService livraisonService = new LivraisonService();
             livraisonService.delete(selectedLivraison.getId());
             livraisonTableView.getItems().remove(selectedLivraison);
-            System.out.println("Commande deleted successfully!");
+            System.out.println("Livraison deleted successfully!");
         } else {
             System.out.println("Please select a commande to delete.");
         }
