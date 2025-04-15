@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controllers.produitcontroller"
+            prefHeight="500.0" prefWidth="600.0">
+
+    <VBox spacing="10" alignment="CENTER" layoutX="150.0" layoutY="40.0">
+        <Label text="Ajouter un Produit" style="-fx-font-size: 20px;"/>
+
+        <TextField fx:id="nomTextField" promptText="Nom du produit" prefWidth="300"/>
+        <TextField fx:id="descriptionTextField" promptText="Description" prefWidth="300"/>
+
+        <!-- ComboBox pour la qualité -->
+        <ComboBox fx:id="qualiteComboBox" promptText="Qualité" prefWidth="300"/>
+
+        <!-- ComboBox pour la catégorie -->
+        <ComboBox fx:id="categorieComboBox" promptText="Catégorie" prefWidth="300"/>
+
+        <TextField fx:id="quantiteTextField" promptText="Quantité" prefWidth="300"/>
+        <TextField fx:id="prixTextField" promptText="Prix" prefWidth="300"/>
+
+        <DatePicker fx:id="dateAjoutDatePicker" prefWidth="300"/>
+
+        <TextField fx:id="imageTextField" promptText="Chemin de l'image" prefWidth="300" editable="false"/>
+
+        <HBox spacing="10">
+            <Button text="Choisir Image" onAction="#choisirImageAction"/>
+        </HBox>
+
+        <HBox spacing="15">
+            <Button text="Enregistrer" onAction="#ajouterProduitAction"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

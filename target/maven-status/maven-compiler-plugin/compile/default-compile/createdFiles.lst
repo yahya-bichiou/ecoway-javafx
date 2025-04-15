@@ -1,0 +1,14 @@
+org\example\controllers\produitcontroller.class
+org\example\services\categorieservice.class
+org\example\controllers\detaillecategorie.class
+org\example\services\produitservice.class
+org\example\utile\MaConnexion.class
+org\example\controllers\categoriecontroller.class
+org\example\Interfaces\Icategorie.class
+org\example\controllers\produitfrontcontroller.class
+org\example\models\produit.class
+org\example\models\categorie.class
+org\example\controllers\categorieback.class
+org\example\controllers\detailleproduit.class
+org\example\homecontroller.class
+org\example\Interfaces\Iproduit.class
