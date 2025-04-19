@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="backoffice.controllers.DetailUserListController"
+      spacing="15" alignment="CENTER" prefWidth="400" prefHeight="300">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Détails de l'utilisateur" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <Label fx:id="idLabel" text="ID" />
+    <Label fx:id="nameLabel" text="Nom" />
+    <Label fx:id="emailLabel" text="Email" />
+    <Label fx:id="roleLabel" text="Rôle" />
+</VBox>

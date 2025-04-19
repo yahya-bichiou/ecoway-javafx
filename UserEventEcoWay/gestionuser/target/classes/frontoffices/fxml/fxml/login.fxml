@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontoffice.controllers.LoginController" stylesheets="@../styles/styles.css">
+    <!-- Center Content -->
+    <center>
+        <VBox spacing="20" alignment="CENTER" style="-fx-padding: 20;">
+            <!-- Logo Section -->
+            <ImageView fitHeight="100" fitWidth="200" preserveRatio="true">
+                <Image url="@../../../assets/logo.png" />
+            </ImageView>
+
+            <!-- Eco Way Title -->
+            <Label text="ECO WAY" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+
+            <!-- Login Form -->
+            <GridPane hgap="10" vgap="10" alignment="CENTER">
+                <!-- Email Field -->
+                <TextField fx:id="emailField" promptText="Email" style="-fx-pref-width: 250;" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+
+                <!-- Password Field -->
+                <PasswordField fx:id="passwordField" promptText="Password" style="-fx-pref-width: 250;" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+
+                <!-- Login Button -->
+                <Button text="Login" onAction="#handleLoginAction" style="-fx-pref-width: 250;" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+
+                <!-- Register Button -->
+                <Button text="Register" onAction="#openRegisterPage" style="-fx-pref-width: 250;" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+
+                <!-- Error Label -->
+                <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+            </GridPane>
+        </VBox>
+    </center>
+</BorderPane>

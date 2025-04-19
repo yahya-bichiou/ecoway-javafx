@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.EditEventBackController">
+    <children>
+        <VBox spacing="15" alignment="TOP_CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+            <children>
+
+                <Label text="Modifier l'Événement">
+                    <font>
+                        <Font name="System Bold" size="24"/>
+                    </font>
+                </Label>
+
+                <GridPane hgap="15" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" minWidth="120"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="30"/>
+                    </rowConstraints>
+
+                    <children>
+                        <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="titreField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextArea fx:id="descriptionArea" prefRowCount="4" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Contact:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <TextField fx:id="contactField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="Localisation:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <TextField fx:id="localisationField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                        <Label text="Date:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <DatePicker fx:id="datePicker" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                        <Label text="Récompense:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                        <TextField fx:id="recomponseField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                    </children>
+                </GridPane>
+
+                <HBox spacing="20" alignment="CENTER">
+                    <Button text="Enregistrer" onAction="#saveChanges" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                    <Button text="Annuler" onAction="#cancel" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                </HBox>
+            </children>
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>

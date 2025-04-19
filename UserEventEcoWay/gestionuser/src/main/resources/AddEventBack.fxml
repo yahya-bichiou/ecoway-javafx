@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane xmlns="http://javafx.com/javafx/11.0.1"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="controllers.AddEventBackController"
+          alignment="CENTER"
+          hgap="10"
+          vgap="15"
+          style="-fx-background-color: #f8f8f8;"
+          prefWidth="450">
+
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+
+    <!-- Titre -->
+    <Label text="Nouvel Événement"
+           style="-fx-text-fill: #9e6de0; -fx-font-size: 22px; -fx-font-weight: bold;"
+           GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.halignment="CENTER"/>
+
+    <!-- Champ Titre -->
+    <Label text="Titre:"
+           style="-fx-text-fill: #555555; -fx-font-weight: bold;"
+           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <TextField fx:id="titreField"
+               style="-fx-pref-width: 250px; -fx-pref-height: 35px; -fx-border-color: #dddddd; -fx-border-radius: 4px;"
+               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+    <!-- Champ Description -->
+    <Label text="Description:"
+           style="-fx-text-fill: #555555; -fx-font-weight: bold;"
+           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <TextArea fx:id="descriptionField"
+               style="-fx-pref-width: 250px; -fx-pref-height: 35px; -fx-border-color: #dddddd; -fx-border-radius: 4px;"
+               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <!-- Champ Contact -->
+    <Label text="Contact:"
+           style="-fx-text-fill: #555555; -fx-font-weight: bold;"
+           GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <TextField fx:id="contactField"
+               style="-fx-pref-width: 250px; -fx-pref-height: 35px; -fx-border-color: #dddddd; -fx-border-radius: 4px;"
+               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+    <!-- Champ Localisation -->
+    <Label text="Localisation:"
+           style="-fx-text-fill: #555555; -fx-font-weight: bold;"
+           GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <TextField fx:id="localisationField"
+               style="-fx-pref-width: 250px; -fx-pref-height: 35px; -fx-border-color: #dddddd; -fx-border-radius: 4px;"
+               GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+    <!-- Champ Date -->
+    <Label text="Date:"
+           style="-fx-text-fill: #555555; -fx-font-weight: bold;"
+           GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+    <DatePicker fx:id="datePicker"
+                style="-fx-pref-width: 250px; -fx-pref-height: 35px; -fx-border-color: #dddddd; -fx-border-radius: 4px;"
+                GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+    <!-- Champ Récompense -->
+    <Label text="Récompense:"
+           style="-fx-text-fill: #555555; -fx-font-weight: bold;"
+           GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+    <TextField fx:id="recomponseField"
+               style="-fx-pref-width: 250px; -fx-pref-height: 35px; -fx-border-color: #dddddd; -fx-border-radius: 4px;"
+               GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+    <!-- Boutons -->
+    <HBox spacing="15" alignment="CENTER_RIGHT" GridPane.columnSpan="2" GridPane.rowIndex="7">
+        <Button text="Effacer" onAction="#handleClear"
+                style="-fx-background-color: #e0e0e0; -fx-text-fill: #333333; -fx-font-weight: bold; -fx-pref-width: 100px; -fx-pref-height: 35px; -fx-background-radius: 5px;"/>
+        <Button text="Ajouter" fx:id="addButton" onAction="#handleAdd"
+                style="-fx-background-color: #9e6de0; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 100px; -fx-pref-height: 35px; -fx-background-radius: 5px;"/>
+    </HBox>
+
+    <!-- Style pour DatePicker -->
+    <style>
+        .date-picker .arrow-button {
+        -fx-background-color: #9e6de0;
+        -fx-background-radius: 0 3px 3px 0;
+        }
+        .date-picker .arrow {
+        -fx-background-color: white;
+        }
+        .text-field:focused, .date-picker:focused {
+        -fx-border-color: #9e6de0;
+        -fx-effect: dropshadow(three-pass-box, rgba(158, 109, 224, 0.3), 5, 0, 0, 0);
+        }
+        .button:hover {
+        -fx-opacity: 0.9;
+        -fx-cursor: hand;
+        }
+        #addButton:hover {
+        -fx-background-color: #8a5acf;
+        }
+    </style>
+</GridPane>
