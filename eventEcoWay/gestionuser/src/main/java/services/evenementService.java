@@ -1,0 +1,167 @@
+package services;
+
+import utils.MaConnexion;
+import models.evenement;
+import models.participant;
+
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class evenementService {
+    Connection connection;
+    private final DateTimeFormatter dbDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public evenementService() throws SQLException {
+        this.connection = MaConnexion.getInstance().getConn();
+    }
+
+    // CREATE
+    public void createEvenement(evenement event) throws SQLException {
+        String query = "INSERT INTO evenement (titre, description, contact, localisation, date_d, recomponse) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement st = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            st.setString(1, event.getTitre());
+            st.setString(2, event.getDescription());
+            st.setString(3, event.getContact());
+            st.setString(4, event.getLocalisation());
+            st.setString(5, event.getDate_d().format(dbDateFormatter)); // Conversion LocalDate -> String
+            st.setInt(6, event.getRecomponse());
+            st.executeUpdate();
+
+            try (ResultSet rs = st.getGeneratedKeys()) {
+                if (rs.next()) event.setId(rs.getInt(1));
+            }
+        }
+    }
+
+
+    /*
+    // READ Historique
+    public List<evenement> getAllHistorique(String userNameLabel ) throws SQLException {
+        participant participant = new participant();
+        List<evenement> events = new ArrayList<>();
+        String query = "SELECT * FROM evenement  where participant.email = userNameLabel ";
+        try (Statement st = connection.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+            while (rs.next()) {
+                evenement event = new evenement(
+                        rs.getString("titre"),
+                        rs.getString("description"),
+                        rs.getString("contact"),
+                        rs.getString("localisation"),
+                        LocalDate.parse(rs.getString("date_d"), dbDateFormatter), // Conversion String -> LocalDate
+                        rs.getInt("recomponse")
+                );
+                event.setId(rs.getInt("id"));
+                events.add(event);
+            }
+        }
+        return events;
+    }*/
+
+
+    // READ
+    public List<evenement> getAllevenement() throws SQLException {
+        List<evenement> events = new ArrayList<>();
+        String query = "SELECT * FROM evenement";
+        try (Statement st = connection.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+            while (rs.next()) {
+                evenement event = new evenement(
+                        rs.getString("titre"),
+                        rs.getString("description"),
+                        rs.getString("contact"),
+                        rs.getString("localisation"),
+                        LocalDate.parse(rs.getString("date_d"), dbDateFormatter), // Conversion String -> LocalDate
+                        rs.getInt("recomponse")
+                );
+                event.setId(rs.getInt("id"));
+                events.add(event);
+            }
+        }
+        return events;
+    }
+
+    // UPDATE
+    public void updateEvenement(evenement event) throws SQLException {
+        String query = "UPDATE evenement SET titre=?, description=?, contact=?, localisation=?, date_d=?, recomponse=? WHERE id=?";
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setString(1, event.getTitre());
+            st.setString(2, event.getDescription());
+            st.setString(3, event.getContact());
+            st.setString(4, event.getLocalisation());
+            st.setString(5, event.getDate_d().format(dbDateFormatter)); // Conversion LocalDate -> String
+            st.setInt(6, event.getRecomponse());
+            st.setInt(7, event.getId());
+            st.executeUpdate();
+        }
+    }
+
+    // DELETE (inchangé)
+    public void deleteEvenement(int id) throws SQLException {
+        String query = "DELETE FROM evenement WHERE id=?";
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setInt(1, id);
+            st.executeUpdate();
+        }
+    }
+
+    /*
+    // nZidha fi userService:
+    public user getUserByEmail(String email) {
+        String query = "SELECT * FROM user WHERE email = ?";
+        try (PreparedStatement statement = cnx.prepareStatement(query)) {
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return new user(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("imageProfile"),
+                        resultSet.getString("role")
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching user by email: " + e.getMessage());
+        }
+        return null;
+    }*/
+
+    // Dans evenementService.java
+
+    public List<evenement> getEventsByIds(List<Integer> eventIds) throws SQLException {
+        List<evenement> events = new ArrayList<>();
+        if (eventIds.isEmpty()) return events;
+
+        // Crée une liste de paramètres (?, ?, ...)
+        String params = String.join(",", Collections.nCopies(eventIds.size(), "?"));
+        String query = "SELECT * FROM evenement WHERE id IN (" + params + ")";
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            // Définit chaque paramètre
+            for (int i = 0; i < eventIds.size(); i++) {
+                st.setInt(i + 1, eventIds.get(i));
+            }
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                evenement event = new evenement(
+                        rs.getString("titre"),
+                        rs.getString("description"),
+                        rs.getString("contact"),
+                        rs.getString("localisation"),
+                        LocalDate.parse(rs.getString("date_d"), dbDateFormatter),
+                        rs.getInt("recomponse")
+                );
+                event.setId(rs.getInt("id"));
+                events.add(event);
+            }
+        }
+        return events;
+    }
+}
