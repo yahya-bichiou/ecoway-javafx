@@ -15,7 +15,7 @@ public class Home extends Application {
     @Override
     public void start(Stage stage)  {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/CommandesBack.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/CommandeFront.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setFullScreen(true);
@@ -25,7 +25,7 @@ public class Home extends Application {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace(); // Catch any other issues
+            e.printStackTrace();
         }
     }
 }

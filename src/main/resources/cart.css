@@ -1,0 +1,27 @@
+/* Normal list cell background */
+.list-cell {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+/* Hover effect for list cells */
+.list-cell:hover {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+/* Selected list cell */
+.list-cell:filled:selected,
+.list-cell:focused:selected {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+/* Force the text inside the cell to stay black */
+.list-cell:selected .text {
+    -fx-fill: black;
+}
+
+.list-cell:focused {
+    -fx-border-color: transparent;
+}
