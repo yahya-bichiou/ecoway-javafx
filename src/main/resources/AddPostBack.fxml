@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controllers.AddPostBackController"
+            stylesheets="@back.css"
+            prefWidth="600" prefHeight="400">
+
+    <VBox spacing="20" alignment="TOP_CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+
+        <Label text="Ajouter un Post"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333333;" />
+
+
+        <GridPane hgap="15" vgap="12">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50" />
+                <ColumnConstraints percentWidth="50" />
+            </columnConstraints>
+
+            <Label text="Titre du Post" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <TextField fx:id="titreField" promptText="Titre" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+            <Label text="Créateur" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <TextField fx:id="createurField" promptText="Créateur" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+            <Label text="Description" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <TextArea fx:id="descriptionField" promptText="Description" prefRowCount="3" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+            <Label text="Image du Post" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <HBox spacing="10" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                <TextField fx:id="imageField" promptText="Chemin image..." />
+                <Button text="Choisir un fichier" onAction="#openFileChooser" />
+            </HBox>
+        </GridPane>
+
+        <HBox spacing="15" alignment="CENTER_RIGHT">
+            <Button text="ENREGISTRER" onAction="#handleAddPost" styleClass="mauve-button" />
+            <Button text="ANNULER" onAction="#handleCancel" styleClass="rose-button" />
+        </HBox>
+
+    </VBox>
+</AnchorPane>

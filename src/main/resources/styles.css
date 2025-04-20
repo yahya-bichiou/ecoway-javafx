@@ -1,0 +1,40 @@
+/* Champ de recherche */
+.search-field {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-padding: 8 12;
+    -fx-font-size: 13px;
+    -fx-border-color: #BDBDBD;
+    -fx-background-color: white;
+    -fx-prompt-text-fill: #888;
+}
+
+/* Bouton de recherche */
+.search-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 18;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.search-button:hover {
+    -fx-background-color: #3d8b40;
+}
+/* Zone texte principale */
+.text-area {
+    -fx-background-color: white;
+    -fx-border-color: #BDBDBD;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 8;
+}
+
+/* Titre du formulaire */
+.detail-title {
+    -fx-font-size: 22px;
+    -fx-text-fill: #4CAF50;
+    -fx-font-weight: bold;
+}
+

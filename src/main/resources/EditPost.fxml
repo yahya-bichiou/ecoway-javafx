@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controllers.EditPostController"
+            prefWidth="500" prefHeight="400" stylesheets="@styles.css">
+
+    <VBox alignment="TOP_CENTER" spacing="15" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <Label text="Modifier un Post"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+
+        <GridPane hgap="10" vgap="12">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="100" />
+                <ColumnConstraints minWidth="300" hgrow="ALWAYS" />
+            </columnConstraints>
+
+            <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="titreField" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="text-field"/>
+
+            <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextArea fx:id="descriptionField" prefRowCount="3" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="text-area"/>
+
+            <Label text="Créateur:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="createurField" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="text-field"/>
+
+            <Label text="Image URL:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="imageField" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="text-field"/>
+        </GridPane>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Annuler" onAction="#handleCancel" styleClass="rose-button"/>
+                <Button text="Mettre à jour" onAction="#handleUpdate" styleClass="mauve-button"/>
+            </HBox>
+
+        </HBox>
+    </VBox>
+</AnchorPane>

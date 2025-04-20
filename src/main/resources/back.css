@@ -1,0 +1,119 @@
+/* ------------------------
+   GLOBAL TABLE STYLING
+------------------------- */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #d9dadb;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0.1, 0, 5);
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #e0e0e0 transparent;
+    -fx-padding: 12 15 12 15;
+    -fx-font-size: 13px;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #f6f5fa;
+    -fx-text-fill: #333;
+}
+
+.table-row-cell:filled:selected,
+.table-row-cell:focused:selected {
+    -fx-background-color: #9e6de0;
+    -fx-text-fill: white;
+}
+
+.table-view .table-cell {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+    -fx-padding: 12 8 12 8;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .column-header {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent transparent #e0e0e0 transparent;
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
+    -fx-padding: 10 8 10 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* ------------------------
+   ACTION BUTTONS (dans les colonnes)
+------------------------- */
+.action-modifier {
+    -fx-background-color: #ffc107;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-padding: 6 14;
+}
+.action-modifier:hover {
+    -fx-background-color: #e0a800;
+}
+
+.action-supprimer {
+    -fx-background-color: #f44336;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-padding: 6 14;
+}
+.action-supprimer:hover {
+    -fx-background-color: #d32f2f;
+}
+
+/* ------------------------
+   FORM BUTTONS (ENREGISTRER / ANNULER)
+------------------------- */
+.mauve-button {
+    -fx-background-color: #9e6de0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-padding: 8 18;
+}
+.mauve-button:hover {
+    -fx-background-color: #8148c0;
+}
+
+.rose-button {
+    -fx-background-color: #f55d7a;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-padding: 8 18;
+}
+.rose-button:hover {
+    -fx-background-color: #dd4470;
+}
+
+/* ------------------------
+   BOUTON "Ajouter un Post"
+------------------------- */
+.add-post-btn {
+    -fx-background-color: #9e6de0;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30;
+    -fx-cursor: hand;
+    -fx-padding: 10 25;
+    -fx-effect: dropshadow(three-pass-box, rgba(158, 109, 224, 0.3), 10, 0.1, 0, 4);
+}
+.add-post-btn:hover {
+    -fx-background-color: #8148c0;
+}

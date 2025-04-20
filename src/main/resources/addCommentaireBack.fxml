@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controllers.AddCommentaireBackController"
+            prefWidth="400" prefHeight="450"
+            stylesheets="@back.css">
+
+    <VBox spacing="20" alignment="TOP_CENTER"
+          AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+
+        <Label text="Ajouter un Commentaire"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+
+        <!-- Champ Auteur -->
+        <VBox spacing="5" prefWidth="350">
+            <Label text="Auteur" />
+            <TextField fx:id="auteurField" promptText="Nom de l'auteur" />
+        </VBox>
+
+        <!-- Champ Message -->
+        <VBox spacing="5" prefWidth="350">
+            <Label text="Message" />
+            <TextArea fx:id="messageField" promptText="Votre message..." prefRowCount="4" />
+        </VBox>
+
+        <!-- ComboBox Post -->
+        <VBox spacing="5" prefWidth="350">
+            <Label text="Post associé" />
+            <ComboBox fx:id="postComboBox" promptText="Sélectionner un post" prefWidth="350" />
+        </VBox>
+
+        <!-- Boutons -->
+        <HBox spacing="15" alignment="CENTER">
+            <Button text="ENREGISTRER" onAction="#handleSave" styleClass="mauve-button" />
+            <Button text="ANNULER" onAction="#handleCancel" styleClass="rose-button" />
+        </HBox>
+
+    </VBox>
+</AnchorPane>

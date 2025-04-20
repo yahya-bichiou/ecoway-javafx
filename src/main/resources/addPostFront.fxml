@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controllers.AddPostController"
+            stylesheets="@styles.css"
+            prefWidth="500" prefHeight="560">
+
+    <VBox alignment="TOP_CENTER" spacing="20"
+          AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+
+        <!-- ✅ Titre stylé -->
+        <Label text="Ajouter un Post" styleClass="detail-title"/>
+
+        <!-- Formulaire -->
+        <GridPane hgap="12" vgap="14">
+            <padding><Insets top="10" left="10" right="10" bottom="10"/></padding>
+
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="100"/>
+                <ColumnConstraints minWidth="300" hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="titreField" promptText="Titre du post" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="text-field"/>
+
+            <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextArea fx:id="descriptionField" promptText="Description"
+                      prefRowCount="4" wrapText="true"
+                      GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="text-area"/>
+
+            <Label text="Créateur:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="createurField" promptText="Nom du créateur"
+                       GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="text-field"/>
+
+            <Label text="Image:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <HBox spacing="8" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                <TextField fx:id="imageField" promptText="Chemin ou URL de l’image" styleClass="text-field" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="browseButton" text="Parcourir" onAction="#openFileChooser" styleClass="primary-button"/>
+            </HBox>
+        </GridPane>
+
+        <!-- ✅ Boutons actions -->
+        <HBox spacing="12" alignment="CENTER_RIGHT">
+            <Button text="Ajouter" onAction="#handleAdd" styleClass="primary-button"/>
+            <Button text="Annuler" onAction="#handleClear" styleClass="cancel-button"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

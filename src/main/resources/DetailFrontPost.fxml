@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controllers.DetailFrontPostController"
+            stylesheets="@styles.css"
+            prefHeight="700" prefWidth="800">
+
+    <center>
+        <VBox spacing="20" alignment="TOP_CENTER" style="-fx-padding: 30;" styleClass="detail-container">
+
+            <!-- Titre principal -->
+            <Label text="Détail du Post" styleClass="detail-title"/>
+
+            <!-- Image du post -->
+            <ImageView fx:id="postImage" fitHeight="180" preserveRatio="true"/>
+
+            <!-- Informations post -->
+            <GridPane hgap="10" vgap="8">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT"/>
+                    <ColumnConstraints halignment="LEFT"/>
+                </columnConstraints>
+
+                <Label text="Titre:" styleClass="detail-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label fx:id="titreLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Description:" styleClass="detail-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label fx:id="descriptionLabel" wrapText="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Créateur:" styleClass="detail-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label fx:id="createurLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <!-- Boutons -->
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Retour" onAction="#handleBack" styleClass="cancel-button"/>
+                <Button text="Ajouter un Commentaire" onAction="#handleAddCommentaire" styleClass="primary-button"/>
+            </HBox>
+
+            <!-- Titre section commentaires -->
+            <Separator />
+            <Label text="Commentaires" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;" />
+
+            <!-- Liste scrollable -->
+            <ScrollPane prefHeight="200" fitToWidth="true">
+                <VBox fx:id="commentList" spacing="10" style="-fx-padding: 10;" />
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

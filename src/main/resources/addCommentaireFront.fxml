@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controllers.AddCommentaireController"
+            stylesheets="@styles.css"
+            prefWidth="420" prefHeight="340">
+
+    <VBox spacing="20" alignment="TOP_CENTER"
+          AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+
+        <!-- ✅ Titre -->
+        <Label text="Ajouter un commentaire" styleClass="detail-title"/>
+
+        <!-- ✅ Formulaire -->
+        <GridPane hgap="12" vgap="14">
+            <padding><Insets top="10" left="10" right="10" bottom="10"/></padding>
+
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="100"/>
+                <ColumnConstraints minWidth="280" hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <Label text="Auteur:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="auteurField" promptText="Nom de l'auteur"
+                       GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="text-field"/>
+
+            <Label text="Message:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextArea fx:id="messageField" promptText="Votre commentaire"
+                      prefRowCount="4" wrapText="true"
+                      GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="text-area"/>
+        </GridPane>
+
+        <!-- ✅ Boutons -->
+        <HBox spacing="15" alignment="CENTER_RIGHT">
+            <Button fx:id="addButton" text="Ajouter" onAction="#handleAdd" styleClass="primary-button"/>
+            <Button text="Annuler" onAction="#handleClear" styleClass="cancel-button"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
