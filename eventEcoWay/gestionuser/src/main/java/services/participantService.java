@@ -1,10 +1,12 @@
 package services;
 
+import models.evenement;
 import utils.MaConnexion;
 import models.participant;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class participantService {
@@ -143,5 +145,35 @@ public class participantService {
             }
         }
         return eventIds;
+    }
+
+    // bech ne5ou les id mta3 les evenement :
+
+    public List<evenement> getEventsByIds(List<Integer> eventIds) throws SQLException {
+        List<evenement> events = new ArrayList<>();
+        if (eventIds.isEmpty()) return events;
+
+        String query = "SELECT * FROM evenement WHERE id IN (" +
+                String.join(",", Collections.nCopies(eventIds.size(), "?")) + ")";
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            for (int i = 0; i < eventIds.size(); i++) {
+                st.setInt(i + 1, eventIds.get(i));
+            }
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                events.add(new evenement(
+                        //rs.getInt("id"),
+                        rs.getString("titre"),
+                        rs.getString("description"),
+                        rs.getString("contact_info"),
+                        rs.getString("localisation"),
+                        rs.getString("date_d"),
+                        rs.getInt("recomponse")
+                ));
+            }
+        }
+        return events;
     }
 }

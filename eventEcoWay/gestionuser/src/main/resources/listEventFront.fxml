@@ -71,6 +71,12 @@
                 </Button>
             </HBox>
 
+            <!-- Ajoutez ceci dans votre interface utilisateur -->
+            <Button text="Ma partication" onAction="#navigateToUserEvents"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+
+
+
             <Label text="EVENEMENT" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;" />
             <Label text="# Nos Événements" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
 

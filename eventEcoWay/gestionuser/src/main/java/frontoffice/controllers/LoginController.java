@@ -1,6 +1,7 @@
 package frontoffice.controllers;
 
 import backoffice.controllers.UserListController;
+import controllers.FrontTamplateController;
 import controllers.listEventBackController;
 import controllers.listEventFrontController;
 import javafx.animation.TranslateTransition;
@@ -54,12 +55,13 @@ public class LoginController {
         }
     }
 
+    // ne5ou el name ou el email
     private void navigateToProfilePage(user loggedInUser) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/listEventFront.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FrontTamplate.fxml"));
             Parent root = loader.load();
 
-            listEventFrontController controller = loader.getController();
+            FrontTamplateController controller = loader.getController();
             controller.setLoggedInUser(loggedInUser);
 
             Stage stage = (Stage) emailField.getScene().getWindow();

@@ -54,6 +54,19 @@ public class listEventFrontController {
         }
     }
 
+    public void initData( user loggedInUser) {
+        // Stocker les données
+        this.loggedInUser = loggedInUser;
+
+        // Afficher le nom de l'utilisateur connecté
+        if (loggedInUser != null && userNameLabel != null && userEmailLabel != null) {
+            userNameLabel.setText(loggedInUser.getName());
+            userEmailLabel.setText(loggedInUser.getEmail());
+        } else {
+            System.err.println("Erreur: Utilisateur non connecté ou label non initialisé");
+        }
+    }
+
     @FXML
     public void initialize() {
         loadEvents();
@@ -147,6 +160,29 @@ public class listEventFrontController {
             alert.setHeaderText("Impossible d'afficher les détails");
             alert.setContentText("Erreur technique: " + e.getMessage());
             alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void navigateToUserEvents() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListUserEvent.fxml"));
+            Parent root = loader.load();
+
+            ListUserEventController controller = loader.getController();
+            if (controller == null) {
+                throw new IOException("Le contrôleur n'a pas été initialisé dans le FXML");
+            }
+
+            // Passer à la fois l'événement et l'utilisateur connecté
+            controller.initData( loggedInUser);
+
+            Stage stage = (Stage) eventsContainer.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mes Événements");
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger la page des événements utilisateur");
         }
     }
    /*
@@ -257,17 +293,4 @@ public class listEventFrontController {
         }
     }
 */
-
-    /* hetha fxml 9bal modification : <!-- ... autres parties du fichier ... -->
-
-            <!-- Commentaire de la section Logo/Title
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
-                    <image>
-                        <Image url="@assets/logo.png" />
-                    </image>
-                </ImageView>
-                <Label text="WELCOM" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
-            </HBox>
-            Fin du commentaire --> */
 }
