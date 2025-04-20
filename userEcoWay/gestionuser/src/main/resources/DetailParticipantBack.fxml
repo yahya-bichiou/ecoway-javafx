@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.DetailParticipantBackController">
+    <children>
+        <VBox spacing="20" alignment="TOP_CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+            <children>
+                <Label text="Détail du Participant" style="-fx-font-weight: bold;">
+                    <font>
+                        <Font name="System Bold" size="24"/>
+                    </font>
+                </Label>
+
+                <GridPane hgap="10" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="LEFT" minWidth="100"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <children>
+                        <Label text="Nom:" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="nomField" editable="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Âge:" style="-fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextField fx:id="ageField" editable="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Email:" style="-fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <TextField fx:id="emailField" editable="false" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="Téléphone:" style="-fx-font-weight: bold;" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <TextField fx:id="telephoneField" editable="false" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    </children>
+                    <padding>
+                        <Insets left="10" right="10"/>
+                    </padding>
+                </GridPane>
+
+                <HBox spacing="20" alignment="CENTER">
+                    <Button text="Retour" onAction="#handleBack" style="-fx-background-color: #9e6de0; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+            </children>
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.DetailEventFrontController"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <!-- Top Bar avec logo et nom d'utilisateur -->
+    <top>
+        <HBox style="-fx-background-color: #f0f0f0; -fx-padding: 10 20 10 20;" alignment="CENTER_LEFT" spacing="15">
+            <!-- Logo -->
+            <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
+                <image>
+                    <Image url="@assets/logo.png" />
+                </image>
+            </ImageView>
+
+            <!-- Nom d'utilisateur -->
+            <Label fx:id="userNameLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <Label fx:id="userEmailLabel" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" style="-fx-padding: 30;">
+            <!-- Titre principal -->
+            <Label text="Détails de l'événement"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-padding: 0 0 10 0;"/>
+
+            <!-- Titre -->
+            <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="titreField"  editable="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <!-- Description -->
+            <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextArea fx:id="descriptionField" editable="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <!-- Contact -->
+            <Label text="Contact:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="contactField"  editable="false" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <!-- Localisation -->
+            <Label text="Localisation:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="localisationField"  editable="false" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <!-- Date -->
+            <Label text="Date:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <DatePicker fx:id="datePicker"  editable="false" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <!-- Récompense -->
+            <Label text="Récompense:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <TextField fx:id="recomponseField"  editable="false" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+
+    <!-- Bouton Participer -->
+            <HBox style="-fx-padding: 20 0 0 0;" alignment="CENTER_RIGHT">
+                <Button text="Participer" onAction="#AddParticipant"
+                        style="-fx-background-color: #4CAF50 ;"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DetailEventBackController">
+    <children>
+        <VBox spacing="20" alignment="TOP_CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+            <children>
+                <Label text="detail Événement">
+                    <font>
+                        <Font name="System Bold" size="24"/>
+                    </font>
+                </Label>
+
+                <GridPane hgap="10" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="LEFT" minWidth="100"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <children>
+                        <Label text="Titre:" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="titreField"  editable="false" GridPane.rowIndex="0"   GridPane.columnIndex="1"/>
+
+                        <Label text="Description:" style="-fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextArea fx:id="descriptionField" editable="false" GridPane.rowIndex="1"  GridPane.columnIndex="1"/>
+
+                        <Label text="Contact:" style="-fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <TextField fx:id="contactField" editable="false" GridPane.rowIndex="2"   GridPane.columnIndex="1"/>
+
+                        <Label text="Localisation:" style="-fx-font-weight: bold;" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <TextField fx:id="localisationField" editable="false" GridPane.rowIndex="3"   GridPane.columnIndex="1"/>
+
+                        <Label text="Date:" style="-fx-font-weight: bold;" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <DatePicker fx:id="datePicker" editable="false" GridPane.rowIndex="4"   GridPane.columnIndex="1"/>
+
+                        <Label text="Récompense:" style="-fx-font-weight: bold;" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                        <TextField fx:id="recomponseField" editable="false" GridPane.rowIndex="5"   GridPane.columnIndex="1"/>
+                    </children>
+                    <padding>
+                        <Insets left="10" right="10"/>
+                    </padding>
+                </GridPane>
+
+                <HBox spacing="20" alignment="CENTER">
+                    <Button text="Retour" onAction="#handleBack" style="-fx-background-color: #9e6de0; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+            </children>
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>
