@@ -55,15 +55,13 @@
 
         <!-- Bouton -->
         <HBox alignment="CENTER_RIGHT">
-            <Button fx:id="addButton"
-                    mnemonicParsing="false"
-                    onAction="#handleAdd"
-                    prefHeight="39.0"
-                    prefWidth="196.0"
-                    text="Valider"
-                    styleClass="success-button"/>
 
-            <Button text="Fermer" onAction="#handleClose" styleClass="cancel-button"/>
+        </HBox>
+
+
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Enregistrer" onAction="#handleAdd" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            <Button text="Annuler" onAction="#handleClose" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
         </HBox>
 
 

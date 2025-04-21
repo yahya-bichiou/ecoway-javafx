@@ -42,7 +42,7 @@
 
             <!-- Description -->
             <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <TextField fx:id="descriptionField" editable="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <TextArea fx:id="descriptionField" editable="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
             <!-- Contact -->
             <Label text="Contact:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
@@ -64,7 +64,7 @@
     <!-- Bouton Participer -->
             <HBox style="-fx-padding: 20 0 0 0;" alignment="CENTER_RIGHT">
                 <Button text="Participer" onAction="#AddParticipant"
-                        style="-fx-padding: 5 15 5 15;"/>
+                        style="-fx-background-color: #4CAF50 ;"/>
             </HBox>
         </VBox>
     </center>

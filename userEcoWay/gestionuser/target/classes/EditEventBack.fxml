@@ -47,7 +47,7 @@
                 </GridPane>
 
                 <HBox spacing="20" alignment="CENTER">
-                    <Button text="Enregistrer" onAction="#saveChanges" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                    <Button text="Enregistrer" onAction="#saveChanges" style="-fx-background-color: #9e6de0; -fx-text-fill: white;"/>
                     <Button text="Annuler" onAction="#cancel" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
                 </HBox>
             </children>

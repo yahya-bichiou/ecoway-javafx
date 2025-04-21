@@ -26,6 +26,7 @@ models\participant.class
 backoffice\controllers\DetailUserListController.class
 tn\esprit\Main.class
 controllers\DashboardController.class
+controllers\AddParticipantBackController.class
 interfaces\iService.class
 frontoffice\controllers\ProfileController.class
 controllers\listParticipantBackController.class

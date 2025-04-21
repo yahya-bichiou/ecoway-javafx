@@ -122,6 +122,12 @@
                                         </TableColumn>
                                     </columns>
                                 </TableView>
+
+                                <Button alignment="CENTER" layoutX="845.0" layoutY="29.0" mnemonicParsing="false" onAction="#addparticipant" prefHeight="43.0" prefWidth="181.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Ajouter participant" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Button>
                             </children>
                         </Pane>
                     </children>

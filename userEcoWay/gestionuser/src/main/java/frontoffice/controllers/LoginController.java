@@ -58,12 +58,12 @@ public class LoginController {
     // ne5ou el name ou el email
     private void navigateToProfilePage(user loggedInUser) {
         try {
-            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/FrontTamplate.fxml"));
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/listEventBack.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FrontTamplate.fxml"));
+            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/listEventBack.fxml"));
             Parent root = loader.load();
 
-           /* FrontTamplateController controller = loader.getController();
-            controller.setLoggedInUser(loggedInUser);*/
+            FrontTamplateController controller = loader.getController();
+            controller.setLoggedInUser(loggedInUser);
 
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(new Scene(root));

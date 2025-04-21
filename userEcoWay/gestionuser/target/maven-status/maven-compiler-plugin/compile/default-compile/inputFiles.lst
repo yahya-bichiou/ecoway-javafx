@@ -2,6 +2,7 @@ D:\3A38\pidev\userEcoWay\gestionuser\src\main\java\frontoffice\main\Main.java
 D:\3A38\pidev\userEcoWay\gestionuser\src\main\java\models\evenement.java
 D:\3A38\pidev\userEcoWay\gestionuser\src\main\java\controllers\DashboardController.java
 D:\3A38\pidev\userEcoWay\gestionuser\src\main\java\frontoffice\controllers\ProfileController.java
+D:\3A38\pidev\userEcoWay\gestionuser\src\main\java\controllers\AddParticipantBackController.java
 D:\3A38\pidev\userEcoWay\gestionuser\src\main\java\controllers\LoginController.java
 D:\3A38\pidev\userEcoWay\gestionuser\src\main\java\controllers\listParticipantBackController.java
 D:\3A38\pidev\userEcoWay\gestionuser\src\main\java\backoffice\controllers\AddUserController.java

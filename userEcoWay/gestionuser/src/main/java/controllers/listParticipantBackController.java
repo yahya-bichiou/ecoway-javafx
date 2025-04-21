@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import models.evenement;
 import models.participant;
 import services.participantService;
 import javafx.scene.control.TableCell;
@@ -23,7 +22,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-public class listParticipantBackController {// Composants TableViewEvent
+public class listParticipantBackController {
     @FXML
     private TableView<participant> participantTable;
     @FXML
@@ -47,23 +46,34 @@ public class listParticipantBackController {// Composants TableViewEvent
         Platform.exit();
     }
 
-    /*@FXML
+    @FXML
     void addparticipant() {
         try {
+            /*// Fermer la fenêtre actuelle
+            Stage currentStage = (Stage) evenementTable.getScene().getWindow();*/
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddParticipantBack.fxml"));
             Parent root = loader.load();
+
+            AddParticipantBackController addController = loader.getController();
+            addController.setOnAddSuccessCallback(() -> {
+                refreshParticipantTable();
+            });
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Ajouter Participant");
+            stage.setTitle("Ajouter Événement");
             stage.show();
 
-            refreshParticipantTable();;
+            //currentStage.close();
 
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert("Erreur", "Impossible d'ouvrir le formulaire d'ajout", "");
         }
-    }*/
-/*
+    }
+
+    /*
     @FXML
     void viewParticipantDetails(participant participant) {
         if (participant != null) {
@@ -153,6 +163,7 @@ void showParticipants() throws IOException {
 
         try {
             // Set up columns evenement
+
             nomCol.setCellValueFactory(new PropertyValueFactory<>("nom"));
             ageCol.setCellValueFactory(new PropertyValueFactory<>("age"));
             emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
