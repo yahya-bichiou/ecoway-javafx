@@ -26,7 +26,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="697.0" layoutY="34.0" mnemonicParsing="false" text="X" />
+      <Button fx:id="delete" layoutX="697.0" layoutY="34.0" mnemonicParsing="false" text="X" />
       <Line endX="650.0000610351562" endY="1.52587890625E-5" layoutX="100.0" layoutY="130.0" startX="-100.0" stroke="#d4d4d4" />
    </children>
 </Pane>

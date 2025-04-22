@@ -12,8 +12,6 @@ import services.CommandeService;
 
 public class CommandeFront {
 
-
-    int totalitem = 0, totalPrice = 0;
     @FXML
     public Label totalprice;
     @FXML
@@ -39,22 +37,77 @@ public class CommandeFront {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/produitPanel.fxml"));
                                 Pane pane = loader.load();
                                 ProduitPanel controller = loader.getController();
-                                totalitem += Integer.parseInt(parts[2]);
-                                totalPrice += Integer.parseInt(parts[1]);
+
                                 controller.setData(parts[0], parts[1], parts[2], parts[3]);
 
+                                controller.setOnQuantityChanged(() -> {
+                                    updateCommandeDatabase();
+                                    updateTotals();
+                                });
+
+                                pane.setUserData(controller);
                                 list.getItems().add(pane);
                             }
                         }
                     }
                 }
             }
-            totalitems.setText(String.valueOf(totalitem));
-            totalprice.setText(String.valueOf(totalPrice) + " DT");
+            // Calculate the totals after everything is loaded
+            updateTotals();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void updateCommandeDatabase() {
+        try {
+            StringBuilder newProduits = new StringBuilder();
 
+            for (Pane pane : list.getItems()) {
+                ProduitPanel controller = (ProduitPanel) pane.getUserData();
+                String nom = controller.nom.getText();
+                String prix = controller.prixNum;
+                int quantite = (int) controller.quantite.getValue();
+                String imageUrl = controller.image.getImage().getUrl();
+
+                newProduits.append(nom).append("-").append(prix).append("-").append(quantite).append("-").append(imageUrl).append("%");
+            }
+
+            if (newProduits.length() > 0) {
+                newProduits.setLength(newProduits.length() - 1);  // remove the last '%'
+            }
+
+            CommandeService cs = new CommandeService();
+            for (Commandes commande : cs.select()) {
+                if (commande.getClient_id() == 1) {
+                    commande.setProduits(newProduits.toString());
+                    cs.update(commande);
+                    break;
+                }
+            }
+
+            System.out.println("Commande updated in database!");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateTotals() {
+        int newTotalItem = 0;
+        int newTotalPrice = 0;
+
+        for (Pane pane : list.getItems()) {
+            ProduitPanel controller = (ProduitPanel) pane.getUserData();
+            int quantite = (int) controller.quantite.getValue();
+            int prixUnitaire = Integer.parseInt(controller.prixNum);
+
+            newTotalItem += quantite;
+            newTotalPrice += quantite * prixUnitaire;
+        }
+
+        totalitems.setText(String.valueOf(newTotalItem));
+        totalprice.setText(newTotalPrice + " DT");
+    }
 }

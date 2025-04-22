@@ -1,11 +1,13 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import services.CommandeService;
 
 public class ProduitPanel {
 
@@ -19,7 +21,10 @@ public class ProduitPanel {
     public ImageView image;
     @FXML
     public Label prixTotal;
+    @FXML
+    public Button delete;
     String prixNum;
+    private Runnable onQuantityChanged;
 
     public void setData(String nom, String prix, String quantite, String image) {
         this.nom.setText(nom);
@@ -56,11 +61,19 @@ public class ProduitPanel {
     }
 
 
+    public void setOnQuantityChanged(Runnable callback) {
+        this.onQuantityChanged = callback;
+    }
 
     @FXML
     public void initialize() {
         quantite.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
-        quantite.valueProperty().addListener((obs, oldValue, newValue) -> updatePrixTotal());
+        quantite.valueProperty().addListener((obs, oldValue, newValue) -> {
+            updatePrixTotal();
+            if (onQuantityChanged != null) {
+                onQuantityChanged.run();
+            }
+        });
     }
 
 }
