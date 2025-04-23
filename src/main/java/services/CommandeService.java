@@ -2,6 +2,7 @@ package services;
 
 import interfaces.Cart;
 import models.Commandes;
+import models.Livraisons;
 import utils.Connexion;
 
 import java.sql.*;
@@ -108,4 +109,27 @@ public class CommandeService implements Cart <Commandes> {
         return c;
     }
 
+    public List<Commandes> getAll() {
+        List<Commandes> list = new ArrayList<>();
+        String query = "SELECT * FROM commande";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                Commandes commande =new Commandes();
+                commande.setId(rs.getInt("id"));
+                commande.setClient_id(rs.getInt("client_id"));
+                commande.setStatus(rs.getString("status"));
+                commande.setMode_paiement(rs.getString("mode_paiement"));
+                commande.setDate(rs.getTimestamp("date").toLocalDateTime().toLocalDate());
+                commande.setPrix(rs.getFloat("prix"));
+                commande.setProduits(rs.getString("produits"));
+                list.add(commande);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur Lecture: " + e.getMessage());
+        }
+
+        return list;
+    }
 }

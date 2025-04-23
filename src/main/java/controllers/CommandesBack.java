@@ -32,8 +32,6 @@ public class CommandesBack {
     @FXML
     private TableView<Commandes> commandeTableView;
     @FXML
-    private TableColumn<Commandes, Integer> idCol;
-    @FXML
     private TableColumn<Commandes, Integer> clientIdCol;
     @FXML
     private TableColumn<Commandes, String> statusCol;
@@ -48,8 +46,6 @@ public class CommandesBack {
 
     @FXML
     private TableView<Livraisons> livraisonTableView;
-    @FXML
-    private TableColumn<Livraisons, Integer> id;
     @FXML
     private TableColumn<Livraisons, Integer> commande;
     @FXML
@@ -75,18 +71,27 @@ public class CommandesBack {
 
     @FXML
     void addCommande() {
+        backgroundPane.setVisible(true);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddCommande.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) closeButton.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setFullScreen(true);
-            stage.show();
+            Stage newStage = new Stage();
+            newStage.setTitle("Ajouter Commande");
+            newStage.setScene(new Scene(root));
+            newStage.initOwner(closeButton.getScene().getWindow());
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            newStage.initStyle(StageStyle.UNDECORATED);
+            newStage.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        CommandeService cs = new CommandeService();
+        List<Commandes> commandes = cs.getAll();
+        ObservableList<Commandes> observableList2 = FXCollections.observableArrayList(commandes);
+        commandeTableView.setItems(observableList2);
+        commandeTableView.refresh();
+        backgroundPane.setVisible(false);
     }
 
     @FXML
@@ -128,22 +133,30 @@ public class CommandesBack {
     @FXML
     void editCommande() {
         Commandes selectedCommande = commandeTableView.getSelectionModel().getSelectedItem();
-
         if (selectedCommande != null) {
+            backgroundPane.setVisible(true);
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditCommande.fxml"));
                 Parent root = loader.load();
                 EditCommande editController = loader.getController();
                 editController.setCommande(selectedCommande);
-                Scene scene = new Scene(root);
-                Stage stage = (Stage) closeButton.getScene().getWindow();
-                stage.setScene(scene);
-                stage.setFullScreen(true);
-                stage.show();
+                Stage newStage = new Stage();
+                newStage.setTitle("Ajouter Commande");
+                newStage.setScene(new Scene(root));
+                newStage.initOwner(closeButton.getScene().getWindow());
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                newStage.initStyle(StageStyle.UNDECORATED);
+                newStage.showAndWait();
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            CommandeService cs = new CommandeService();
+            List<Commandes> commandes = cs.getAll();
+            ObservableList<Commandes> observableList2 = FXCollections.observableArrayList(commandes);
+            commandeTableView.setItems(observableList2);
+            commandeTableView.refresh();
+            backgroundPane.setVisible(false);
         } else {
             System.out.println("Please select a commande to edit.");
         }
@@ -185,8 +198,6 @@ public class CommandesBack {
     public void initialize() {
         System.out.println("Initializing commande table...");
         try {
-            // Set up columns
-            idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
             clientIdCol.setCellValueFactory(new PropertyValueFactory<>("client_id"));
             statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
             modeCol.setCellValueFactory(new PropertyValueFactory<>("mode_paiement"));
@@ -209,8 +220,6 @@ public class CommandesBack {
 
         System.out.println("Initializing livraison table...");
         try {
-            // Set up columns
-            id.setCellValueFactory(new PropertyValueFactory<>("id"));
             commande.setCellValueFactory(new PropertyValueFactory<>("commande_id"));
             livreur.setCellValueFactory(new PropertyValueFactory<>("livreur"));
             adresse.setCellValueFactory(new PropertyValueFactory<>("adresse"));

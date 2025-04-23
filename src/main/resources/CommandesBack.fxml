@@ -95,7 +95,6 @@
                         </Label>
                         <TableView fx:id="commandeTableView" layoutX="50.0" layoutY="100.0" prefHeight="421.0" prefWidth="976.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;" stylesheets="@style.css">
                            <columns>
-                              <TableColumn fx:id="idCol" prefWidth="50" text="ID" />
                               <TableColumn fx:id="clientIdCol" prefWidth="100" text="CLIENT ID" />
                               <TableColumn fx:id="statusCol" prefWidth="120" text="STATUS" />
                               <TableColumn fx:id="modeCol" prefWidth="150" text="MODE PAIEMENT" />
@@ -135,7 +134,6 @@
                         </Label>
                         <TableView fx:id="livraisonTableView" layoutX="50.0" layoutY="100.0" prefHeight="421.0" prefWidth="976.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;" stylesheets="@style.css">
                            <columns>
-                              <TableColumn fx:id="id" prefWidth="50" text="ID" />
                               <TableColumn fx:id="commande" prefWidth="150" text="COMMANDE ID" />
                               <TableColumn fx:id="livreur" prefWidth="100" text="LIVREUR" />
                               <TableColumn fx:id="adresse" prefWidth="150" text="ADRESSE" />

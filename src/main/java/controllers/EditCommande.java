@@ -39,29 +39,14 @@ public class EditCommande {
 
     @FXML
     void closeApp() {
-        Platform.exit();
-    }
-
-    @FXML
-    void canncelEditCommande() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CommandesBack.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) closeButton.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setFullScreen(true);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     void saveEdit() {
 
-        errorLabel.setText("");  // Reset error label
+        errorLabel.setText("");
 
         // Validate Client Id
         if (client_idTextField.getText().isEmpty()) {

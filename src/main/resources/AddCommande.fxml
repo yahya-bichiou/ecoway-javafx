@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="864.0" prefWidth="1536.0" style="-fx-background-color: #f0f1f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddCommande">
+<AnchorPane prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #f0f1f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddCommande">
    <children>
-      <Pane layoutX="568.0" layoutY="182.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #ffffff; -fx-border-color: #d9dadb; -fx-border-radius: 10; -fx-background-radius: 10;">
+      <Pane prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #ffffff; -fx-border-color: #d9dadb; -fx-border-radius: 10; -fx-background-radius: 10;">
          <children>
             <TextField fx:id="client_idTextField" layoutX="125.0" layoutY="101.0" promptText="client_id" />
             <TextField fx:id="produitsTextField" layoutX="125.0" layoutY="308.0" promptText="produits" />
@@ -34,12 +34,12 @@
                </font>
             </Button>
             <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="353.0" prefWidth="300.0" text="ERRORS" textAlignment="CENTER" textFill="RED" />
+            <Button fx:id="closeButton" layoutX="373.0" layoutY="3.0" mnemonicParsing="false" onAction="#closeApp" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #ff1b1b; -fx-background-radius: 20;" text="X" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
-      <Button fx:id="closeButton" layoutX="1496.0" layoutY="14.0" mnemonicParsing="false" onAction="#closeApp" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #ff1b1b; -fx-background-radius: 20;" text="X" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="10.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>
