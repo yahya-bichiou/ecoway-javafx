@@ -5,28 +5,28 @@ public class user {
     private String name;
     private String email;
     private String password;
-    private String imageProfile;
-    private String role;
+    private String profile_picture;
+    private String roles;
 
 
 
     public user(){}
 
-    public user( String name, String email, String password, String imageProfile, String role) {
+    public user( String name, String email, String password, String profile_picture, String roles) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.imageProfile = imageProfile;
-        this.role = role;
+        this.profile_picture = profile_picture;
+        this.roles = roles;
     }
 
-    public user(Long id, String name, String email, String password, String imageProfile, String role) {
+    public user(Long id, String name, String email, String password, String profile_picture, String roles) {
         this.id = Math.toIntExact(id);
         this.name = name;
         this.email = email;
         this.password = password;
-        this.imageProfile = imageProfile;
-        this.role = role;
+        this.profile_picture = profile_picture;
+        this.roles = roles;
     }
 
     public int getId() {
@@ -37,12 +37,12 @@ public class user {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public String getName() {
@@ -70,11 +70,11 @@ public class user {
     }
 
     public String getImageProfile() {
-        return imageProfile;
+        return profile_picture;
     }
 
-    public void setImageProfile(String imageProfile) {
-        this.imageProfile = imageProfile;
+    public void setImageProfile(String profile_picture) {
+        this.profile_picture = profile_picture;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class user {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", imageProfile='" + imageProfile + '\'' +
+                ", profile_picture='" + profile_picture + '\'' +
                 '}';
     }
 }

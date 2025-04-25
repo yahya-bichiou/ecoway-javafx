@@ -9,13 +9,13 @@ public class userController {
 
     private final userService userService = new userService();
 
-    public void addUser(String name, String email, String password, String imageProfile, String role) {
-        user u = new user(name, email, password, imageProfile, role);
+    public void addUser(String name, String email, String password, String profile_picture, String roles) {
+        user u = new user(name, email, password, profile_picture, roles);
         userService.add(u);
     }
 
-    public void updateUser(int id, String name, String email, String password, String imageProfile, String role) {
-        user u = new user((long) id, name, email, password, imageProfile, role);
+    public void updateUser(int id, String name, String email, String password, String profile_picture, String roles) {
+        user u = new user((long) id, name, email, password, profile_picture, roles);
         u.setId(id);
         userService.update(u);
     }

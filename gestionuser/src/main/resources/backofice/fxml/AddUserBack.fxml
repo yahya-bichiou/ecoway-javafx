@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import java.awt.Font?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f0f1f5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backoffice.controllers.AddUserController">
+    <children>
+        <VBox alignment="CENTER" layoutX="50.0" layoutY="30.0" prefHeight="340.0" prefWidth="500.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+
+                <Label text="Ajouter un utilisateur" style="-fx-text-fill: #503f71;" />
+
+
+
+                <TextField fx:id="nameField" promptText="Nom" style="-fx-background-radius: 5;" />
+                <TextField fx:id="emailField" promptText="Email" style="-fx-background-radius: 5;" />
+                <PasswordField fx:id="passwordField" promptText="Mot de passe" style="-fx-background-radius: 5;" />
+                <TextField fx:id="profile_pictureField" promptText="URL de l'image de profil" style="-fx-background-radius: 5;" />
+                <ComboBox fx:id="rolesComboBox" promptText="Rôle" style="-fx-background-radius: 5;">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="ROLE_ADMIN" />
+                            <String fx:value="ROLE_USER" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+
+                <Button text="Ajouter" fx:id="submitButton" onAction="#addUser"/>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

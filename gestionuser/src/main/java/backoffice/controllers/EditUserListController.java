@@ -4,12 +4,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.user;
 import services.userService;
 
-public class EditUserListController {
+import java.io.File;
 
+public class EditUserListController {
+    private String imagePath;
     @FXML
     private TextField nameField;
     @FXML
@@ -17,9 +22,12 @@ public class EditUserListController {
     @FXML
     private TextField passwordField;
     @FXML
-    private TextField imageProfileField;
+    private TextField profile_pictureField;
     @FXML
-    private TextField roleField;
+    private ImageView profileImageView;
+
+    @FXML
+    private TextField rolesField;
     @FXML
     private Button saveButton;
     @FXML
@@ -32,9 +40,20 @@ public class EditUserListController {
         nameField.setText(user.getName());
         emailField.setText(user.getEmail());
         passwordField.setText(user.getPassword());
-        imageProfileField.setText(user.getImageProfile());
-        roleField.setText(user.getRole());
+        rolesField.setText(user.getRoles());
+
+        imagePath = user.getImageProfile(); // Save image path
+        if (imagePath != null && !imagePath.isEmpty()) {
+            Image image = new Image(imagePath);
+            profileImageView.setImage(image);
+            profileImageView.setClip(new javafx.scene.shape.Circle(
+                    profileImageView.getFitWidth() / 2,
+                    profileImageView.getFitHeight() / 2,
+                    profileImageView.getFitWidth() / 2
+            ));
+        }
     }
+
 
     @FXML
     private void handleSave() {
@@ -42,8 +61,8 @@ public class EditUserListController {
             currentUser.setName(nameField.getText());
             currentUser.setEmail(emailField.getText());
             currentUser.setPassword(passwordField.getText());
-            currentUser.setImageProfile(imageProfileField.getText());
-            currentUser.setRole(roleField.getText());
+            currentUser.setRoles(rolesField.getText());
+            currentUser.setImageProfile(imagePath); // Save updated image path
 
             userService service = new userService();
             service.update(currentUser);
@@ -53,6 +72,7 @@ public class EditUserListController {
             stage.close();
         }
     }
+
 
     @FXML
     private void handleCancel() {
@@ -72,7 +92,7 @@ public class EditUserListController {
         if (passwordField.getText() == null || passwordField.getText().isEmpty()) {
             errorMessage += "Mot de passe invalide!\n";
         }
-        if (roleField.getText() == null || roleField.getText().isEmpty()) {
+        if (rolesField.getText() == null || rolesField.getText().isEmpty()) {
             errorMessage += "Rôle invalide!\n";
         }
 
@@ -93,4 +113,27 @@ public class EditUserListController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    @FXML
+    private void handleChangeImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Profile Image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(profileImageView.getScene().getWindow());
+        if (selectedFile != null) {
+            imagePath = selectedFile.toURI().toString(); // Save selected image path
+
+            Image image = new Image(imagePath);
+            profileImageView.setImage(image);
+            profileImageView.setClip(new javafx.scene.shape.Circle(
+                    profileImageView.getFitWidth() / 2,
+                    profileImageView.getFitHeight() / 2,
+                    profileImageView.getFitWidth() / 2
+            ));
+        }
+    }
+
 }

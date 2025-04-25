@@ -18,10 +18,10 @@ public class AddUserController {
     private PasswordField passwordField;
 
     @FXML
-    private TextField imageProfileField;
+    private TextField profile_pictureField;
 
     @FXML
-    private ComboBox<String> roleComboBox;
+    private ComboBox<String> rolesComboBox;
 
     @FXML
     private Button submitButton;
@@ -33,16 +33,16 @@ public class AddUserController {
             String name = nameField.getText();
             String email = emailField.getText();
             String password = passwordField.getText();
-            String imageProfile = imageProfileField.getText();
-            String role = roleComboBox.getValue();
+            String profile_picture = profile_pictureField.getText();
+            String roles = rolesComboBox.getValue();
 
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || role == null) {
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || roles == null) {
                 showAlert("Erreur", "Tous les champs sont obligatoires.");
                 return;
             }
 
             // Call userService to save the user
-            user newUser = new user(name, email, password, imageProfile, role);
+            user newUser = new user(name, email, password, profile_picture, roles);
             userService service = new userService();
             service.add(newUser); // Using the existing 'add' method
 
@@ -68,16 +68,16 @@ public class AddUserController {
             String name = nameField.getText();
             String email = emailField.getText();
             String password = passwordField.getText();
-            String imageProfile = imageProfileField.getText();
-            String role = roleComboBox.getValue();
+            String profile_picture = profile_pictureField.getText();
+            String roles = rolesComboBox.getValue();
 
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || role == null) {
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || roles == null) {
                 showAlert("Erreur", "Tous les champs sont obligatoires.");
                 return;
             }
 
             // Call userService to save the user
-            user newUser = new user(name, email, password, imageProfile, role);
+            user newUser = new user(name, email, password, profile_picture, roles);
             userService service = new userService();
             service.add(newUser); // Using the existing 'add' method
 

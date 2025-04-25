@@ -39,7 +39,7 @@ public class RegisterController {
         String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
         String confirmPassword = confirmPasswordField.getText().trim();
-        String role = "User";
+        String roles = "[\"ROLE_USER\"]";
 
         // Validate inputs
         if (!validateInputs(name, email, password, confirmPassword)) {
@@ -47,7 +47,7 @@ public class RegisterController {
         }
 
         // Process registration if validation passes
-        if (userService.addUser(name, email, password, "", role)) {
+        if (userService.addUser(name, email, password, "", roles)) {
             showError("Registration successful!");
             navigateToLogin(); // Navigate to the login page
         } else {
@@ -120,7 +120,7 @@ public class RegisterController {
 
     public void navigateToLogin() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/frontoffices/fxml/fxml/login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/frontoffices/fxml/login.fxml"));
             Stage stage = (Stage) nameField.getScene().getWindow();
             stage.setScene(new Scene(root));
         } catch (IOException e) {

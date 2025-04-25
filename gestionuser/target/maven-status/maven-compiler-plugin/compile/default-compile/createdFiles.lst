@@ -1,0 +1,5 @@
+MainApp.class
+frontoffice\controllers\UserSession.class
+backoffice\controllers\AdminProfileController.class
+frontoffice\controllers\EditProfileController.class
+backoffice\controllers\EditAdminProfileController.class

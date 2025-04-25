@@ -14,16 +14,23 @@ public class userService implements iService<user> {
 
     @Override
     public void add(user user) {
-        String defaultRole = "User"; // Default role
-        String SQL = "INSERT INTO user (name, email, password, imageProfile, role) VALUES (?, ?, ?, ?, ?)";
+        String defaultRole = "User";
+        String defaultImage = "@/assets/user.png";
+
+
+        String profileImage = (user.getImageProfile() == null || user.getImageProfile().isEmpty())
+                ? defaultImage
+                : user.getImageProfile();
+
+        String SQL = "INSERT INTO user (name, email, password, profile_picture, roles) VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement st = cnx.prepareStatement(SQL);
             st.setString(1, user.getName());
             st.setString(2, user.getEmail());
             st.setString(3, user.getPassword());
-            st.setString(4, user.getImageProfile());
-            st.setString(5, defaultRole); // Enforce default role
+            st.setString(4, profileImage);
+            st.setString(5, defaultRole);
             st.executeUpdate();
             System.out.println("User added");
         } catch (SQLException e) {
@@ -32,15 +39,16 @@ public class userService implements iService<user> {
     }
 
 
+
     @Override
     public void update(user user) {
-        String SQL = "UPDATE user SET name = ?, email = ?, password = ?, imageProfile = ? , role = ?  WHERE id = ?";
+        String SQL = "UPDATE user SET name = ?, email = ?, password = ?, profile_picture = ? , roles = ?  WHERE id = ?";
         try (PreparedStatement ps = cnx.prepareStatement(SQL)){
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
             ps.setString(4, user.getImageProfile());
-            ps.setString(5, user.getRole());
+            ps.setString(5, user.getRoles());
             ps.setInt(6, user.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -76,8 +84,8 @@ public class userService implements iService<user> {
                 u.setName(res.getString("name"));
                 u.setEmail(res.getString("email"));
                 u.setPassword(res.getString("password"));
-                u.setImageProfile(res.getString("imageProfile"));
-                u.setRole(res.getString("role"));
+                u.setImageProfile(res.getString("profile_picture"));
+                u.setRoles(res.getString("roles"));
                 users.add(u);
             }
         } catch (SQLException e) {
@@ -112,10 +120,25 @@ public class userService implements iService<user> {
         }
     }
 
+    public String getNameByEmail(String email) {
+        String query = "SELECT name FROM user WHERE email = ?";
+        try (PreparedStatement statement = cnx.prepareStatement(query)) {
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "User"; // default fallback name
+    }
+
+
     public boolean promoteToAdmin(int userId) {
 
 
-        String query = "UPDATE user SET role = 'Admin' WHERE id = ?";
+        String query = "UPDATE user SET roles = 'ROLE_ADMIN' WHERE id = ?";
         try (PreparedStatement statement = cnx.prepareStatement(query)) {
             statement.setInt(1, userId);
             statement.executeUpdate();
@@ -127,15 +150,15 @@ public class userService implements iService<user> {
     }
 
 
-    public boolean addUser(String name, String email, String password, String imageProfile,String role) {
+    public boolean addUser(String name, String email, String password, String profile_picture,String roles) {
 
-        String query = "INSERT INTO user (name, email, password, imageProfile,role) VALUES (?, ?, ?, ?,?)";
+        String query = "INSERT INTO user (name, email, password, profile_picture,roles) VALUES (?, ?, ?, ?,?)";
         try (PreparedStatement statement = cnx.prepareStatement(query)) {
             statement.setString(1, name);
             statement.setString(2, email);
             statement.setString(3, password);
-            statement.setString(4, imageProfile);
-            statement.setString(5, role);
+            statement.setString(4, profile_picture);
+            statement.setString(5, roles);
             statement.executeUpdate();
             return true; // Returns true if the user is successfully added.
         } catch (Exception e) {
@@ -143,6 +166,28 @@ public class userService implements iService<user> {
             return false;
         }
     }
+
+    public user getUserByEmail(String email) {
+        String SQL = "SELECT * FROM user WHERE email = ?";
+        try (PreparedStatement st = cnx.prepareStatement(SQL)) {
+            st.setString(1, email);
+            ResultSet res = st.executeQuery();
+            if (res.next()) {
+                user u = new user();
+                u.setId(res.getInt("id"));
+                u.setName(res.getString("name"));
+                u.setEmail(res.getString("email"));
+                u.setPassword(res.getString("password"));
+                u.setImageProfile(res.getString("profile_picture"));
+                u.setRoles(res.getString("roles"));
+                return u;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
 
 
 }

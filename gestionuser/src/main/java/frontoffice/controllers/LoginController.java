@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import models.user;
 import services.userService;
 
 import java.io.IOException;
@@ -41,33 +42,69 @@ public class LoginController {
             return; // Stop further processing if validation fails
         }
 
-        // Process login if validation passes
         if (userService.validateCredentials(email, password)) {
-            navigateToProfilePage(email); // Pass the user's email or name to the profile page
+            user loggedInUser = userService.getUserByEmail(email);
+            UserSession.initSession(loggedInUser);
+
+
+            if (loggedInUser.getRoles().contains("ROLE_ADMIN")) {
+                navigateTo("/backofice/fxml/userList.fxml"); // Back office dashboard
+            } else {
+                navigateTo("/frontoffices/fxml/profile.fxml"); // Front office profile
+            }
+
+        } else {
             showError("Incorrect email or password.");
-        }else {
-            showError("Incorrect email or password.");
-            shakeField(emailField); // Shake the email field to indicate an error
+            shakeField(emailField);
         }
     }
-
-    private void navigateToProfilePage(String userName) {
+    private void navigateTo(String fxmlPath) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontoffices/fxml/fxml/profile.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
 
-            // Pass user data to ProfileController
-            ProfileController profileController = loader.getController();
-            profileController.setWelcomeMessage(userName);
-
-            // Switch to Profile Page
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showError("Failed to load the profile page. Please try again.");
+            showError("Failed to load the page.");
         }
     }
+
+
+
+    //private void navigateToProfilePage(String userName) {
+      //  try {
+        //    FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontoffices/fxml/login.fxml"));
+          //  Parent root = loader.load();
+
+
+            // Pass user data to ProfileController
+            //ProfileController profileController = loader.getController();
+            //profileController.setWelcomeMessage(userName);
+
+            // Switch to Profile Page
+            //Stage stage = (Stage) emailField.getScene().getWindow();
+            //stage.setScene(new Scene(root));
+        //} catch (IOException e) {
+          //  e.printStackTrace();
+            //showError("Failed to load the profile page. Please try again.");
+        //}
+    //}
+
+    private void navigateToAdminDashboard() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/backofice/fxml/userList.fxml"));
+            Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Failed to load admin dashboard.");
+        }
+    }
+
 
 
     private boolean validateInputs(String email, String password) {
@@ -78,7 +115,7 @@ public class LoginController {
         }
 
         if (!email.matches("^[\\w-\\.]+@[\\w-\\.]+\\.\\w{2,4}$")) {
-            shakeField(emailField); // Indicate invalid email format
+            shakeField(emailField);
             showError("Invalid email format.");
             return false;
         }
@@ -104,7 +141,7 @@ public class LoginController {
     @FXML
     private void openRegisterPage() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/frontoffices/fxml/fxml/register.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/frontoffices/fxml/register.fxml"));
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(new Scene(root));
         } catch (IOException e) {

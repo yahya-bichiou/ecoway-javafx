@@ -3,6 +3,9 @@ package backoffice.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import models.user;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 
 public class DetailUserListController {
 
@@ -10,10 +13,13 @@ public class DetailUserListController {
     private Label nameLabel;
 
     @FXML
+    private ImageView profileImageView;
+
+    @FXML
     private Label emailLabel;
 
     @FXML
-    private Label roleLabel;
+    private Label rolesLabel;
 
     @FXML
     private Label idLabel;
@@ -23,7 +29,24 @@ public class DetailUserListController {
             idLabel.setText(String.valueOf(selectedUser.getId()));
             nameLabel.setText(selectedUser.getName());
             emailLabel.setText(selectedUser.getEmail());
-            roleLabel.setText(selectedUser.getRole());
+            rolesLabel.setText(selectedUser.getRoles());
+
+            String imagePath = selectedUser.getImageProfile();
+            if (imagePath != null && !imagePath.isEmpty()) {
+                try {
+                    Image image = new Image(imagePath);
+                    profileImageView.setImage(image);
+                    profileImageView.setClip(new javafx.scene.shape.Circle(
+                            profileImageView.getFitWidth() / 2,
+                            profileImageView.getFitHeight() / 2,
+                            profileImageView.getFitWidth() / 2
+                    ));
+
+                } catch (Exception e) {
+                    System.out.println("Failed to load profile image: " + e.getMessage());
+                }
+            }
         }
     }
+
 }

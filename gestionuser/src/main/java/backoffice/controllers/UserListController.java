@@ -1,9 +1,11 @@
 package backoffice.controllers;
 
 import backoffice.controllers.EditUserListController;
+import frontoffice.controllers.UserSession;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,15 +31,25 @@ public class UserListController {
     @FXML
     private TableView<user> userTable;
     @FXML
-    private TableColumn<user, Integer> idCol;
-    @FXML
     private TableColumn<user, String> nameCol;
     @FXML
     private TableColumn<user, String> emailCol;
     @FXML
-    private TableColumn<user, String> roleCol;
+    private TableColumn<user, String> rolesCol;
     @FXML
     private TableColumn<user, Void> actionCol;
+    @FXML
+    private ImageView profileImageView;
+    @FXML
+    private Label adminNameLabel;
+    @FXML
+    private MenuButton adminMenu;
+
+    @FXML
+    private MenuItem profileMenuItem;
+
+    @FXML
+    private MenuItem logoutMenuItem;
 
 
     @FXML
@@ -51,7 +63,7 @@ public class UserListController {
     @FXML
     void addUser(javafx.event.ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/backofice/fxml/fxml/AddUserBack.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/backofice/fxml/AddUserBack.fxml"));
             Parent root = loader.load();
             Stage addUserStage = new Stage();
             addUserStage.initModality(Modality.APPLICATION_MODAL);
@@ -61,9 +73,9 @@ public class UserListController {
             Scene scene = new Scene(root);
             addUserStage.setScene(scene);
             addUserStage.setTitle("Ajouter un Utilisateur");
-            addUserStage.showAndWait(); // This will block interaction with main window
+            addUserStage.showAndWait();
 
-            // Refresh table after the popup closes
+
             refreshUserTable();
 
         } catch (IOException e) {
@@ -77,7 +89,7 @@ public class UserListController {
     void viewDetails(user user) {
         if (user != null) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/backofice/fxml/fxml/DetailUserBack.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/backofice/fxml/DetailUserBack.fxml"));
                 Parent root = loader.load();
 
                 DetailUserListController detailsController = loader.getController();
@@ -127,28 +139,75 @@ public class UserListController {
     }
 
     @FXML
+    void handleLogout() {
+        UserSession.clearSession();
+        redirectToLogin();
+    }
+
+
+    @FXML
     public void initialize() {
         System.out.println("Initializing user table...");
 
+        // Check if the user is authenticated
+        if (!UserSession.isAuthenticated()) {
+            Platform.runLater(this::redirectToLogin);
+            return;
+        }
+
+        // Access current user from the UserSession
+        user currentUser = UserSession.getInstance().getUser();
+
+        // Set admin name label
+        String adminName = currentUser.getName();
+        adminNameLabel.setText(adminName);
+
+        // Set profile image if available
+        String profileImagePath = currentUser.getImageProfile();
+        if (profileImagePath != null && !profileImagePath.isEmpty()) {
+            profileImageView.setImage(new Image("file:" + profileImagePath));
+        }
+
         try {
-            // Set up columns
-            idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+            // Set up table columns
             nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
             emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-            roleCol.setCellValueFactory(new PropertyValueFactory<>("role"));
+            rolesCol.setCellValueFactory(new PropertyValueFactory<>("roles"));
 
-            // Setup action column
+            // Set up action column
             setupActionColumn();
 
-            // Load data
+            // Refresh user table
             refreshUserTable();
-            System.out.println("User table initialized successfully.");
-
         } catch (Exception e) {
-            System.out.println("ERROR during table initialization: " + e.getMessage());
+            e.printStackTrace();
+            System.out.println("Error initializing table: " + e.getMessage());
+        }
+    }
+
+
+
+    private void redirectToLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontoffices/fxml/login.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+
+            Stage current = (Stage) closeButton.getScene().getWindow();
+            current.close();
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
+
+
 
     private void setupActionColumn() {
         actionCol.setCellFactory(param -> new TableCell<>() {
@@ -209,7 +268,7 @@ public class UserListController {
     void editItem(user user) {
         if (user != null) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/backofice/fxml/fxml/EditUserBack.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/backofice/fxml/EditUserBack.fxml"));
                 Parent root = loader.load();
 
                 EditUserListController editController = loader.getController();
@@ -247,4 +306,45 @@ public class UserListController {
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
     }
+    @FXML
+    private void handleProfile() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/backofice/fxml/AdminProfile.fxml"));
+            Parent profileRoot = loader.load();
+            adminMenu.getScene().setRoot(profileRoot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void handleEditProfile() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/backofice/fxml/EditAdminProfile.fxml"));
+            Parent root = loader.load();
+
+            // Pass current user to EditProfileController
+            EditAdminProfileController EditAdminProfileController = loader.getController();
+            EditAdminProfileController.initData(UserSession.getInstance().getUser());
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier le profil");
+            stage.showAndWait();
+
+            // Optional: refresh UI elements after editing
+            user updatedUser = UserSession.getInstance().getUser();
+            adminNameLabel.setText(updatedUser.getName());
+            if (updatedUser.getImageProfile() != null && !updatedUser.getImageProfile().isEmpty()) {
+                profileImageView.setImage(new Image("file:" + updatedUser.getImageProfile()));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible d'ouvrir la page de modification de profil", e.getMessage());
+        }
+    }
+
+
+
 }
