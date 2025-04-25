@@ -62,7 +62,7 @@
 
                 <!-- Categories Filter -->
                 <VBox spacing="20">
-                    <Label text="Nos Catégories" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;"/>
+                    <Label text="Nos Catégories" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: rgba(53,13,8,0.65);"/>
                     <FlowPane fx:id="categoriesContainer" hgap="15" vgap="15">
                         <padding>
                             <Insets bottom="15"/>
@@ -71,7 +71,7 @@
                 </VBox>
 
                 <!-- Products Grid -->
-                <Label text="Nos Produits" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;"/>
+                <Label text="Nos Produits" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: rgba(53,13,8,0.65);"/>
 
                 <!-- Scrollable container for the products -->
                 <ScrollPane fx:id="productsScrollPane" fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
