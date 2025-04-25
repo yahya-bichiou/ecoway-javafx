@@ -9,6 +9,9 @@ import org.example.services.categorieservice;
 import org.example.services.produitservice;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -71,16 +74,29 @@ public class AddProduitController {
 
     @FXML
     private void choisirImageAction() {
+        // Ouvrir la boîte de dialogue pour choisir l'image
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir une image");
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif")
         );
         File file = fileChooser.showOpenDialog(null);
+
         if (file != null) {
-            imageTextField.setText(file.getAbsolutePath());
+            // Copie l'image dans un dossier spécifique du projet
+            String destinationPath = "src/main/resources/images/" + file.getName(); // Spécifiez le chemin du dossier d'images
+            File destinationFile = new File(destinationPath);
+
+            try {
+                // Copie le fichier image dans le répertoire des images
+                Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                imageTextField.setText(file.getName()); // Enregistre seulement le nom de l'image dans le TextField
+            } catch (IOException e) {
+                showAlert("Erreur", "Erreur lors de la copie de l'image : " + e.getMessage());
+            }
         }
     }
+
 
     @FXML
     private void handleClear() {

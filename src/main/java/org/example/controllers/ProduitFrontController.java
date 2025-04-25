@@ -31,7 +31,7 @@ public class ProduitFrontController{
     @FXML private Button nextPageBtn;
 
     private int currentPage = 1;
-    private int itemsPerPage = 5;
+    private int itemsPerPage = 20;
     private categorie selectedCategory;
 
     private final categorieservice categorieService = new categorieservice();
@@ -91,14 +91,18 @@ public class ProduitFrontController{
             e.printStackTrace();
         }
     }
+
     private VBox createProductCard(produit produit) {
-        VBox card = new VBox(10);
+        VBox card = new VBox(10); // Espacement entre les éléments
         card.getStyleClass().add("product-card");
         card.setPrefWidth(300);
         card.setPadding(new Insets(15));
 
         // Ajout d'un cadre autour du produit
         card.setStyle("-fx-border-color: #4CAF50; -fx-border-width: 2; -fx-border-radius: 5;");
+
+        // StackPane pour superposer l'image et l'icône de cœur
+        StackPane imagePane = new StackPane();
 
         // Image
         ImageView imageView = new ImageView();
@@ -112,24 +116,43 @@ public class ProduitFrontController{
         } catch (Exception e) {
             imageView.setImage(new Image(getClass().getResourceAsStream("/images/compost.jpeg")));
         }
-        imageView.setFitWidth(280);
-        imageView.setFitHeight(180);
+        imageView.setFitWidth(400);  // Taille plus grande
+        imageView.setFitHeight(450); // Taille plus grande
         imageView.setPreserveRatio(true);
 
-        // Product Info
+        // Icône de cœur pour "J'aime"
+        ImageView heartIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/heart.png")));
+        heartIcon.setFitWidth(35);  // Taille initiale du cœur
+        heartIcon.setFitHeight(35); // Taille initiale du cœur
+        heartIcon.setStyle("-fx-cursor: hand;");  // Changer le curseur pour indiquer que c'est cliquable
+
+        // Ajouter l'événement de clic pour changer la couleur et la taille du cœur
+        heartIcon.setOnMouseClicked(e -> {
+            handleLike(produit, heartIcon);  // Passer l'icône du cœur pour changer la couleur et la taille
+        });
+
+        // Positionner l'icône de cœur en haut à droite
+        StackPane.setAlignment(heartIcon, Pos.TOP_RIGHT);
+
+        // Ajouter l'image et l'icône au StackPane
+        imagePane.getChildren().addAll(imageView, heartIcon);
+
+        // Textes sous l'image
         Label nameLabel = new Label(produit.getNom());
         nameLabel.getStyleClass().add("product-name");
-        nameLabel.setStyle("-fx-font-weight: bold;");  // Mettre le titre en gras
+        nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");  // Titre en gras
 
-        Label priceLabel = new Label(String.format("%.2f €", produit.getPrix()));
+        Label priceLabel = new Label(String.format("%.2f DT", produit.getPrix()));
         priceLabel.getStyleClass().add("product-price");
+        priceLabel.setStyle("-fx-font-size: 16px;");  // Prix
 
         Label categoryLabel = new Label("Catégorie: " + getCategoryName(produit.getCategorieId()));
+        categoryLabel.setStyle("-fx-font-size: 15px; -fx-text-fill: rgba(85,28,19,0.65);");
 
         // Création du bouton "Voir détails"
         Button viewBtn = new Button("Voir détails");
         viewBtn.getStyleClass().add("view-button");
-        viewBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;"); // Couleur du bouton vers le vert
+        viewBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");  // Bouton en vert
         viewBtn.setOnAction(e -> showProductDetails(produit));
 
         // Icône de panier
@@ -140,17 +163,27 @@ public class ProduitFrontController{
         // HBox pour aligner le bouton "Voir détails" et l'icône du panier
         HBox actionBox = new HBox(10, viewBtn, cartIcon);
 
-        // Image clickable
-        imageView.setOnMouseClicked(e -> showProductDetails(produit));
-
-        // Ajouter les composants à la carte
-        card.getChildren().addAll(imageView, nameLabel, priceLabel, categoryLabel, actionBox);
+        // Ajouter l'image, les labels et le bouton dans la carte
+        card.getChildren().addAll(imagePane, nameLabel, priceLabel, categoryLabel, actionBox);
 
         return card;
     }
 
+    // Méthode pour gérer l'événement de "Like" et changer la couleur et la taille du cœur
+    private void handleLike(produit produit, ImageView heartIcon) {
+        // Incrémenter le compteur de "likes" pour ce produit
+        System.out.println("Produit aimé: " + produit.getNom());
 
+        // Vous devrez mettre à jour la base de données avec l'augmentation du nombre de likes
+        produitService.incrementLike(produit);
 
+        // Change la couleur du cœur en rouge et agrandir l'icône
+        heartIcon.setImage(new Image(getClass().getResourceAsStream("/images/heartrouge.png")));  // Remplacer l'icône par un cœur rouge
+
+        // Agrandir l'icône lorsque l'utilisateur clique dessus
+        heartIcon.setFitWidth(35);  // Augmenter la taille du cœur
+        heartIcon.setFitHeight(35); // Augmenter la taille du cœur
+    }
 
     private void showProductDetails(produit produit) {
         try {
@@ -203,13 +236,14 @@ public class ProduitFrontController{
     }
 
     private void updatePaginationInfo(int totalItems) {
-        int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-        pageInfo.setText(String.format("Page %d/%d", currentPage, totalPages));
+        int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage); // Calculer le nombre total de pages
+        pageInfo.setText(String.format("Page %d/%d", currentPage, totalPages)); // Afficher l'information de pagination
 
         // Désactiver les boutons si nécessaire
-        previousPageBtn.setDisable(currentPage <= 1);
-        nextPageBtn.setDisable(currentPage >= totalPages);
+        previousPageBtn.setDisable(currentPage <= 1); // Désactiver "Précédent" si la page actuelle est la première
+        nextPageBtn.setDisable(currentPage >= totalPages); // Désactiver "Suivant" si la page actuelle est la dernière
     }
+
 
     @FXML
     private void handleNotifications() {
