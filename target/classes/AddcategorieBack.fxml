@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane
+        fx:controller="org.example.controllers.AddCategorieController"
+        xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <VBox alignment="CENTER" spacing="20" style="-fx-background-color: #f5f5f5;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Titre du formulaire -->
+            <Label text="Ajouter une catégorie" style="-fx-font-weight: bold;">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+            </Label>
+
+            <!-- Formulaire -->
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="NEVER" minWidth="100"/>
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="200"/>
+                </columnConstraints>
+
+                <!-- Champs du formulaire -->
+                <Label text="nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="nomField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="descriptionField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            </GridPane>
+
+            <!-- Boutons -->
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Ajouter" fx:id="addButton" onAction="#handleAdd" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                <Button text="Effacer" onAction="#handleClear" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
