@@ -164,4 +164,113 @@ public class evenementService {
         }
         return events;
     }
+
+   /* // Search, sort, and filter users
+    public List<evenement> searchSortFilterUsers(
+            String nameSearch,   // Search by name (partial match)
+            String emailSearch, // Search by email (partial match)
+            String roleFilter,  // Filter by role (e.g., "admin", "coach", "player")
+            String sortCriteria // Sort by criteria (e.g., "Name (A-Z)", "Name (Z-A)", "Points (High to Low)")
+    ) throws SQLException {
+        List<evenement> userList = new ArrayList<>();
+        StringBuilder query = new StringBuilder("SELECT * FROM user WHERE 1=1");
+
+        // Add search filters
+        if (!nameSearch.isEmpty()) {
+            query.append(" AND name LIKE ?");
+        }
+        if (!emailSearch.isEmpty()) {
+            query.append(" AND email LIKE ?");
+        }
+        if (roleFilter != null && !roleFilter.equals("All")) {
+            query.append(" AND role = ?");
+        }
+
+        // Add sorting
+        if (sortCriteria != null) {
+            switch (sortCriteria) {
+                case "Name (A-Z)":
+                    query.append(" ORDER BY name ASC");
+                    break;
+                case "Name (Z-A)":
+                    query.append(" ORDER BY name DESC");
+                    break;
+                case "Points (High to Low)":
+                    query.append(" ORDER BY points DESC");
+                    break;
+                default:
+                    // No sorting
+                    break;
+            }
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(query.toString())) {
+            int paramIndex = 1;
+
+            // Set search parameters
+            if (!nameSearch.isEmpty()) {
+                ps.setString(paramIndex++, "%" + nameSearch + "%");
+            }
+            if (!emailSearch.isEmpty()) {
+                ps.setString(paramIndex++, "%" + emailSearch + "%");
+            }
+            if (roleFilter != null && !roleFilter.equals("All")) {
+                ps.setString(paramIndex++, roleFilter.toLowerCase());
+            }
+
+            // Execute query
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user u = createUserFromResultSet(rs);
+                userList.add(u);
+            }
+        }
+        return userList;
+    }*/
+
+    public List<evenement> searchByTitre(String titre) throws SQLException {
+        List<evenement> events = new ArrayList<>();
+        String query = "SELECT * FROM evenement WHERE titre LIKE ?";
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setString(1, "%" + titre + "%");
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                evenement event = new evenement(
+                        rs.getString("titre"),
+                        rs.getString("description"),
+                        rs.getString("contact"),
+                        rs.getString("localisation"),
+                        LocalDate.parse(rs.getString("date_d"), dbDateFormatter),
+                        rs.getInt("recomponse")
+                );
+                event.setId(rs.getInt("id"));
+                events.add(event);
+            }
+        }
+        return events;
+    }
+
+    public List<evenement> getAllEvenementsSortedByDate(boolean ascending) throws SQLException {
+        List<evenement> events = new ArrayList<>();
+        String query = "SELECT * FROM evenement ORDER BY date_d " + (ascending ? "ASC" : "DESC");
+
+        try (Statement st = connection.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+            while (rs.next()) {
+                evenement event = new evenement(
+                        rs.getString("titre"),
+                        rs.getString("description"),
+                        rs.getString("contact"),
+                        rs.getString("localisation"),
+                        LocalDate.parse(rs.getString("date_d"), dbDateFormatter),
+                        rs.getInt("recomponse")
+                );
+                event.setId(rs.getInt("id"));
+                events.add(event);
+            }
+        }
+        return events;
+    }
 }

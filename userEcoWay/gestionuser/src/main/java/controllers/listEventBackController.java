@@ -21,6 +21,7 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,62 @@ public class listEventBackController {
     @FXML private TableColumn<evenement, Integer> recomponseCol;
     @FXML private TableColumn<evenement, Void> actionCol;
     @FXML private Button closeButton;
+    @FXML private TextField searchField;
+    @FXML private Button sortDateAscBtn;
+    @FXML private Button sortDateDescBtn;
+
+    @FXML
+    public void initialize() {
+        try {
+            // Configuration des colonnes
+            idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+            titreCol.setCellValueFactory(new PropertyValueFactory<>("titre"));
+            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
+            localisationCol.setCellValueFactory(new PropertyValueFactory<>("localisation"));
+            date_dCol.setCellValueFactory(new PropertyValueFactory<>("date_d"));
+            recomponseCol.setCellValueFactory(new PropertyValueFactory<>("recomponse"));
+
+            // Configuration de la recherche
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                handleSearch();
+            });
+
+            // Configuration des boutons de tri
+            sortDateAscBtn.setOnAction(e -> sortByDateAscending());
+            sortDateDescBtn.setOnAction(e -> sortByDateDescending());
+
+            // Configuration du tri sur la colonne date
+            /*date_dCol.setSortable(true);
+            date_dCol.setComparator(LocalDate::compareTo);*/
+
+            // Chargement des données
+            refreshEventTable();
+
+            // Configuration des boutons d'action
+            setupActionColumns();
+
+        } catch (Exception e) {
+            showAlert("Erreur", "Erreur d'initialisation: " + e.getMessage(), AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void sortByDateAscending() {
+        evenementTable.getSortOrder().clear();
+        date_dCol.setSortType(TableColumn.SortType.ASCENDING);
+        evenementTable.getSortOrder().add(date_dCol);
+        evenementTable.sort();
+    }
+
+    @FXML
+    private void sortByDateDescending() {
+        evenementTable.getSortOrder().clear();
+        date_dCol.setSortType(TableColumn.SortType.DESCENDING);
+        evenementTable.getSortOrder().add(date_dCol);
+        evenementTable.sort();
+    }
 
     @FXML
     void closeApp() {
@@ -159,29 +216,8 @@ public class listEventBackController {
         }
     }
 
-    @FXML
-    public void initialize() {
-        try {
-            // Configuration des colonnes
-            idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-            titreCol.setCellValueFactory(new PropertyValueFactory<>("titre"));
-            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-            contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
-            localisationCol.setCellValueFactory(new PropertyValueFactory<>("localisation"));
-            date_dCol.setCellValueFactory(new PropertyValueFactory<>("date_d"));
-            recomponseCol.setCellValueFactory(new PropertyValueFactory<>("recomponse"));
 
-            // Chargement des données
-            refreshEventTable();
 
-            // Configuration des boutons d'action
-            setupActionColumns();
-
-        } catch (Exception e) {
-            showAlert("Erreur", "Erreur d'initialisation: " + e.getMessage(), AlertType.ERROR);
-            e.printStackTrace();
-        }
-    }
 
     private void setupActionColumns() {
         actionCol.setCellFactory(param -> new TableCell<>() {
@@ -279,4 +315,56 @@ public class listEventBackController {
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
     }
+
+    //rechercher :
+
+    // Ajoutez cette méthode pour gérer la recherche
+    @FXML
+    private void handleSearch() {
+        String searchText = searchField.getText().trim();
+        try {
+            evenementService eventService = new evenementService();
+            List<evenement> events;
+
+            if (searchText.isEmpty()) {
+                events = eventService.getAllevenement();
+            } else {
+                events = eventService.searchByTitre(searchText);
+            }
+
+            ObservableList<evenement> observableList = FXCollections.observableArrayList(events);
+            evenementTable.setItems(observableList);
+        } catch (SQLException e) {
+            showAlert("Erreur", "Erreur lors de la recherche: " + e.getMessage(), AlertType.ERROR);
+        }
+    }
+
+
+    private void setupSearchListener() {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                refreshSearchResults();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showAlert("Erreur", "Erreur lors de la recherche", AlertType.ERROR);
+            }
+        });
+    }
+
+    private void refreshSearchResults() throws SQLException {
+        String searchText = searchField.getText().trim();
+        evenementService eventService = new evenementService();
+        List<evenement> events;
+
+        if (searchText.isEmpty()) {
+            events = eventService.getAllevenement();
+        } else {
+            events = eventService.searchByTitre(searchText);
+        }
+
+        ObservableList<evenement> observableList = FXCollections.observableArrayList(events);
+        evenementTable.setItems(observableList);
+        evenementTable.refresh(); // Ajout important pour forcer le rafraîchissement
+    }
+    //tri
 }
