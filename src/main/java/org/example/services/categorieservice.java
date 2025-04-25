@@ -87,17 +87,25 @@ public class categorieservice implements Icategorie<categorie> {
 
     // DELETE
     @Override
-    public void deletecategorie(categorie c) {
+    public void deletecategorie(int id) {
         String query = "DELETE FROM categorie WHERE id=?";
         try (PreparedStatement st = con.prepareStatement(query)) {
-            st.setInt(1, c.getId());
+            st.setInt(1, id);
             st.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Erreur lors de la suppression de la catégorie : " + e.getMessage());
             throw new RuntimeException("Échec de la suppression de la catégorie", e);
         }
     }
-
+    // Méthode pour récupérer une catégorie par son nom
+    public categorie getCategorieByName(String name) {
+      for (categorie cat : getAll()) {
+            if (cat.getNom().equalsIgnoreCase(name)) {
+                return cat;
+            }
+        }
+        return null; // Si la catégorie n'est pas trouvée
+    }
     // Méthode utilitaire pour extraire une catégorie d'un ResultSet
     private categorie extractCategorieFromResultSet(ResultSet rs) throws SQLException {
         categorie c = new categorie();
@@ -106,4 +114,22 @@ public class categorieservice implements Icategorie<categorie> {
         c.setDescription(rs.getString("description"));
         return c;
     }
+    public categorie getCategorieById(int id) {
+        categorie c = null;
+        try {
+            String req = "SELECT * FROM categorie WHERE id = ?";
+            PreparedStatement ps = con.prepareStatement(req);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                c = new categorie();
+                c.setId(rs.getInt("id"));
+                c.setNom(rs.getString("nom"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return c;
+    }
+
 }

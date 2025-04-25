@@ -9,35 +9,37 @@ public class produit {
     private String qualite;
     private int quantite_disponible;
     private double prix;
-    private LocalDateTime dateAjout;
+    private LocalDateTime date_ajout;
     private String image;
-    private int categorieId; // Ajout du champ pour la catégorie
+    private int catégorie_id ; // Ajout du champ pour la catégorie
 
     // Constructeur sans ID (ex: pour insertion)
-    public produit(String nom, String description, String qualite, int quantiteDisponible,
-                   double prix, LocalDateTime dateAjout, String image, int categorieId) {
+    public produit(int catégorie_id,String nom, String description, String qualite, int quantiteDisponible,
+                   double prix, LocalDateTime dateAjout, String image) {
+        this.catégorie_id  = catégorie_id;
         this.nom = nom;
         this.description = description;
         this.qualite = qualite;
         this.quantite_disponible = quantiteDisponible;
         this.prix = prix;
-        this.dateAjout = dateAjout;
+        this.date_ajout = dateAjout;
         this.image = image;
-        this.categorieId = categorieId;
+
     }
 
     // Constructeur avec ID
-    public produit(int id, String nom, String description, String qualite, int quantiteDisponible,
-                   double prix, LocalDateTime dateAjout, String image, int categorieId) {
+    public produit(int id,int catégorie_id, String nom, String description, String qualite, int quantiteDisponible,
+                   double prix, LocalDateTime dateAjout, String image ) {
         this.id = id;
+        this.catégorie_id  = catégorie_id;
         this.nom = nom;
         this.description = description;
         this.qualite = qualite;
         this.quantite_disponible = quantiteDisponible;
         this.prix = prix;
-        this.dateAjout = dateAjout;
+        this.date_ajout = dateAjout;
         this.image = image;
-        this.categorieId = categorieId;
+
     }
 
     public produit() {
@@ -94,11 +96,11 @@ public class produit {
     }
 
     public LocalDateTime getDateAjout() {
-        return dateAjout;
+        return date_ajout;
     }
 
     public void setDateAjout(LocalDateTime dateAjout) {
-        this.dateAjout = dateAjout;
+        this.date_ajout = dateAjout;
     }
 
     public String getImage() {
@@ -109,11 +111,12 @@ public class produit {
         this.image = image;
     }
 
-    public int getCategorieId() {
-        return categorieId;
+    public void setCategorieId(int catégorie_id) {
+        this.catégorie_id  = catégorie_id;
     }
 
-    public void setCategorieId(int categorieId) {
-        this.categorieId = categorieId;
+    public int getCategorieId() {
+        return catégorie_id ;
     }
+
 }

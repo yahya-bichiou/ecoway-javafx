@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class  MaConnexion {
-    private final String URL = "jdbc:mysql://localhost:3306/pijava";
+    private final String URL = "jdbc:mysql://localhost:3306/projetecoway";
     private final String username = "root";
     private final String password = "";
 
