@@ -167,4 +167,14 @@ public class produitservice implements Iproduit<produit> {
             System.out.println("Erreur lors de la suppression du produit : " + e.getMessage());
         }
     }
+    public void incrementLike(produit produit) {
+        String query = "UPDATE produit SET likes = likes + 1 WHERE id = ?";
+        try (PreparedStatement st = con.prepareStatement(query)) {
+            st.setInt(1, produit.getId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de l'incrémentation du like : " + e.getMessage());
+        }
+    }
+
 }
