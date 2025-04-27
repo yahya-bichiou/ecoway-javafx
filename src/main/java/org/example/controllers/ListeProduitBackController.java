@@ -1,7 +1,6 @@
 package org.example.controllers;
 
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,7 +31,6 @@ import java.util.Optional;
 public class ListeProduitBackController {
     @FXML
     private TableView<produit> produitTableView;
-
     @FXML
     private TableColumn<produit, Integer> idCol;
     @FXML
@@ -51,14 +49,12 @@ public class ListeProduitBackController {
     private TableColumn<produit, String> imageCol;
     @FXML
     private TableColumn<produit, Integer> categorieCol;
-
     @FXML
     private TableColumn<produit, Void> actionCol;
 
-    // categorie
+    // Catégorie
     @FXML
     private TableView<categorie> categorieTableView;
-
     @FXML
     private TableColumn<categorie, Integer> IdCol;
     @FXML
@@ -70,6 +66,10 @@ public class ListeProduitBackController {
     @FXML
     private Button closeButton;
 
+    // ObservableLists pour le data binding
+    private ObservableList<produit> produitList = FXCollections.observableArrayList();
+    private ObservableList<categorie> categorieList = FXCollections.observableArrayList();
+
     @FXML
     void closeApp() {
         Platform.exit();
@@ -80,16 +80,17 @@ public class ListeProduitBackController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddproduitBack.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
             Stage stage = new Stage();
-            stage.setScene(scene);
+            stage.setScene(new Scene(root));
             stage.setTitle("Ajouter un produit");
+            stage.centerOnScreen();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
 
-            stage.centerOnScreen(); // ✅ Centre la fenêtre
-            stage.initModality(Modality.APPLICATION_MODAL); // Bloque interaction avec la fenêtre principale
-            stage.showAndWait(); // Attendre la fermeture de la fenêtre
-
+            // Rafraîchir après fermeture
+            refreshproduitTable();
         } catch (IOException e) {
+            showAlert("Erreur", "Erreur de chargement");
             e.printStackTrace();
         }
     }
@@ -99,101 +100,86 @@ public class ListeProduitBackController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddcategorieBack.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
             Stage stage = new Stage();
-            stage.setScene(scene);
+            stage.setScene(new Scene(root));
             stage.setTitle("Ajouter une catégorie");
+            stage.centerOnScreen();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
 
-            stage.centerOnScreen(); // ✅ Centre la fenêtre
-            stage.initModality(Modality.APPLICATION_MODAL); // Bloque interaction avec la fenêtre principale
-            stage.showAndWait(); // Attendre la fermeture de la fenêtre
-
+            // Rafraîchir après fermeture
+            refreshcategorieTable();
+            refreshproduitTable(); // Les produits peuvent dépendre des catégories
         } catch (IOException e) {
+            showAlert("Erreur", "Erreur de chargement");
             e.printStackTrace();
         }
     }
 
     @FXML
     public void initialize() {
+        // Lier les ObservableList aux TableView
+        produitTableView.setItems(produitList);
+        categorieTableView.setItems(categorieList);
 
-        System.out.println("Initializing table...");
+        // Configurer les colonnes produit
+        NomCol.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        DescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        QualiteCol.setCellValueFactory(new PropertyValueFactory<>("qualite"));
+        QuantiteCol.setCellValueFactory(new PropertyValueFactory<>("quantite_disponible"));
+        PrixCol.setCellValueFactory(new PropertyValueFactory<>("prix"));
 
-        try {
-            // Set up columns produit
-            NomCol.setCellValueFactory(new PropertyValueFactory<>("nom"));
-            DescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-            QualiteCol.setCellValueFactory(new PropertyValueFactory<>("qualite"));
-            QuantiteCol.setCellValueFactory(new PropertyValueFactory<>("quantite_disponible"));
-            PrixCol.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        DateAjoutCol.setCellValueFactory(new PropertyValueFactory<>("date_ajout"));
+        DateAjoutCol.setCellFactory(column -> new TableCell<produit, LocalDateTime>() {
+            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-            DateAjoutCol.setCellValueFactory(new PropertyValueFactory<>("date_ajout"));
-            DateAjoutCol.setCellFactory(column -> new TableCell<produit, LocalDateTime>() {
-                private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : formatter.format(item));
+            }
+        });
 
-                @Override
-                protected void updateItem(LocalDateTime item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setText(empty || item == null ? null : formatter.format(item));
-                }
-            });
+        imageCol.setCellValueFactory(new PropertyValueFactory<>("image"));
+        categorieCol.setCellValueFactory(new PropertyValueFactory<>("catégorie_id"));
 
+        // Configurer les colonnes catégorie
+        IdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nomCol.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-            imageCol.setCellValueFactory(new PropertyValueFactory<>("image"));
-            categorieCol.setCellValueFactory(new PropertyValueFactory<>("catégorie_id"));
+        // Configurer les colonnes d'actions
+        setupActionColumns();
 
-            // Set up columns categorie
-            IdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-            nomCol.setCellValueFactory(new PropertyValueFactory<>("nom"));
-            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-            // Setup action columns
-            setupActionColumns();
-
-            // Load data produit
-            refreshproduitTable();
-            System.out.println("produit table initialized successfully.");
-
-            // Load data categorie
-            refreshcategorieTable();
-            System.out.println("categorie table initialized successfully.");
-
-        } catch (Exception e) {
-            System.out.println("ERROR during table initialization: " + e.getMessage());
-            e.printStackTrace();
-        }
+        // Charger les données initiales
+        refreshproduitTable();
+        refreshcategorieTable();
     }
 
     private void refreshproduitTable() {
         try {
             produitservice prodService = new produitservice();
             List<produit> produits = prodService.getAll();
-
-            // Debug
-            System.out.println("[DEBUG] Produits chargés: " + produits.size());
-            produits.forEach(p -> System.out.println(
-                    p.getId() + " - " + p.getNom() +
-                            " - Cat: " + (p.getCategorieId() != 0 ? p.getCategorieId() : "null")));
-
-            ObservableList<produit> observableList = FXCollections.observableArrayList(produits);
-            produitTableView.setItems(observableList);
-
-            // Force le refresh de la table
-            produitTableView.refresh();
+            produitList.setAll(produits); // Mise à jour de l'ObservableList
         } catch (Exception e) {
-            System.err.println("Erreur lors du chargement des produits:");
+            showAlert("Erreur", "Erreur de chargement");
             e.printStackTrace();
         }
     }
 
     private void refreshcategorieTable() {
-        categorieservice catservice = new categorieservice();
-        List<categorie> categories = catservice.getAll();
-        ObservableList<categorie> observableList = FXCollections.observableArrayList(categories);
-        categorieTableView.setItems(observableList);
+        try {
+            categorieservice catservice = new categorieservice();
+            List<categorie> categories = catservice.getAll();
+            categorieList.setAll(categories); // Mise à jour de l'ObservableList
+        } catch (Exception e) {
+            showAlert("Erreur", "Erreur de chargement");
+            e.printStackTrace();
+        }
     }
 
     private void setupActionColumns() {
-        // Setup for produit table
+        // Configuration pour la table produit
         actionCol.setCellFactory(param -> new TableCell<>() {
             private final HBox buttons = new HBox(5);
             private final Button editBtn = new Button();
@@ -201,10 +187,9 @@ public class ListeProduitBackController {
             private final Button viewBtn = new Button();
 
             {
-                // Styling buttons
                 buttons.setAlignment(Pos.CENTER);
 
-                // Edit button setup
+                // Bouton Éditer
                 ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/edit.png")));
                 editIcon.setFitHeight(16);
                 editIcon.setFitWidth(16);
@@ -215,7 +200,7 @@ public class ListeProduitBackController {
                     editprod(prodData);
                 });
 
-                // Delete button setup
+                // Bouton Supprimer
                 ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/trash.png")));
                 deleteIcon.setFitHeight(16);
                 deleteIcon.setFitWidth(16);
@@ -226,11 +211,11 @@ public class ListeProduitBackController {
                     try {
                         deleteprod(prodData);
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        showAlert("Erreur", "Erreur de suppression");
                     }
                 });
 
-                // View button setup
+                // Bouton Voir
                 ImageView viewIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/eye.png")));
                 viewIcon.setFitHeight(16);
                 viewIcon.setFitWidth(16);
@@ -251,7 +236,7 @@ public class ListeProduitBackController {
             }
         });
 
-        // Setup for categorie table
+        // Configuration pour la table catégorie
         actionCol2.setCellFactory(param -> new TableCell<>() {
             private final HBox buttons = new HBox(5);
             private final Button editBtn = new Button();
@@ -259,44 +244,43 @@ public class ListeProduitBackController {
             private final Button viewBtn = new Button();
 
             {
-                // Styling buttons
                 buttons.setAlignment(Pos.CENTER);
 
-                // Edit button setup
+                // Bouton Éditer
                 ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/edit.png")));
                 editIcon.setFitHeight(16);
                 editIcon.setFitWidth(16);
                 editBtn.setGraphic(editIcon);
                 editBtn.setStyle("-fx-background-color: transparent;");
                 editBtn.setOnAction(event -> {
-                    categorie categorieData = getTableView().getItems().get(getIndex());
-                    editcat(categorieData);
+                    categorie catData = getTableView().getItems().get(getIndex());
+                    editcat(catData);
                 });
 
-                // Delete button setup
+                // Bouton Supprimer
                 ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/trash.png")));
                 deleteIcon.setFitHeight(16);
                 deleteIcon.setFitWidth(16);
                 deleteBtn.setGraphic(deleteIcon);
                 deleteBtn.setStyle("-fx-background-color: transparent;");
                 deleteBtn.setOnAction(event -> {
-                    categorie categorieData = getTableView().getItems().get(getIndex());
+                    categorie catData = getTableView().getItems().get(getIndex());
                     try {
-                        deletecat(categorieData);
+                        deletecat(catData);
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        showAlert("Erreur", "Erreur de suppression");
                     }
                 });
 
-                // View button setup
+                // Bouton Voir
                 ImageView viewIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/eye.png")));
                 viewIcon.setFitHeight(16);
                 viewIcon.setFitWidth(16);
                 viewBtn.setGraphic(viewIcon);
                 viewBtn.setStyle("-fx-background-color: transparent;");
                 viewBtn.setOnAction(event -> {
-                    categorie categorieData = getTableView().getItems().get(getIndex());
-                    viewDetailscat(categorieData);
+                    categorie catData = getTableView().getItems().get(getIndex());
+                    viewDetailscat(catData);
                 });
 
                 buttons.getChildren().addAll(viewBtn, editBtn, deleteBtn);
@@ -312,132 +296,132 @@ public class ListeProduitBackController {
 
     @FXML
     void viewDetailsprod(produit prod) {
-        if (prod != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/DetailprodBack.fxml"));
-                Parent root = loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DetailprodBack.fxml"));
+            Parent root = loader.load();
 
-                DetailleProduitController detailsController = loader.getController();
-                detailsController.initData(prod);
+            DetailleProduitController controller = loader.getController();
+            controller.initData(prod);
 
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Détails de produit");
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                showAlert("Erreur", "Impossible d'ouvrir les détails", e.getMessage());
-            }
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Détails du produit");
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Erreur", "Erreur de chargement");
+            e.printStackTrace();
         }
     }
 
     @FXML
     void viewDetailscat(categorie cat) {
-        if (cat != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/DetailcatBack.fxml"));
-                Parent root = loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DetailcatBack.fxml"));
+            Parent root = loader.load();
 
-                DetailleCategorieController detailsController = loader.getController();
-                detailsController.initData(cat);
+            DetailleCategorieController controller = loader.getController();
+            controller.initData(cat);
 
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Détails de categorie");
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                showAlert("Erreur", "Impossible d'ouvrir les détails", e.getMessage());
-            }
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Détails de la catégorie");
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Erreur", "Erreur de chargement");
+            e.printStackTrace();
         }
     }
 
     @FXML
     void deleteprod(produit prod) throws SQLException {
-        if (prod != null) {
-            if (showConfirmation("Confirmer la suppression",
-                    "Supprimer produit?",
-                    "Êtes-vous sûr de vouloir supprimer le produit '" + prod.getNom() + "' ?")) {
-                refreshproduitTable();
-                produitservice prodservice = new produitservice();
-                prodservice.deleteproduit(prod.getId());
+        if (prod != null && showConfirmation("Confirmation", "Supprimer le produit",
+                "Êtes-vous sûr de vouloir supprimer " + prod.getNom() + "?")) {
 
-                showAlert("Succès", "produit supprimé", "produit a été supprimé avec succès.");
-            }
+            produitservice service = new produitservice();
+            service.deleteproduit(prod.getId());
+
+            refreshproduitTable();
+            showAlert("Succès", "Produit supprimé");
         }
     }
 
     @FXML
     void deletecat(categorie cat) throws SQLException {
-        refreshproduitTable();
-        if (cat != null) {
-            if (showConfirmation("Confirmer la suppression",
-                    "Supprimer la catégorie",
-                    "Êtes-vous sûr de vouloir supprimer la catégorie '" + cat.getNom() + "' ?")) {
-                categorieservice catservice = new categorieservice();
-                catservice.deletecategorie(cat.getId());
-                showAlert("Succès", "categorie supprimé", "categorie a été supprimé avec succès.");
-            }
+        if (cat != null && showConfirmation("Confirmation", "Supprimer la catégorie",
+                "Êtes-vous sûr de vouloir supprimer " + cat.getNom() + "?")) {
+
+            categorieservice service = new categorieservice();
+            service.deletecategorie(cat.getId());
+
+            refreshcategorieTable();
+            refreshproduitTable(); // Rafraîchir aussi les produits
+            showAlert("Succès", "Catégorie supprimée");
         }
     }
 
     @FXML
     void editprod(produit prod) {
-        if (prod != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditProduitBack.fxml"));
-                Parent root = loader.load();
-
-                //EditProduitBackController editController = loader.getController();
-                // editController.setProduitData(prod);
-
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Modifier Participant");
-                stage.showAndWait();
-
-                refreshproduitTable();
-            } catch (IOException e) {
-                e.printStackTrace();
-                showAlert("Erreur", "Impossible d'ouvrir la fenêtre de modification", e.getMessage());
+        try {
+            // Vérification du produit
+            if (prod == null) {
+                showAlert("Erreur", "Aucun produit sélectionné");
+                return;
             }
-        } else {
-            showAlert("Aucune sélection", "Aucun participant sélectionné", "Veuillez sélectionner un participant à modifier.");
+
+            // Chargement du FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditProduitBack.fxml"));
+            Parent root = loader.load();
+
+            // Configuration du contrôleur
+            EditProduitBackController controller = loader.getController();
+            controller.setProduitData(prod);
+
+            // Création de la fenêtre
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier Produit - " + prod.getNom());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+            // Rafraîchissement après modification
+            refreshproduitTable();
+
+        } catch (IOException e) {
+            showAlert("Erreur Critique",
+                    "Impossible d'ouvrir l'éditeur\n" +
+                            "Cause: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-
+    
     @FXML
     void editcat(categorie cat) {
-        if (cat != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditCategorieBack.fxml"));
-                Parent root = loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditCategorieBack.fxml"));
+            Parent root = loader.load();
 
-                EditCategorieBackController editController = loader.getController();
-                editController.setCategorieData(cat);
+            EditCategorieBackController controller = loader.getController();
+            controller.setCategorieData(cat);
 
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Modifier Participant");
-                stage.showAndWait();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier catégorie");
+            stage.showAndWait();
 
-                refreshproduitTable();
-            } catch (IOException e) {
-                e.printStackTrace();
-                showAlert("Erreur", "Impossible d'ouvrir la fenêtre de modification", e.getMessage());
-            }
-        } else {
-            showAlert("Aucune sélection", "Aucun participant sélectionné", "Veuillez sélectionner un participant à modifier.");
+            refreshcategorieTable(); // Rafraîchir après modification
+            refreshproduitTable(); // Les produits peuvent dépendre des catégories
+        } catch (IOException e) {
+            showAlert("Erreur", "Erreur de chargement");
+            e.printStackTrace();
         }
     }
 
-    private void showAlert(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    private void showAlert(String title, String header) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(header);
-        alert.setContentText(content);
+        alert.setContentText(title);
         alert.showAndWait();
-
     }
 
     private boolean showConfirmation(String title, String header, String content) {

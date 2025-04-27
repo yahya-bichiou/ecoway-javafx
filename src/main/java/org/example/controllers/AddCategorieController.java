@@ -2,6 +2,7 @@ package org.example.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.example.models.categorie;
 import org.example.services.categorieservice;
 
@@ -36,26 +37,31 @@ public class AddCategorieController {
 
     @FXML
     private void handleAdd() {
-        if (validateFields()) {
-            categorie cat = new categorie(
-                    nomField.getText().trim(),
-                    descriptionField.getText().trim()
-            );
+        if (!validateFields()) return;  // Validation des champs
 
-            try {
-                service.addcategorie(cat);
-                clearFields();
-                showSuccessAlert("Catégorie ajoutée avec succès !");
-            } catch (Exception e) {
-                showAlert("Erreur SQL", e.getMessage());
-                e.printStackTrace();
-            }
+        // Création de la nouvelle catégorie
+        categorie cat = new categorie(
+                nomField.getText().trim(),
+                descriptionField.getText().trim()
+        );
+
+        try {
+            service.addcategorie(cat);
+            showSuccessAlert("Catégorie ajoutée avec succès !");
+
+            // Fermer la fenêtre après ajout réussi
+            ((Stage) nomField.getScene().getWindow()).close();
+
+        } catch (Exception e) {
+            showAlert("Erreur SQL", e.getMessage());
+            e.printStackTrace();
         }
     }
 
     @FXML
     private void handleClear() {
-        clearFields();
+        // Fermer directement la fenêtre sans sauvegarde
+        ((Stage) nomField.getScene().getWindow()).close();
     }
 
     private void fillFields(categorie c) {

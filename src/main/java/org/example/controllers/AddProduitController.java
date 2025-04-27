@@ -3,6 +3,7 @@ package org.example.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.example.models.categorie;
 import org.example.models.produit;
 import org.example.services.categorieservice;
@@ -11,11 +12,14 @@ import org.example.services.produitservice;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AddProduitController {
 
@@ -25,10 +29,15 @@ public class AddProduitController {
     @FXML private TextField quantiteTextField;
     @FXML private TextField prixTextField;
     @FXML private DatePicker dateAjoutDatePicker;
-    @FXML private TextField imageTextField;
     @FXML private ComboBox<categorie> categorieComboBox;
     @FXML private Button addButton;
 
+    // Nouveaux éléments pour la gestion multiple des images
+    @FXML private ListView<String> imagesListView;
+    @FXML private Button addImagesButton;
+    @FXML private Button removeImageButton;
+
+    private List<File> selectedImages = new ArrayList<>();
     private final produitservice produitService;
     private final categorieservice categorieService;
 
@@ -46,12 +55,75 @@ public class AddProduitController {
         } catch (Exception e) {
             showAlert("Erreur", "Impossible de charger les catégories : " + e.getMessage());
         }
+
+        // Configuration de la ListView pour afficher les noms des fichiers
+        imagesListView.setCellFactory(lv -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? null : new File(item).getName());
+            }
+        });
+    }
+
+    @FXML
+    private void handleAddImages() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir des images");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+
+        List<File> files = fileChooser.showOpenMultipleDialog(addImagesButton.getScene().getWindow());
+
+        if (files != null && !files.isEmpty()) {
+            selectedImages.addAll(files);
+            updateImagesListView();
+        }
+    }
+
+    @FXML
+    private void handleRemoveImage() {
+        int selectedIndex = imagesListView.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            selectedImages.remove(selectedIndex);
+            updateImagesListView();
+        } else {
+            showAlert("Aucune sélection", "Veuillez sélectionner une image à supprimer");
+        }
+    }
+
+    private void updateImagesListView() {
+        imagesListView.getItems().setAll(
+                selectedImages.stream()
+                        .map(File::getAbsolutePath)
+                        .collect(Collectors.toList())
+        );
     }
 
     @FXML
     private void handleAdd() {
         if (!validateFields()) return;
 
+        // Copie des images dans le dossier de destination
+        List<String> savedImagePaths = new ArrayList<>();
+        String destDirectory = "src/main/resources/images/";
+
+        try {
+            Files.createDirectories(Paths.get(destDirectory));
+
+            for (File imageFile : selectedImages) {
+                String fileName = System.currentTimeMillis() + "_" + imageFile.getName();
+                Path destPath = Paths.get(destDirectory + fileName);
+                Files.copy(imageFile.toPath(), destPath, StandardCopyOption.REPLACE_EXISTING);
+                savedImagePaths.add(fileName);
+            }
+        } catch (IOException e) {
+            showAlert("Erreur", "Erreur lors de la copie des images : " + e.getMessage());
+            return;
+        }
+
+        // Création du produit
         produit prod = new produit(
                 categorieComboBox.getValue().getId(),
                 nomTextField.getText().trim(),
@@ -60,47 +132,24 @@ public class AddProduitController {
                 Integer.parseInt(quantiteTextField.getText().trim()),
                 Double.parseDouble(prixTextField.getText().trim()),
                 dateAjoutDatePicker.getValue().atStartOfDay(),
-                imageTextField.getText().trim()
+                String.join("|", savedImagePaths)
         );
 
         try {
             produitService.addproduit(prod);
-            clearFields();
-            showSuccessAlert("Produit ajouté avec succès !");
+            showSuccessAlert("Produit ajouté avec succès avec " + savedImagePaths.size() + " image(s) !");
+
+            // Fermer la fenêtre après l'ajout réussi
+            ((Stage) addButton.getScene().getWindow()).close();
         } catch (Exception e) {
             showAlert("Erreur SQL", e.getMessage());
         }
     }
 
     @FXML
-    private void choisirImageAction() {
-        // Ouvrir la boîte de dialogue pour choisir l'image
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choisir une image");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif")
-        );
-        File file = fileChooser.showOpenDialog(null);
-
-        if (file != null) {
-            // Copie l'image dans un dossier spécifique du projet
-            String destinationPath = "src/main/resources/images/" + file.getName(); // Spécifiez le chemin du dossier d'images
-            File destinationFile = new File(destinationPath);
-
-            try {
-                // Copie le fichier image dans le répertoire des images
-                Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                imageTextField.setText(file.getName()); // Enregistre seulement le nom de l'image dans le TextField
-            } catch (IOException e) {
-                showAlert("Erreur", "Erreur lors de la copie de l'image : " + e.getMessage());
-            }
-        }
-    }
-
-
-    @FXML
     private void handleClear() {
-        clearFields();
+        // Fermer la fenêtre lorsqu'on clique sur Annuler
+        ((Stage) nomTextField.getScene().getWindow()).close();
     }
 
     private void clearFields() {
@@ -111,8 +160,8 @@ public class AddProduitController {
         quantiteTextField.clear();
         prixTextField.clear();
         dateAjoutDatePicker.setValue(null);
-        imageTextField.clear();
-
+        selectedImages.clear();
+        imagesListView.getItems().clear();
     }
 
     private boolean validateFields() {
@@ -123,6 +172,7 @@ public class AddProduitController {
         if (qualiteComboBox.getValue() == null) errors.append("- La qualité est requise.\n");
         if (categorieComboBox.getValue() == null) errors.append("- La catégorie est requise.\n");
         if (dateAjoutDatePicker.getValue() == null) errors.append("- La date d'ajout est requise.\n");
+        if (selectedImages.isEmpty()) errors.append("- Au moins une image est requise.\n");
 
         try {
             Integer.parseInt(quantiteTextField.getText().trim());
