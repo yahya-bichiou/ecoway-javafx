@@ -79,22 +79,8 @@ public class AddLivraison {
         }
 
         String mode = modeTextField.getText();
-        float prix=0;
-        int commande_id=0;
-
-        if (commande != null) {
-            prix = commande.getPrix();
-            commande_id = commande.getId();
-        }
-        if (mode.equalsIgnoreCase("Normal")) {
-            prix += 10;
-        } else if (mode.equalsIgnoreCase("Express")) {
-            prix += 20;
-        } else if (mode.equalsIgnoreCase("Same Day")) {
-            prix += 50;
-        }
         Livraisons l = new Livraisons(livreurTextField.getText(), adresseTextField.getText(), statusTextField.getText(), mode,
-                prix, dateDatePicker.getValue(), commande_id);
+                commande.getPrix(), dateDatePicker.getValue(), commande.getId());
         LivraisonService ls = new LivraisonService();
         ls.add(l);
 
