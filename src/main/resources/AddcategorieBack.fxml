@@ -40,7 +40,7 @@
             <!-- Boutons -->
             <HBox spacing="10" alignment="CENTER">
                 <Button text="Ajouter" fx:id="addButton" onAction="#handleAdd" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-                <Button text="Effacer" onAction="#handleClear" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                <Button text="Annuler" onAction="#handleClear" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
             </HBox>
         </VBox>
     </center>

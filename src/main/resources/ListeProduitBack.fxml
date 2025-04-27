@@ -164,7 +164,7 @@
                                         </TableColumn>
                                         <TableColumn fx:id="categorieCol" prefWidth="100" text="Catégorie">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="idcategorie"/>
+                                                <PropertyValueFactory property="catégorie_id"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="actionCol" prefWidth="150" text="Actions">

@@ -50,18 +50,25 @@
                     <DatePicker fx:id="dateAjoutDatePicker" promptText="jj/MM/aaaa"
                                 GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
-                    <Label text="Image :" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                    <HBox spacing="5" alignment="CENTER_LEFT" GridPane.rowIndex="6" GridPane.columnIndex="1">
-                        <TextField fx:id="imageTextField" promptText="Chemin de l'image"
-                                   prefWidth="220" editable="false"/>
-                        <Button text="Choisir" onAction="#choisirImageAction"/>
-                    </HBox>
+                    <!-- Nouvelle section pour les images multiples -->
+                    <Label text="Images :" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                    <VBox spacing="5" GridPane.rowIndex="6" GridPane.columnIndex="1">
+                        <ListView fx:id="imagesListView" prefHeight="100">
+                            <placeholder>
+                                <Label text="Aucune image sélectionnée"/>
+                            </placeholder>
+                        </ListView>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button text="Ajouter image(s)" fx:id="addImagesButton" onAction="#handleAddImages"
+                                    style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                            <Button text="Supprimer" fx:id="removeImageButton" onAction="#handleRemoveImage"
+                                    style="-fx-background-color: #ff9800; -fx-text-fill: white;"/>
+                        </HBox>
+                    </VBox>
+
                     <Label text="Catégorie :" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
                     <ComboBox fx:id="categorieComboBox" promptText="Choisir une catégorie" prefWidth="300"
                               GridPane.rowIndex="7" GridPane.columnIndex="1"/>
-
-
-
                 </GridPane>
 
                 <!-- Boutons -->
