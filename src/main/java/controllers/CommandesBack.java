@@ -20,11 +20,19 @@ import models.Commandes;
 import models.Livraisons;
 import services.CommandeService;
 import services.LivraisonService;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
+import java.util.*;
+import java.util.stream.Collectors;
+
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandesBack {
 
@@ -212,6 +220,8 @@ public class CommandesBack {
 
             System.out.println("Table initialized successfully.");
 
+            statsLivraison();
+
         } catch (Exception e) {
             System.out.println("ERROR during table initialization: " + e.getMessage());
             e.printStackTrace();
@@ -251,4 +261,58 @@ public class CommandesBack {
             System.out.println("Please select a commande to mark as 'en livraison'.");
         }
     }
+
+    public void statsLivraison() {
+        CommandeService cs = new CommandeService();
+        List<Commandes> commandes = cs.getAll();
+        LivraisonService ls = new LivraisonService();
+        List<Livraisons> livraisons = ls.getAll();
+
+        Map<String, List<Long>> deliveryTypeDelaysMap = new HashMap<>();
+        Map<String, Long> expectedDeliveryTimes = new HashMap<>();
+
+        // Define expected delivery times for each type
+        expectedDeliveryTimes.put("Normal", 5L);    // 5 days
+        expectedDeliveryTimes.put("Express", 3L);   // 3 days
+        expectedDeliveryTimes.put("Same Day", 0L);  // Same day
+
+        // Iterate through commandes and livraisons
+        for (Commandes commande : commandes) {
+            for (Livraisons livraison : livraisons) {
+                if (commande.getDate() != null && livraison.getDate() != null && livraison.getCommande_id() == commande.getId()) {
+                    // Calculate the days difference between reception and delivery
+                    Duration duration = Duration.between(commande.getDate().atStartOfDay(), livraison.getDate().atStartOfDay());
+                    long actualDays = duration.toDays();
+
+                    // Determine the delivery type
+                    String deliveryType = livraison.getMode();
+                    long expectedDays = expectedDeliveryTimes.getOrDefault(deliveryType, 0L);
+
+                    // Calculate the delay (if any)
+                    long delay = actualDays > expectedDays ? actualDays - expectedDays : 0;
+
+                    // Store the delay for each delivery type
+                    if (delay > 0) {
+                        deliveryTypeDelaysMap.computeIfAbsent(deliveryType, k -> new ArrayList<>()).add(delay);
+                    }
+                }
+            }
+        }
+
+        // Calculate the average delay for each delivery type
+        Map<String, Double> averageDelays = new HashMap<>();
+        for (Map.Entry<String, List<Long>> entry : deliveryTypeDelaysMap.entrySet()) {
+            String deliveryType = entry.getKey();
+            List<Long> delays = entry.getValue();
+            double averageDelay = delays.stream().mapToLong(Long::longValue).average().orElse(0);
+            averageDelays.put(deliveryType, averageDelay);
+        }
+
+        // Display the average delay for each type
+        averageDelays.forEach((type, avgDelay) -> {
+            System.out.println(type + " Delivery Average Delay: " + avgDelay + " days");
+        });
+    }
+
+
 }

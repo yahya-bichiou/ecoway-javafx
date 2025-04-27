@@ -5,6 +5,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 import models.Commandes;
 import services.CommandeService;
+import services.StripeService;
+import services.StripeSessionResponse;
+import java.net.URI;
+import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ConfirmPayment {
 
@@ -15,6 +21,7 @@ public class ConfirmPayment {
     private CommandeService commandeService = new CommandeService();
     private float price;
     private boolean paymentConfirmed = false;
+    private String paymentSessionId;
 
     @FXML
     public void closeApp() {
@@ -41,8 +48,7 @@ public class ConfirmPayment {
         commande.setPrix(price);
         commande.setMode_paiement(paymentMode);
 
-        if (paymentMode.equalsIgnoreCase("Cash (On Delivery)")) {
-            // 🛒 Cash: Just confirm and close
+        if (paymentMode.equalsIgnoreCase("Cash")) {
             commande.setStatus("confirmée");
             try {
                 commandeService.update(commande);
@@ -56,22 +62,48 @@ public class ConfirmPayment {
             }
 
         } else if (paymentMode.equalsIgnoreCase("Card")) {
-            // 💳 Card: Call Stripe Payment
             try {
-
-
-                // After payment is successful (for now simulate as success)
-                commande.setStatus("payée"); // You can mark it "payée" after payment
-                commandeService.update(commande);
-                System.out.println("Commande confirmed successfully (Card)!");
+                StripeService stripeService = new StripeService();
+                long finalPrice = (long) (price * 100);
+                StripeSessionResponse sessionResponse = stripeService.createCheckoutSession(finalPrice);
+                Desktop.getDesktop().browse(new URI(sessionResponse.getUrl()));
+                startPaymentStatusCheck(sessionResponse.getSessionId());
                 paymentConfirmed = true;
-                ExportPDF.generateFacture(commande, "facture_" + commande.getId() + ".pdf");
                 closeApp();
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Stripe Payment Failed.");
             }
         }
+    }
+
+    public void startPaymentStatusCheck(String sessionId) {
+        Timer timer = new Timer();
+        StripeService stripeService = new StripeService();
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    boolean paid = stripeService.isSessionPaid(sessionId);
+                    if (paid) {
+                        System.out.println("✅ Payment successful!");
+                        commande.setStatus("payée");
+                        commande.setPrix(price);
+                        commande.setMode_paiement("Card");
+                        commandeService.update(commande);
+                        paymentConfirmed = true;
+                        ExportPDF.generateFacture(commande, "facture_" + commande.getId() + ".pdf");
+                        timer.cancel();
+                    } else {
+                        System.out.println("⏳ Payment not completed yet...");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    timer.cancel();
+                }
+            }
+        }, 0, 2000); // Delay 0ms, repeat every 2000ms (2 seconds)
     }
 
 
