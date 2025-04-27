@@ -103,11 +103,6 @@
                               <TableColumn fx:id="produitsCol" prefWidth="400" text="PRODUITS" />
                            </columns>
                         </TableView>
-                        <Button alignment="CENTER" layoutX="845.0" layoutY="29.0" mnemonicParsing="false" onAction="#addCommande" prefHeight="43.0" prefWidth="181.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Ajouter Commande" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Button>
                         <Button alignment="CENTER" layoutX="924.0" layoutY="540.0" mnemonicParsing="false" onAction="#deleteCommande" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Delete" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                            <font>
                               <Font size="16.0" />

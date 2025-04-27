@@ -76,4 +76,12 @@ public class ProduitPanel {
         });
     }
 
+    private Runnable deleteHandler;
+
+    public void setDeleteHandler(Runnable onDelete) {
+        delete.setOnAction(e -> {
+            if (onDelete != null) onDelete.run();
+        });
+    }
+
 }

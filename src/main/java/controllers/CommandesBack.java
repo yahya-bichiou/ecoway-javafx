@@ -69,30 +69,6 @@ public class CommandesBack {
         Platform.exit();
     }
 
-    @FXML
-    void addCommande() {
-        backgroundPane.setVisible(true);
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddCommande.fxml"));
-            Parent root = loader.load();
-            Stage newStage = new Stage();
-            newStage.setTitle("Ajouter Commande");
-            newStage.setScene(new Scene(root));
-            newStage.initOwner(closeButton.getScene().getWindow());
-            newStage.initModality(Modality.APPLICATION_MODAL);
-            newStage.initStyle(StageStyle.UNDECORATED);
-            newStage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        CommandeService cs = new CommandeService();
-        List<Commandes> commandes = cs.getAll();
-        ObservableList<Commandes> observableList2 = FXCollections.observableArrayList(commandes);
-        commandeTableView.setItems(observableList2);
-        commandeTableView.refresh();
-        backgroundPane.setVisible(false);
-    }
 
     @FXML
     void deleteCommande() {
@@ -141,7 +117,7 @@ public class CommandesBack {
                 EditCommande editController = loader.getController();
                 editController.setCommande(selectedCommande);
                 Stage newStage = new Stage();
-                newStage.setTitle("Ajouter Commande");
+                newStage.setTitle("Modifier Commande");
                 newStage.setScene(new Scene(root));
                 newStage.initOwner(closeButton.getScene().getWindow());
                 newStage.initModality(Modality.APPLICATION_MODAL);
