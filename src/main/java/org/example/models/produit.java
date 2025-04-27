@@ -1,6 +1,8 @@
 package org.example.models;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 public class produit {
     private int id;
@@ -103,14 +105,33 @@ public class produit {
         this.date_ajout = dateAjout;
     }
 
+
+    // Méthodes pour gérer les images multiples
     public String getImage() {
-        return image;
+        return image != null ? image : "";
     }
 
     public void setImage(String image) {
         this.image = image;
     }
 
+    public List<String> getAllImages() {
+        if (image == null || image.isEmpty()) {
+            return Arrays.asList();
+        }
+        return Arrays.asList(image.split("\\|"));
+    }
+
+    public String getMainImage() {
+        if (image == null || image.isEmpty()) {
+            return "";
+        }
+        return image.split("\\|")[0];
+    }
+
+    public void setImagePaths(List<String> paths) {
+        this.image = String.join("|", paths);
+    }
     public void setCategorieId(int catégorie_id) {
         this.catégorie_id  = catégorie_id;
     }
