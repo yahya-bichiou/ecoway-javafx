@@ -7,12 +7,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import models.Collectes;
 import models.Depots;
 import services.CollectesServices;
 import services.DepotsServices;
+import services.MailSender;
+
+import java.util.List;
 
 public class ShowFront {
 
@@ -36,33 +40,23 @@ public class ShowFront {
     public Label error;
     @FXML
     public WebView mapView;
+    @FXML
+    public Label notif;
+    @FXML
+    public Pane notifBar;
 
     private Depots depot;
+    int reste;
 
 
     private int depot_id;
 
     public void setDepot_id(int id) {
         this.depot_id = id;
-        init();
         System.out.println("Received depot ID: " + depot_id);
-
-        try {
-            DepotsServices ds = new DepotsServices();
-            Depots depot = ds.getDepotById(depot_id);
-
-            if (depot != null) {
-                image.setImage(new Image(depot.getImage(), true));
-                name.setText(depot.getNom());
-                adresse.setText(depot.getAdresse());
-                capacite.setText(String.valueOf(depot.getCapacite()));
-            } else {
-                System.out.println("Depot not found!");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        DepotsServices ds = new DepotsServices();
+        depot = ds.getDepotById(depot_id);
+        init();
     }
 
     @FXML
@@ -95,14 +89,34 @@ public class ShowFront {
             collecte.setQuantite(quantite);
             collecte.setResponsable(responsable);
             collecte.setDate(date.getValue());
-
             CollectesServices cs = new CollectesServices();
-            cs.add(collecte);
-
-            error.setText("Collecte ajoutée avec succès !");
-            quantiteTextField.clear();
-            responsableTextField.clear();
-            date.setValue(null);
+            if(collecte.getQuantite()<=reste) {
+                notif.setText("collecte ajoutée avec succés");
+                notif.setStyle("-fx-text-fill: green;");
+                notifBar.setVisible(true);
+                javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(5));
+                pause.setOnFinished(event -> notifBar.setVisible(false));
+                pause.play();
+                cs.add(collecte);
+                //mail
+                reste -= collecte.getQuantite();
+                System.out.println(reste);
+                if (reste <= 0) {
+                    MailSender mailSender = new MailSender();
+                    mailSender.sendMail("yahyabichiou2003@gmail.com", depot.getId());
+                }
+                quantiteTextField.clear();
+                responsableTextField.clear();
+                date.setValue(null);
+            }
+            else {
+                notif.setStyle("-fx-text-fill: red;");
+                notif.setText("Le depot est plein");
+                notifBar.setVisible(true);
+                javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(5));
+                pause.setOnFinished(event -> notifBar.setVisible(false));
+                pause.play();
+            }
 
         } catch (NumberFormatException e) {
             error.setText("La quantité doit être un nombre valide !");
@@ -113,13 +127,35 @@ public class ShowFront {
     }
 
     public void init() {
-        DepotsServices ds = new DepotsServices();
-        depot = ds.getDepotById(6);
-
         if (depot == null || depot.getAdresse() == null) {
             System.out.println("No depot or adresse provided");
             return;
         }
+
+        try {
+            reste = depot.getCapacite();
+            CollectesServices cs = new CollectesServices();
+            List<Collectes> collecteList2 = cs.select();
+            for (Collectes collecte : collecteList2) {
+                if (collecte.getDepot_id() == depot.getId()) {
+                    reste -= collecte.getQuantite();
+                }
+            }
+
+            if (depot != null) {
+                image.setImage(new Image(depot.getImage(), true));
+                name.setText(depot.getNom());
+                adresse.setText(depot.getAdresse());
+                capacite.setText(String.valueOf(depot.getCapacite()));
+            } else {
+                System.out.println("Depot not found!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        notifBar.setVisible(false);
 
         // Split the address
         String adresse = depot.getAdresse(); // Example: "10.1815,36.8065"

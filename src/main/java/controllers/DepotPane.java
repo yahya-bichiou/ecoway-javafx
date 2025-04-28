@@ -43,12 +43,11 @@ public class DepotPane {
                 ShowFront controller = loader.getController();
                 controller.setDepot_id(currentDepot.getId());
 
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Depot Details");
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) show.getScene().getWindow();
+                stage.setScene(scene);
                 stage.setFullScreen(true);
                 stage.show();
-
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -82,19 +82,28 @@
             </Label>
             <TextField fx:id="quantiteTextField" layoutX="562.0" layoutY="106.0" promptText="quantité" />
             <TextField fx:id="responsableTextField" layoutX="562.0" layoutY="189.0" promptText="responsable" />
-            <Button fx:id="save" layoutX="609.0" layoutY="233.0" mnemonicParsing="false" onAction="#createCollecte" style="-fx-background-color: white; -fx-border-color: #1e8c00; -fx-background-radius: 5; -fx-border-radius: 5;" text="save" textFill="#1e8c00" />
+            <Button fx:id="save" layoutX="609.0" layoutY="244.0" mnemonicParsing="false" onAction="#createCollecte" style="-fx-background-color: white; -fx-border-color: #1e8c00; -fx-background-radius: 5; -fx-border-radius: 5;" text="save" textFill="#1e8c00" />
             <DatePicker fx:id="date" layoutX="562.0" layoutY="148.0" prefHeight="26.0" prefWidth="150.0" />
             <Label layoutX="531.0" layoutY="45.0" text="Ajouter une collecte">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="error" alignment="CENTER" contentDisplay="CENTER" layoutX="121.0" layoutY="394.0" prefHeight="16.0" prefWidth="243.0" textAlignment="CENTER" textFill="RED">
+            <Label fx:id="error" alignment="CENTER" contentDisplay="CENTER" layoutX="508.0" layoutY="221.0" prefHeight="16.0" prefWidth="243.0" textAlignment="CENTER" textFill="RED">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
             <WebView fx:id="mapView" layoutX="45.0" layoutY="334.0" prefHeight="277.0" prefWidth="710.0" />
+         </children>
+      </Pane>
+      <Pane fx:id="notifBar" layoutY="835.0" prefHeight="30.0" prefWidth="1536.0" style="-fx-background-color: white; -fx-opacity: 50;">
+         <children>
+            <Label fx:id="notif" alignment="CENTER" contentDisplay="CENTER" layoutX="372.0" layoutY="4.0" prefHeight="16.0" prefWidth="792.0" text="" textFill="#ff000080">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

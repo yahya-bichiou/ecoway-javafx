@@ -1,5 +1,6 @@
 package controllers;
 
+import jakarta.mail.MessagingException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +17,7 @@ import models.Collectes;
 import models.Depots;
 import services.CollectesServices;
 import services.DepotsServices;
+import services.MailSender;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -158,8 +160,27 @@ public class DepotsBack {
     }
 
     @FXML
-    public void initialize() {
+    public void initialize() throws MessagingException, SQLException {
         System.out.println("Initializing table...");
+        //mail
+        DepotsServices ds = new DepotsServices();
+        List<Depots> depotList = ds.select();
+        for (Depots depot : depotList) {
+            int reste = depot.getCapacite();
+            CollectesServices cs = new CollectesServices();
+            List<Collectes> collecteList = cs.select();
+            for (Collectes collecte : collecteList) {
+                if (collecte.getDepot_id() == depot.getId()) {
+                    reste -= collecte.getQuantite();
+                }
+            }
+            System.out.println(reste);
+            if (reste <= 0)
+            {
+                MailSender mailSender = new MailSender();
+                mailSender.sendMail("yahyabichiou2003@gmail.com",depot.getId());
+            }
+        }
 
         try {
             nomCol.setCellValueFactory(new PropertyValueFactory<>("nom"));
