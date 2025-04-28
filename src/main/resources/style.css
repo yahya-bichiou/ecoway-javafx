@@ -24,7 +24,7 @@
 /* Changes the text size for all table cells */
 .table-view .table-cell {
     -fx-font-size: 14px;
-    -fx-text-fill: #a1a1a1;
+    -fx-text-fill: #000000;
     -fx-border-color: transparent;
 }
 

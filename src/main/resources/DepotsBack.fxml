@@ -12,13 +12,13 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="864.0" prefWidth="1536.0" style="-fx-background-color: #1d1f26;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CommandesBack">
+<AnchorPane prefHeight="864.0" prefWidth="1536.0" style="-fx-background-color: #1d1f26;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DepotsBack">
    <children>
       <ScrollPane hbarPolicy="NEVER" layoutY="71.0" prefHeight="794.0" prefWidth="260.0" vbarPolicy="NEVER">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="864.0" prefWidth="260.0" style="-fx-background-color: #1d1f26;">
                <children>
-                  <Button layoutY="62.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="260.0" style="-fx-background-color: #503f71;" text="     Order Dashboard" textFill="WHITE">
+                  <Button onAction="#commandePageOpen" layoutY="62.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="260.0" style="-fx-background-color: #1d1f26;" text="     Order Dashboard" textFill="#a8b7cb">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -28,7 +28,7 @@
                         <Image url="@images/shopping-bag.png" />
                      </image>
                   </ImageView>
-                  <Button layoutY="125.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="260.0" style="-fx-background-color: #1d1f26;" text="        Dropoff Dashboard" textFill="#a8b7cb">
+                  <Button layoutY="125.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="260.0" style="-fx-background-color: #503f71;" text="        Dropoff Dashboard" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -88,38 +88,30 @@
                <children>
                   <Pane layoutX="100.0" layoutY="50.0" prefHeight="600.0" prefWidth="1076.0" style="-fx-background-color: #ffffff; -fx-border-color: #d9dadb; -fx-border-radius: 10; -fx-background-radius: 10;">
                      <children>
-                        <Label layoutX="50.0" layoutY="33.0" text="Liste des Commandes">
+                        <Label layoutX="50.0" layoutY="33.0" text="Liste des Depots">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="commandeTableView" layoutX="50.0" layoutY="100.0" prefHeight="421.0" prefWidth="976.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;" stylesheets="@style.css">
+                        <TableView fx:id="depotsTableView" layoutX="50.0" layoutY="100.0" prefHeight="450.0" prefWidth="976.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;" stylesheets="@style.css">
                            <columns>
-                              <TableColumn fx:id="idCol" prefWidth="50" text="ID" />
-                              <TableColumn fx:id="clientIdCol" prefWidth="100" text="CLIENT ID" />
-                              <TableColumn fx:id="statusCol" prefWidth="120" text="STATUS" />
-                              <TableColumn fx:id="modeCol" prefWidth="150" text="MODE PAIEMENT" />
-                              <TableColumn fx:id="dateCol" prefWidth="100" text="DATE" />
-                              <TableColumn fx:id="prixCol" prefWidth="100" text="PRIX" />
-                              <TableColumn fx:id="produitsCol" prefWidth="400" text="PRODUITS" />
+                              <TableColumn fx:id="nomCol" text="NOM" />
+                              <TableColumn fx:id="adresseCol" text="ADRESSE" />
+                              <TableColumn fx:id="capaciteCol" text="CAPACITE" />
+                              <TableColumn fx:id="imageCol" text="IMAGE" />
                            </columns>
                         </TableView>
-                        <Button alignment="CENTER" layoutX="845.0" layoutY="29.0" mnemonicParsing="false" onAction="#addCommande" prefHeight="43.0" prefWidth="181.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Ajouter Commande" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                        <Button alignment="CENTER" layoutX="845.0" layoutY="29.0" mnemonicParsing="false" onAction="#addDepot" prefHeight="43.0" prefWidth="181.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Ajouter Depot" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <Button alignment="CENTER" layoutX="924.0" layoutY="540.0" mnemonicParsing="false" onAction="#deleteCommande" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Delete" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                        <Button alignment="CENTER" layoutX="924.0" layoutY="540.0" mnemonicParsing="false" onAction="#deleteDepot" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Delete" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <Button alignment="CENTER" layoutX="812.0" layoutY="540.0" mnemonicParsing="false" onAction="#editCommande" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Edit" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Button>
-                        <Button alignment="CENTER" layoutX="702.0" layoutY="540.0" mnemonicParsing="false" onAction="#livrerCommande" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Livrer" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                        <Button alignment="CENTER" layoutX="812.0" layoutY="540.0" mnemonicParsing="false" onAction="#editDepot" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Edit" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -128,29 +120,25 @@
                   </Pane>
                   <Pane layoutX="100.0" layoutY="700.0" prefHeight="600.0" prefWidth="1076.0" style="-fx-background-color: #ffffff; -fx-border-color: #d9dadb; -fx-border-radius: 10; -fx-background-radius: 10;">
                      <children>
-                        <Label layoutX="50.0" layoutY="33.0" text="Liste des Livraisons">
+                        <Label layoutX="50.0" layoutY="33.0" text="Liste des Collectes">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="livraisonTableView" layoutX="50.0" layoutY="100.0" prefHeight="421.0" prefWidth="976.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;" stylesheets="@style.css">
+                        <TableView fx:id="collectesTableView" layoutX="50.0" layoutY="100.0" prefHeight="450.0" prefWidth="976.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;" stylesheets="@style.css">
                            <columns>
-                              <TableColumn fx:id="id" prefWidth="50" text="ID" />
-                              <TableColumn fx:id="commande" prefWidth="150" text="COMMANDE ID" />
-                              <TableColumn fx:id="livreur" prefWidth="100" text="LIVREUR" />
-                              <TableColumn fx:id="adresse" prefWidth="150" text="ADRESSE" />
-                              <TableColumn fx:id="date" prefWidth="150" text="DATE" />
-                              <TableColumn fx:id="status" prefWidth="100" text="STATUS" />
-                              <TableColumn fx:id="mode" prefWidth="100" text="MODE" />
-                              <TableColumn fx:id="prix" prefWidth="100" text="PRIX" />
+                              <TableColumn fx:id="depot_idCol" text="Depot ID" />
+                              <TableColumn fx:id="quantiteCol" text="Quantite" />
+                              <TableColumn fx:id="dateCol" text="Date" />
+                              <TableColumn fx:id="responsableCol" text="Responsable" />
                            </columns>
                         </TableView>
-                        <Button alignment="CENTER" layoutX="924.0" layoutY="541.0" mnemonicParsing="false" onAction="#deleteLivraison" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Delete" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                        <Button alignment="CENTER" layoutX="924.0" layoutY="540.0" mnemonicParsing="false" onAction="#deleteCollecte" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Delete" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <Button alignment="CENTER" layoutX="810.0" layoutY="541.0" mnemonicParsing="false" onAction="#editLivraison" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Edit" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                        <Button alignment="CENTER" layoutX="812.0" layoutY="540.0" mnemonicParsing="false" onAction="#editCollecte" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Edit" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -162,6 +150,5 @@
         </content>
       </ScrollPane>
       <Line endX="160.0" endY="-7.62939453125E-6" layoutX="100.0" layoutY="70.0" startX="-100.0" stroke="#565656" />
-      <Pane fx:id="backgroundPane" prefHeight="865.0" prefWidth="1536.0" styleClass="transparent-pane" stylesheets="@popup.css" visible="false" />
    </children>
 </AnchorPane>

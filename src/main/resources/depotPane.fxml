@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 10; -fx-border-color: grey; -fx-border-radius: 10; -fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DepotPane">
+   <children>
+      <ImageView fx:id="image" fitHeight="85.0" fitWidth="190.0" layoutX="5.0" layoutY="8.0" pickOnBounds="true" />
+      <Label fx:id="nom" alignment="CENTER" contentDisplay="CENTER" layoutX="48.0" layoutY="96.0" prefHeight="35.0" prefWidth="103.0" text="NOM DEPOT">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="capacite" alignment="CENTER" contentDisplay="CENTER" layoutX="48.0" layoutY="123.0" prefHeight="35.0" prefWidth="103.0" text="Capacite" />
+      <Button fx:id="show" layoutX="77.0" layoutY="163.0" mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: #1e8c00; -fx-background-radius: 5; -fx-border-radius: 5;" text="show" textFill="#1e8c00" />
+   </children>
+</Pane>
