@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="frontoffice.controllers.RegisterController"
+           stylesheets="@../styles/register.css">
+
+    <VBox alignment="CENTER" spacing="20" styleClass="register-card">
+        <!-- Logo -->
+        <ImageView fitHeight="80" fitWidth="80" preserveRatio="true">
+            <Image url="@../../assets/logo.png"/>
+        </ImageView>
+
+        <!-- Title -->
+        <Label text="Créer un compte" styleClass="register-title"/>
+
+        <!-- Form Fields -->
+        <VBox spacing="10" alignment="CENTER">
+            <TextField fx:id="emailField" promptText="Email" styleClass="text-input"/>
+            <TextField fx:id="nameField" promptText="Nom" styleClass="text-input"/>
+            <PasswordField fx:id="passwordField" promptText="Mot de passe" styleClass="text-input"/>
+            <PasswordField fx:id="confirmPasswordField" promptText="Confirmer le mot de passe" styleClass="text-input"/>
+
+        </VBox>
+
+        <!-- Terms and Conditions -->
+        <HBox alignment="CENTER_LEFT" spacing="5">
+            <CheckBox fx:id="termsCheck"/>
+            <Label text="J'accepte les " />
+            <Hyperlink text="termes et conditions"/>
+        </HBox>
+
+        <!-- Submit Button -->
+        <Button text="S'inscrire" onAction="#handleRegisterAction" styleClass="primary-button"/>
+
+        <!-- Already have an account -->
+        <HBox alignment="CENTER">
+            <Label text="Déjà un compte?" />
+            <Hyperlink text="Se connecter" onAction="#navigateToLogin"/>
+        </HBox>
+
+        <!-- Error Message -->
+        <Label fx:id="errorLabel" text="" styleClass="error-label"/>
+    </VBox>
+</StackPane>

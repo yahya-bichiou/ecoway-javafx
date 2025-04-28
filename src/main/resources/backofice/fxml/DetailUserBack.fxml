@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="backoffice.controllers.DetailUserListController"
+      spacing="15" alignment="CENTER" prefWidth="400" prefHeight="300">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Détails de l'utilisateur" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <ImageView fx:id="profileImageView"
+               fitWidth="100"
+               fitHeight="100"
+               preserveRatio="true"
+               style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);" />
+
+    <HBox spacing="10">
+        <Label text="ID :" />
+        <Label fx:id="idLabel" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Nom :" />
+        <Label fx:id="nameLabel" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Email :" />
+        <Label fx:id="emailLabel" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Rôle :" />
+        <Label fx:id="rolesLabel" />
+    </HBox>
+</VBox>
+

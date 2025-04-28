@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.shape.Circle?>
+<AnchorPane fx:controller="backoffice.controllers.EditAdminProfileController"
+            xmlns:fx="http://javafx.com/fxml" prefWidth="600" prefHeight="400"
+            style="-fx-background-color: #f0f1f5;">
+    <children>
+
+        <Label layoutX="30" layoutY="20" text="Edit Admin Profile"
+               style="-fx-font-size: 26px; -fx-text-fill: #503f71;"/>
+
+        <Label layoutX="30" layoutY="80" text="Name:"/>
+        <TextField fx:id="nameField" layoutX="150" layoutY="75" prefWidth="300"
+                   style="-fx-background-radius: 8;"/>
+
+        <Label layoutX="30" layoutY="130" text="Password:"/>
+        <PasswordField fx:id="passwordField" layoutX="150" layoutY="125" prefWidth="300"
+                       style="-fx-background-radius: 8;"/>
+
+        <Label layoutX="30" layoutY="180" text="Profile Picture:"/>
+        <Button fx:id="choosePicBtn" layoutX="150" layoutY="175" text="Choose Image"
+                onAction="#chooseProfilePicture"
+                style="-fx-background-color: #a8b7cb; -fx-background-radius: 8; -fx-text-fill: white;"/>
+
+        <ImageView fx:id="previewImage" layoutX="470" layoutY="170" fitHeight="60" fitWidth="60" preserveRatio="true">
+            <clip>
+                <Circle radius="30" centerX="30" centerY="30"/>
+            </clip>
+        </ImageView>
+
+        <Button fx:id="saveBtn" layoutX="250" layoutY="260" text="Save Changes"
+                onAction="#saveChanges"
+                style="-fx-background-color: #9e6de0; -fx-text-fill: white; -fx-background-radius: 20;"
+                prefWidth="120"/>
+
+        <Button fx:id="cancelBtn" layoutX="390" layoutY="260" text="Cancel"
+                onAction="#cancelChanges"
+                style="-fx-background-color: #aaaaaa; -fx-text-fill: white; -fx-background-radius: 20;"
+                prefWidth="100"/>
+    </children>
+</AnchorPane>

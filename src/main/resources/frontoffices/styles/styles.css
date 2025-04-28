@@ -1,0 +1,27 @@
+/* General styles for text */
+.label {
+    -fx-text-fill: red; /* Error messages appear in red */
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+    -fx-text-fill: #555;
+}
+
+.textfield, .passwordfield {
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-pref-width: 250px;
+}
+/* Buttons */
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}

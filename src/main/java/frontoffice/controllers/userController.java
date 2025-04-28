@@ -1,0 +1,35 @@
+package frontoffice.controllers;
+
+import models.user;
+import services.userService;
+
+import java.util.List;
+
+public class userController {
+
+    private final userService userService = new userService();
+
+    public void addUser(String name, String email, String password, String profile_picture, String roles) {
+        user u = new user(name, email, password, profile_picture, roles, null); // <-- add null for resetToken
+        userService.add(u);
+    }
+
+    public void updateUser(int id, String name, String email, String password, String profile_picture, String roles) {
+        user u = new user((long) id, name, email, password, profile_picture, roles, null); // <-- add null for resetToken
+        u.setId(id);
+        userService.update(u);
+    }
+
+    public void deleteUser(int id) {
+        user u = new user();
+        u.setId(id);
+        userService.delete(u);
+    }
+
+    public void listUsers() {
+        List<user> users = userService.getAll();
+        for (user u : users) {
+            System.out.println(u);
+        }
+    }
+}
