@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -60,6 +57,8 @@ public class CommandesBack {
     public TextField searchField2;
     @FXML
     public Button sortButton;
+    @FXML
+    public Label summaryLabel;
     @FXML
     private TableView<Commandes> commandeTableView;
     @FXML
@@ -320,6 +319,8 @@ public class CommandesBack {
 
         // Map: DeliveryType -> (WeekNumber -> List of delays)
         Map<String, Map<Integer, List<Long>>> delaysByTypeAndWeek = new HashMap<>();
+        // Map: DeliveryType -> List of all delays (for global stats)
+        Map<String, List<Long>> delaysByType = new HashMap<>();
 
         for (Commandes commande : commandes) {
             for (Livraisons livraison : livraisons) {
@@ -336,6 +337,10 @@ public class CommandesBack {
                     delaysByTypeAndWeek
                             .computeIfAbsent(deliveryType, k -> new HashMap<>())
                             .computeIfAbsent(weekNumber, k -> new ArrayList<>())
+                            .add(delay);
+
+                    delaysByType
+                            .computeIfAbsent(deliveryType, k -> new ArrayList<>())
                             .add(delay);
                 }
             }
@@ -361,7 +366,52 @@ public class CommandesBack {
 
             chart.getData().add(series);
         }
+
+        generateSummaryStats(delaysByType);
     }
+
+
+    private void generateSummaryStats(Map<String, List<Long>> delaysByType) {
+        double totalDelay = 0;
+        int totalCount = 0;
+
+        String bestType = "";
+        String worstType = "";
+        double bestAvg = Double.MAX_VALUE;
+        double worstAvg = Double.MIN_VALUE;
+
+        StringBuilder details = new StringBuilder();
+
+        for (Map.Entry<String, List<Long>> entry : delaysByType.entrySet()) {
+            String type = entry.getKey();
+            List<Long> delays = entry.getValue();
+
+            double average = delays.stream().mapToLong(Long::longValue).average().orElse(0);
+            totalDelay += delays.stream().mapToLong(Long::longValue).sum();
+            totalCount += delays.size();
+
+            details.append(type).append(": ").append(String.format("%.2f", average)).append(" days\n");
+
+            if (average < bestAvg) {
+                bestAvg = average;
+                bestType = type;
+            }
+
+            if (average > worstAvg) {
+                worstAvg = average;
+                worstType = type;
+            }
+        }
+
+        double globalAverage = totalCount > 0 ? totalDelay / totalCount : 0;
+
+        String summary = "Retard Global:    " + String.format("%.2f", globalAverage) + " days\n\n" +
+                "Best Type:     " + bestType + " (" + String.format("%.2f", bestAvg) + " days)\n" +
+                "Worst Type:    " + worstType + " (" + String.format("%.2f", worstAvg) + " days)\n\n" +
+                "Details ( en moyenne ):\n" + details.toString();
+        summaryLabel.setText(summary);
+    }
+
 
     @FXML
     private void toggleSort() {

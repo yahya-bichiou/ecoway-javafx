@@ -162,7 +162,7 @@
                   </Pane>
                   <Pane layoutX="100.0" layoutY="1353.0" prefHeight="600.0" prefWidth="1076.0" style="-fx-background-color: #ffffff; -fx-border-color: #d9dadb; -fx-border-radius: 10; -fx-background-radius: 10;">
                      <children>
-                        <LineChart fx:id="chart" layoutX="50.0" layoutY="127.0" prefHeight="400.0" prefWidth="700.0" stylesheets="@chart.css">
+                        <LineChart fx:id="chart" layoutX="50.0" layoutY="127.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@chart.css">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" fx:id="xAxis" />
                           </xAxis>
@@ -173,6 +173,11 @@
                         <Label layoutX="50.0" layoutY="51.0" prefHeight="35.0" prefWidth="212.0" text="Retards de livraison">
                            <font>
                               <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="summaryLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="650.0" layoutY="125.0" prefHeight="400.0" prefWidth="400.0" text="ABSABSAHJSBAHSJABSHA">
+                           <font>
+                              <Font size="18.0" />
                            </font>
                         </Label>
                      </children>
