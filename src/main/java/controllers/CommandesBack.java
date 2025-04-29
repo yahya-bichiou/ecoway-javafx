@@ -12,6 +12,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -34,7 +35,8 @@ import javafx.event.ActionEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 
 
 import java.io.IOException;
@@ -54,6 +56,10 @@ public class CommandesBack {
     public NumberAxis yAxis;
     @FXML
     public LineChart chart;
+    @FXML
+    public TextField searchField;
+    @FXML
+    public TextField searchField2;
     @FXML
     private TableView<Commandes> commandeTableView;
     @FXML
@@ -208,9 +214,26 @@ public class CommandesBack {
 
             // Load data
             CommandeService cs = new CommandeService();
-            List<Commandes> commandes = cs.select();
-            ObservableList<Commandes> observableList = FXCollections.observableArrayList(commandes);
-            commandeTableView.setItems(observableList);
+            ObservableList<Commandes> commandeList = FXCollections.observableArrayList(cs.getAll());
+            FilteredList<Commandes> filteredData = new FilteredList<>(commandeList, b -> true);
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredData.setPredicate(commande -> {
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+                    String lowerCaseFilter = newValue.toLowerCase();
+                    if (commande.getMode_paiement().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    } else if (commande.getStatus().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+
+                    return false;
+                });
+            });
+            SortedList<Commandes> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(commandeTableView.comparatorProperty());
+            commandeTableView.setItems(sortedData);
 
             System.out.println("Table initialized successfully.");
 
@@ -230,10 +253,27 @@ public class CommandesBack {
             prix.setCellValueFactory(new PropertyValueFactory<>("prix"));
 
             // Load data
-            LivraisonService cs = new LivraisonService();
-            List<Livraisons> livraisons = cs.getAll();
-            ObservableList<Livraisons> observableList2 = FXCollections.observableArrayList(livraisons);
-            livraisonTableView.setItems(observableList2);
+            LivraisonService ls = new LivraisonService();
+            ObservableList<Livraisons> livraisonList = FXCollections.observableArrayList(ls.getAll());
+            FilteredList<Livraisons> filteredData = new FilteredList<>(livraisonList, b -> true);
+            searchField2.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredData.setPredicate(livraison -> {
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+                    String lowerCaseFilter = newValue.toLowerCase();
+                    if (livraison.getAdresse().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    } else if (livraison.getStatus().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+
+                    return false;
+                });
+            });
+            SortedList<Livraisons> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(livraisonTableView.comparatorProperty());
+            livraisonTableView.setItems(sortedData);
 
             System.out.println("Table initialized successfully.");
 
