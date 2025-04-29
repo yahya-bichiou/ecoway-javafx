@@ -122,8 +122,7 @@
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <TextField fx:id="searchField" layoutX="776.0" layoutY="36.0" prefHeight="30.0" prefWidth="250.0" promptText="Recherche" />
-                        <Button alignment="CENTER" layoutX="50.0" layoutY="540.0" mnemonicParsing="false" onAction="#livrerCommande" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;" text="Tri" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                        <Button fx:id="sortButton" alignment="CENTER" layoutX="50.0" layoutY="540.0" mnemonicParsing="false" onAction="#toggleSort" prefHeight="36.0" prefWidth="87.0" style="-fx-background-color: #9e6de0; -fx-background-radius: 10px;" text="Date" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                            <font>
                               <Font size="16.0" />
                            </font>

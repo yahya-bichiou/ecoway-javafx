@@ -57,9 +57,9 @@ public class CommandesBack {
     @FXML
     public LineChart chart;
     @FXML
-    public TextField searchField;
-    @FXML
     public TextField searchField2;
+    @FXML
+    public Button sortButton;
     @FXML
     private TableView<Commandes> commandeTableView;
     @FXML
@@ -91,6 +91,9 @@ public class CommandesBack {
     private TableColumn<Livraisons, String> mode;
     @FXML
     private TableColumn<Livraisons, Float> prix;
+
+    private boolean sortByDate = true;
+    private ObservableList<Commandes> commandeList = FXCollections.observableArrayList();
 
     @FXML
     private Button closeButton;
@@ -214,26 +217,10 @@ public class CommandesBack {
 
             // Load data
             CommandeService cs = new CommandeService();
-            ObservableList<Commandes> commandeList = FXCollections.observableArrayList(cs.getAll());
-            FilteredList<Commandes> filteredData = new FilteredList<>(commandeList, b -> true);
-            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-                filteredData.setPredicate(commande -> {
-                    if (newValue == null || newValue.isEmpty()) {
-                        return true;
-                    }
-                    String lowerCaseFilter = newValue.toLowerCase();
-                    if (commande.getMode_paiement().toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                    } else if (commande.getStatus().toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                    }
-
-                    return false;
-                });
-            });
-            SortedList<Commandes> sortedData = new SortedList<>(filteredData);
-            sortedData.comparatorProperty().bind(commandeTableView.comparatorProperty());
-            commandeTableView.setItems(sortedData);
+            commandeList = FXCollections.observableArrayList(cs.getAll());
+            commandeList.sort(Comparator.comparing(Commandes::getDate));
+            commandeTableView.setItems(commandeList);
+            sortButton.setText("Date");
 
             System.out.println("Table initialized successfully.");
 
@@ -374,6 +361,23 @@ public class CommandesBack {
 
             chart.getData().add(series);
         }
+    }
+
+    @FXML
+    private void toggleSort() {
+        if (sortByDate) {
+            commandeList.sort(Comparator.comparing(Commandes::getPrix));
+            sortButton.setText("Prix");
+        } else {
+            commandeList.sort(Comparator.comparing(Commandes::getDate));
+            sortButton.setText("Date");
+        }
+
+        // Refresh the table view
+        commandeTableView.refresh();
+
+        // Toggle the flag
+        sortByDate = !sortByDate;
     }
 
 }
