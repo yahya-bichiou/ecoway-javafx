@@ -32,6 +32,7 @@ public class listCommentaireBackController {
 
     @FXML private VBox blogSubmenu;
     @FXML private Button blogDashboardBtn;
+    @FXML private Button ajouterBtn; // bouton "Ajouter un commentaire"
 
     private boolean isSubmenuVisible = false;
 
@@ -68,6 +69,12 @@ public class listCommentaireBackController {
 
         addActionsColumn();
         loadCommentaires();
+
+        // 🔥 Cacher le bouton Ajouter pour l'admin (vue backoffice)
+        if (ajouterBtn != null) {
+            ajouterBtn.setVisible(false);
+            ajouterBtn.setManaged(false);
+        }
     }
 
     public void loadCommentaires() {
@@ -79,6 +86,13 @@ public class listCommentaireBackController {
             showAlert("Erreur", "Chargement des commentaires a échoué: " + e.getMessage());
         }
     }
+
+    public void loadCommentairesForPost(int postId) throws SQLException {
+        commentaireList.clear();
+        commentaireList.addAll(service.getCommentairesByPostId(postId));
+        commentaireTable.setItems(commentaireList);
+    }
+
 
     private void addActionsColumn() {
         colActions.setCellFactory(param -> new TableCell<>() {
@@ -152,23 +166,7 @@ public class listCommentaireBackController {
 
     @FXML
     public void handleAddCommentaire() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/addCommentaireBack.fxml"));
-            Parent root = loader.load();
-
-            AddCommentaireBackController controller = loader.getController();
-            controller.setParentController(this);
-
-            Stage stage = new Stage();
-            stage.setTitle("Ajouter un Commentaire");
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-
-            loadCommentaires();
-        } catch (IOException e) {
-            showAlert("Erreur", "Erreur lors de l'ouverture du formulaire : " + e.getMessage());
-        }
+        // Cette méthode ne sera plus appelée car le bouton est caché pour l'admin.
     }
 
     @FXML
@@ -181,10 +179,10 @@ public class listCommentaireBackController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void navigateToCommentaires() {
     }
-
 
     @FXML
     private void toggleBlogMenu() {
@@ -193,4 +191,20 @@ public class listCommentaireBackController {
         blogSubmenu.setManaged(isSubmenuVisible);
         blogDashboardBtn.setText(isSubmenuVisible ? "  Blog Dashboard ▲" : "  Blog Dashboard ▼");
     }
+    @FXML
+    private void openStatistics() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TopPostsBack.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Statistiques des Posts");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

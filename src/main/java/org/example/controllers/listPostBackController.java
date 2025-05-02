@@ -16,7 +16,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.models.post;
 import org.example.services.postService;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -109,28 +108,37 @@ public class listPostBackController {
 
     private void addActionsColumn() {
         colActions.setCellFactory(param -> new TableCell<>() {
+            private final Button viewButton = new Button();
             private final Button editButton = new Button();
             private final Button deleteButton = new Button();
-            private final HBox container = new HBox(10, editButton, deleteButton);
+            private final HBox container = new HBox(10, viewButton, editButton, deleteButton);
 
             {
+                ImageView viewIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/eye.png")));
+                viewIcon.setFitHeight(16);
+                viewIcon.setFitWidth(16);
+                viewButton.setGraphic(viewIcon);
+                viewButton.setStyle("-fx-background-color: transparent;");
+                viewButton.setOnAction(event -> {
+                    post selected = getTableView().getItems().get(getIndex());
+                    openCommentairesForPost(selected.getId());
+                });
+
                 ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/edit.png")));
                 editIcon.setFitHeight(16);
                 editIcon.setFitWidth(16);
                 editButton.setGraphic(editIcon);
                 editButton.setStyle("-fx-background-color: transparent;");
+                editButton.setOnAction(event -> {
+                    post selected = getTableView().getItems().get(getIndex());
+                    showEditPopup(selected);
+                });
 
                 ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/trash.png")));
                 deleteIcon.setFitHeight(16);
                 deleteIcon.setFitWidth(16);
                 deleteButton.setGraphic(deleteIcon);
                 deleteButton.setStyle("-fx-background-color: transparent;");
-
-                editButton.setOnAction(event -> {
-                    post selected = getTableView().getItems().get(getIndex());
-                    showEditPopup(selected);
-                });
-
                 deleteButton.setOnAction(event -> {
                     post selected = getTableView().getItems().get(getIndex());
                     try {
@@ -149,6 +157,24 @@ public class listPostBackController {
                 setGraphic(empty ? null : container);
             }
         });
+    }
+
+    private void openCommentairesForPost(int postId) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/listCommentaireBack.fxml"));
+            Parent root = loader.load();
+
+            listCommentaireBackController controller = loader.getController();
+            controller.loadCommentairesForPost(postId);
+
+            Stage stage = new Stage();
+            stage.setTitle("Commentaires du Post");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException | SQLException e) {
+            showAlert("Erreur", "Impossible d'afficher les commentaires : " + e.getMessage());
+        }
     }
 
     private void showEditPopup(post postToEdit) {

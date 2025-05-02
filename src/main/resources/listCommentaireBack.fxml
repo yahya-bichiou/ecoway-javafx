@@ -18,7 +18,6 @@
                 <VBox spacing="10" style="-fx-background-color: #1d1f26; -fx-padding: 20;" prefWidth="260">
                     <Label text="DASHBOARDS" textFill="#a8b7cb" style="-fx-font-size: 16px;" />
 
-                    <!-- Blog Dashboard avec sous-menu -->
                     <Button fx:id="blogDashboardBtn" onAction="#toggleBlogMenu"
                             text="  Blog Dashboard ▼"
                             prefHeight="40" prefWidth="220"
@@ -31,7 +30,6 @@
                                 style="-fx-background-color: #503f71; -fx-text-fill: white; -fx-alignment: CENTER_LEFT;" />
                     </VBox>
 
-                    <!-- Autres Dashboards -->
                     <Button text="Event Dashboard" style="-fx-background-color: transparent; -fx-text-fill: #a8b7cb;" />
                     <Button text="User Dashboard" style="-fx-background-color: transparent; -fx-text-fill: #a8b7cb;" />
                 </VBox>
@@ -74,15 +72,15 @@
                             <TableColumn fx:id="colActions" prefWidth="250" text="Actions" />
                         </columns>
                     </TableView>
-
-                    <Button alignment="CENTER" layoutX="845.0" layoutY="29.0" mnemonicParsing="false"
-                            onAction="#handleAddCommentaire" prefHeight="43.0" prefWidth="181.0"
-                            style="-fx-background-color: #9e6de0; -fx-background-radius: 50px;"
-                            text="Ajouter un Commentaire" textFill="WHITE">
-                        <font><Font size="16.0" /></font>
-                    </Button>
                 </children>
             </Pane>
+
+            <!-- ➡️ Voici ton NOUVEAU bouton pour accéder aux statistiques -->
+            <Button text="Voir Statistiques Posts"
+                    onAction="#openStatistics"
+                    style="-fx-background-color: #503f71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"
+                    prefWidth="300" prefHeight="45"
+                    alignment="CENTER" />
         </VBox>
     </center>
 </BorderPane>

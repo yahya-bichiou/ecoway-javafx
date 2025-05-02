@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controllers.TopPostsBackController"
+      spacing="20"
+      alignment="CENTER"
+      style="-fx-background-color: #f0f1f5; -fx-padding: 30;">
+
+    <BarChart fx:id="barChart" prefWidth="800" prefHeight="500">
+        <xAxis>
+            <CategoryAxis label="Titre du Post"/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis label="Nombre de Commentaires"/>
+        </yAxis>
+    </BarChart>
+
+</VBox>

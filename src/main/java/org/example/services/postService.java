@@ -6,16 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class postService {
-    private Connection connection;
+    private final Connection connection;
 
-    // Constructeur de la classe postService
     public postService() throws SQLException {
         this.connection = MaConnexion.getInstance().getConn();
     }
 
-    // CREATE - Ajout d'un post
+    // CREATE - Ajouter un post
     public void createPost(post post) throws SQLException {
-        // Vérifier si le titre, la description ou le créateur sont vides ou nuls
         if (post.getTitre() == null || post.getTitre().isEmpty()) {
             throw new SQLException("Le titre du post ne peut pas être vide.");
         }
@@ -31,23 +29,18 @@ public class postService {
             st.setString(1, post.getTitre());
             st.setString(2, post.getDescription());
             st.setString(3, post.getCreateur());
-            st.setString(4, post.getImage());  // Si image est nullable, vérifiez cela dans le modèle aussi
+            st.setString(4, post.getImage());
 
             int affectedRows = st.executeUpdate();
-
             if (affectedRows == 0) {
                 throw new SQLException("Échec de la création du post, aucune ligne affectée.");
             }
 
-            // Récupérer l'ID auto-généré du post
             try (ResultSet rs = st.getGeneratedKeys()) {
                 if (rs.next()) {
-                    post.setId(rs.getInt(1)); // Récupère l'ID auto-généré
+                    post.setId(rs.getInt(1));
                 }
             }
-        } catch (SQLException e) {
-            System.err.println("Erreur SQL lors de la création du post : " + e.getMessage());
-            throw e;  // Propager l'exception
         }
     }
 
@@ -64,19 +57,15 @@ public class postService {
                         rs.getString("createur"),
                         rs.getString("image")
                 );
-                post.setId(rs.getInt("id"));  // Définir l'ID du post depuis la base de données
+                post.setId(rs.getInt("id"));
                 posts.add(post);
             }
-        } catch (SQLException e) {
-            System.err.println("Erreur SQL lors de la récupération des posts : " + e.getMessage());
-            throw e;  // Propager l'exception
         }
         return posts;
     }
 
     // UPDATE - Mettre à jour un post
     public void updatePost(post post) throws SQLException {
-        // Vérification de la validité des données
         if (post.getId() <= 0) {
             throw new SQLException("L'ID du post est invalide.");
         }
@@ -93,9 +82,6 @@ public class postService {
             if (affectedRows == 0) {
                 throw new SQLException("Aucun post mis à jour, vérifiez l'ID.");
             }
-        } catch (SQLException e) {
-            System.err.println("Erreur SQL lors de la mise à jour du post : " + e.getMessage());
-            throw e;  // Propager l'exception
         }
     }
 
@@ -113,12 +99,10 @@ public class postService {
             if (affectedRows == 0) {
                 throw new SQLException("Aucun post supprimé, vérifiez l'ID.");
             }
-        } catch (SQLException e) {
-            System.err.println("Erreur SQL lors de la suppression du post : " + e.getMessage());
-            throw e;  // Propager l'exception
         }
     }
-    // ✅ Récupérer le titre d’un post par son ID
+
+    // Récupérer le titre d’un post par son ID
     public String getPostTitleById(int postId) throws SQLException {
         String query = "SELECT titre FROM post WHERE id = ?";
         try (PreparedStatement st = connection.prepareStatement(query)) {
@@ -133,4 +117,28 @@ public class postService {
         }
     }
 
+    // 🔥 Récupérer Top 5 Posts par nombre de commentaires
+    public List<Object[]> getTop5PostsByComments() throws SQLException {
+        List<Object[]> topPosts = new ArrayList<>();
+        String query = """
+                SELECT p.titre, COUNT(c.id) AS nb_comments
+                FROM post p
+                LEFT JOIN commentaire c ON p.id = c.post_id
+                GROUP BY p.id
+                ORDER BY nb_comments DESC
+                LIMIT 5
+                """;
+
+        try (PreparedStatement st = connection.prepareStatement(query);
+             ResultSet rs = st.executeQuery()) {
+
+            while (rs.next()) {
+                Object[] postData = new Object[2];
+                postData[0] = rs.getString("titre");        // Titre du post
+                postData[1] = rs.getInt("nb_comments");      // Nombre de commentaires
+                topPosts.add(postData);
+            }
+        }
+        return topPosts;
+    }
 }

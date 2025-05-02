@@ -13,7 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        openWindow("listPostFront.fxml", "Dashboard Admin", "back.css");
+        openWindow("listPostBack.fxml", "Dashboard Admin", "back.css");
     }
 
     private void openWindow(String fxmlPath, String title, String cssPath) {

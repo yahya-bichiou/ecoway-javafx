@@ -12,6 +12,7 @@ import org.example.services.postService;
 
 import java.io.File;
 import java.sql.SQLException;
+import org.example.services.TwilioService;
 
 public class AddPostController {
 
@@ -35,6 +36,8 @@ public class AddPostController {
 
     @FXML
     private Button browseButton;
+
+
 
     private postService service;
 
@@ -60,9 +63,18 @@ public class AddPostController {
             try {
                 service.createPost(newPost);
                 showSuccessAlert("Post ajouté avec succès !");
+
+                // 🔔 ENVOI DE SMS
+                String numeroDestinataire = "+21628313700"; // Remplace par le numéro que tu veux
+                String message = "Nouveau post ajouté : " + newPost.getTitre();
+                TwilioService.sendSMS(numeroDestinataire, message);
+
                 closeWindow();
             } catch (SQLException e) {
                 showAlert("Erreur SQL", e.getMessage());
+                e.printStackTrace();
+            } catch (Exception e) {
+                showAlert("Erreur lors de l'envoi du SMS", e.getMessage());
                 e.printStackTrace();
             }
         }

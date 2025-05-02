@@ -44,7 +44,7 @@
 
         <!-- ✅ Boutons actions -->
         <HBox spacing="12" alignment="CENTER_RIGHT">
-            <Button text="Ajouter" onAction="#handleAdd" styleClass="primary-button"/>
+            <Button fx:id="addButton" text="Ajouter" onAction="#handleAdd" styleClass="primary-button"/>
             <Button text="Annuler" onAction="#handleClear" styleClass="cancel-button"/>
         </HBox>
     </VBox>

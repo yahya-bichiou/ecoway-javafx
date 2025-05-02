@@ -7,11 +7,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import org.example.models.commentaire;
 import org.example.models.post;
+import org.example.models.reaction;
 import org.example.services.commentaireService;
+import org.example.services.reactionService;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -24,10 +27,11 @@ public class DetailFrontPostController {
     @FXML private Label descriptionLabel;
     @FXML private Label createurLabel;
     @FXML private VBox commentList;
+    @FXML private VBox postInfoBox;
 
     private post currentPost;
-
     private final commentaireService commentaireService;
+    private final String currentUser = "visiteur_temp";
 
     public DetailFrontPostController() throws SQLException {
         commentaireService = new commentaireService();
@@ -36,7 +40,6 @@ public class DetailFrontPostController {
     public void initData(post post) {
         this.currentPost = post;
 
-        // Affichage des infos
         titreLabel.setText(post.getTitre());
         descriptionLabel.setText(post.getDescription());
         createurLabel.setText(post.getCreateur());
@@ -48,7 +51,59 @@ public class DetailFrontPostController {
             System.err.println("Erreur chargement image: " + e.getMessage());
         }
 
+        setupReactions();
         loadCommentaires();
+    }
+
+    private void setupReactions() {
+        try {
+            reactionService reactionService = new reactionService();
+
+            Label likeCount = new Label("👍 " + reactionService.countReactionsByType(currentPost.getId(), "like"));
+            Label dislikeCount = new Label("👎 " + reactionService.countReactionsByType(currentPost.getId(), "dislike"));
+
+            Button likeBtn = new Button("👍");
+            Button dislikeBtn = new Button("👎");
+
+            likeBtn.setStyle("-fx-background-color: #e0f7fa;");
+            dislikeBtn.setStyle("-fx-background-color: #ffebee;");
+
+            likeBtn.setOnAction(e -> {
+                try {
+                    if (!reactionService.hasUserReacted(currentPost.getId(), currentUser)) {
+                        reactionService.addReaction(new reaction(currentPost.getId(), "like", currentUser));
+                    } else {
+                        reactionService.updateReaction(currentPost.getId(), currentUser, "like");
+                    }
+                    likeCount.setText("👍 " + reactionService.countReactionsByType(currentPost.getId(), "like"));
+                    dislikeCount.setText("👎 " + reactionService.countReactionsByType(currentPost.getId(), "dislike"));
+                } catch (SQLException ex) {
+                    showAlert("Erreur", "Impossible de traiter le like : " + ex.getMessage());
+                }
+            });
+
+            dislikeBtn.setOnAction(e -> {
+                try {
+                    if (!reactionService.hasUserReacted(currentPost.getId(), currentUser)) {
+                        reactionService.addReaction(new reaction(currentPost.getId(), "dislike", currentUser));
+                    } else {
+                        reactionService.updateReaction(currentPost.getId(), currentUser, "dislike");
+                    }
+                    likeCount.setText("👍 " + reactionService.countReactionsByType(currentPost.getId(), "like"));
+                    dislikeCount.setText("👎 " + reactionService.countReactionsByType(currentPost.getId(), "dislike"));
+                } catch (SQLException ex) {
+                    showAlert("Erreur", "Impossible de traiter le dislike : " + ex.getMessage());
+                }
+            });
+
+            HBox reactionBox = new HBox(10, likeBtn, likeCount, dislikeBtn, dislikeCount);
+            reactionBox.setPadding(new Insets(10));
+
+            postInfoBox.getChildren().add(reactionBox);
+
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la gestion des réactions : " + e.getMessage());
+        }
     }
 
     private void loadCommentaires() {
@@ -104,10 +159,17 @@ public class DetailFrontPostController {
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
-            loadCommentaires(); // Rafraîchir la liste après ajout
+            loadCommentaires();
         } catch (IOException e) {
             System.err.println("Erreur ajout commentaire : " + e.getMessage());
         }
     }
 
+    private void showAlert(String titre, String contenu) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titre);
+        alert.setHeaderText(null);
+        alert.setContentText(contenu);
+        alert.showAndWait();
+    }
 }

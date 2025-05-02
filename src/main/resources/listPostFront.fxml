@@ -34,7 +34,6 @@
 
             <Pane HBox.hgrow="ALWAYS"/>
 
-            <!-- Bouton Ajouter Post -->
             <Button text="Ajouter un Post"
                     onAction="#showAddPostPopup"
                     style="-fx-background-color: white; -fx-text-fill: #2E7D32; -fx-font-weight: bold; -fx-background-radius: 5;"/>
@@ -55,8 +54,17 @@
                 <Button text="Rechercher" onAction="#handleSearch" styleClass="search-button"/>
             </HBox>
 
-            <!-- Conteneur dynamique -->
-            <FlowPane fx:id="postsContainer" hgap="10" vgap="10"/>
+            <!-- ✅ Conteneur vertical scrollable corrigé -->
+            <ScrollPane fitToWidth="true" style="-fx-background: transparent;">
+                <HBox alignment="CENTER">
+                    <VBox fx:id="postsContainer"
+                          spacing="20"
+                          maxWidth="600"
+                          alignment="CENTER"
+                          style="-fx-padding: 10;" />
+                </HBox>
+            </ScrollPane>
+
         </VBox>
     </center>
 </BorderPane>
