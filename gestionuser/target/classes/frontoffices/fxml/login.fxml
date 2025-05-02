@@ -2,7 +2,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
 
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
@@ -31,13 +30,15 @@
         <VBox spacing="10" alignment="CENTER">
             <Button text="Sign in" onAction="#handleLoginAction" styleClass="primary-button"/>
             <Button text="Register" onAction="#openRegisterPage" styleClass="primary-button"/>
-            <Button text="Login with Google" styleClass="google-button"/>
+            <Button text="Login with Google"  onAction="#handleGoogleLogin"  styleClass="google-button"/>
         </VBox>
 
         <!-- Forgot Password -->
-        <Hyperlink text="Forgot Password?" styleClass="forgot-link"/>
+        <Hyperlink text="Forgot Password?" onAction="#handleSendResetLink" styleClass="forgot-link"/>
 
         <!-- Error Label -->
         <Label fx:id="errorLabel" text="" styleClass="error-label"/>
+
+
     </VBox>
 </StackPane>

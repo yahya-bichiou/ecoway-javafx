@@ -1,5 +1,13 @@
-MainApp.class
+services\GoogleLoginService.class
+services\GoogleLoginService$1.class
+backoffice\controllers\StatisticsController.class
 frontoffice\controllers\UserSession.class
-backoffice\controllers\AdminProfileController.class
 frontoffice\controllers\EditProfileController.class
+services\EmailService.class
 backoffice\controllers\EditAdminProfileController.class
+frontoffice\controllers\ResetPasswordController.class
+MainApp.class
+services\CaptchaService.class
+backoffice\controllers\AdminProfileController.class
+services\EmailService$1.class
+frontoffice\controllers\ForgotPasswordController.class

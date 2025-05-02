@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="backoffice.controllers.UserListController">
+    <children>
+        <Label layoutX="30" layoutY="20" text="User Statistics" style="-fx-font-size: 24;" />
+        <PieChart fx:id="userStatusChart" layoutX="50" layoutY="80" prefWidth="500" prefHeight="400" title="User Status"/>
+    </children>
+</AnchorPane>
