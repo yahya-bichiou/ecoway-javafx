@@ -38,5 +38,7 @@
 
         <!-- Error Label -->
         <Label fx:id="errorLabel" text="" styleClass="error-label"/>
+
+
     </VBox>
 </StackPane>

@@ -72,6 +72,18 @@ public class userService implements iService<user> {
 
     }
 
+    public void blockUser(user user) {
+        String sql = "UPDATE user SET blocked = ? WHERE id = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setBoolean(1, user.isBlocked());
+            stmt.setInt(2, user.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public List<user> getAll() {
         String SQL="SELECT * FROM user";
@@ -87,6 +99,7 @@ public class userService implements iService<user> {
                 u.setPassword(res.getString("password"));
                 u.setImageProfile(res.getString("profile_picture"));
                 u.setRoles(res.getString("roles"));
+                u.setBlocked(res.getBoolean("blocked"));
                 users.add(u);
             }
         } catch (SQLException e) {
@@ -95,18 +108,52 @@ public class userService implements iService<user> {
         return users;
     }
 
-    public boolean validateCredentials(String email, String password) {
+    public int validateCredentials(String email, String password) {
         String query = "SELECT * FROM user WHERE email = ? AND password = ?";
         try (PreparedStatement statement = cnx.prepareStatement(query)) {
             statement.setString(1, email);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
-            return resultSet.next(); // Returns true if credentials are valid.
+            if (resultSet.next()) {
+                // Check if account is blocked
+                if (resultSet.getBoolean("blocked")) {
+                    return 2; // Account is blocked
+                }
+                return 1; // Valid credentials and not blocked
+            }
+            return 0; // Invalid credentials
         } catch (SQLException e) {
             System.err.println("SQL Error: " + e.getMessage());
-            return false;
+            return 0;
         }
+    }
 
+    public List<user> searchUsers(String searchTerm) {
+        List<user> results = new ArrayList<>();
+        String query = "SELECT * FROM user WHERE LOWER(name) LIKE ? OR LOWER(email) LIKE ? OR LOWER(roles) LIKE ?";
+
+        try (PreparedStatement stmt = cnx.prepareStatement(query)) {
+            String likeTerm = "%" + searchTerm.toLowerCase() + "%";
+            stmt.setString(1, likeTerm);
+            stmt.setString(2, likeTerm);
+            stmt.setString(3, likeTerm);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                user u = new user();
+                u.setId(rs.getInt("id"));
+                u.setName(rs.getString("name"));
+                u.setEmail(rs.getString("email"));
+                u.setPassword(rs.getString("password"));
+                u.setImageProfile(rs.getString("profile_picture"));
+                u.setRoles(rs.getString("roles"));
+                u.setBlocked(rs.getBoolean("blocked"));
+                results.add(u);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return results;
     }
 
     public boolean emailExists(String email) {

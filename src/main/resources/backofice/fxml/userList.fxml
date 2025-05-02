@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
@@ -7,13 +8,16 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.chart.PieChart?>
 <AnchorPane prefHeight="864.0" prefWidth="1536.0" style="-fx-background-color: #1d1f26;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backoffice.controllers.UserListController">
     <children>
         <ScrollPane hbarPolicy="NEVER" layoutY="71.0" prefHeight="794.0" prefWidth="260.0" vbarPolicy="NEVER">
@@ -61,13 +65,21 @@
                                 <Font size="18.0" />
                             </font>
                         </Button>
+                        <Button layoutY="440.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="260.0"
+                                style="-fx-background-color: #1d1f26;" text="    Statistics" textFill="#a8b7cb"
+                                onAction="#goToStatistics">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Button>
+
                     </children>
                 </AnchorPane>
             </content>
         </ScrollPane>
         <Pane layoutX="259.0" prefHeight="70.0" prefWidth="1276.0" style="-fx-background-color: #ffffff;">
             <children>
-                <Label fx:id="adminNameLabel" layoutX="813.0" layoutY="25.0" style="-fx-text-fill: #333333; -fx-font-size: 14px;" text="MENU" />
+                <Label fx:id="adminNameLabel" layoutX="768.0" layoutY="25.0" style="-fx-text-fill: #333333; -fx-font-size: 14px;" text="MENU" />
 
                 <MenuButton fx:id="adminMenu" layoutX="862.0" layoutY="23.0" style="-fx-background-color: transparent;" text="Admin">
                     <items>
@@ -103,12 +115,23 @@
                     <children>
                         <Pane layoutY="1.0" prefHeight="551.0" prefWidth="1095.0" style="-fx-background-color: #ffffff; -fx-border-color: #d9dadb; -fx-border-radius: 10; -fx-background-radius: 10;">
                             <children>
-                                <Label layoutX="50.0" layoutY="33.0" text="Liste des Utilisateurs">
+                                <Label layoutX="79.0" layoutY="14.0" text="Liste des Utilisateurs">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
                                 </Label>
-                                <TableView fx:id="userTable" layoutX="50.0" layoutY="100.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;">
+                                <HBox alignment="CENTER_LEFT" layoutX="50.0" layoutY="60.0" spacing="5.0">
+                                    <ImageView fitHeight="20" fitWidth="20">
+                                        <image>
+                                            <Image url="@/assets/magnifying-glass.png" />
+                                        </image>
+                                    </ImageView>
+                                    <TextField fx:id="searchField" prefWidth="300.0" promptText="Search users..." style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #d9dadb; -fx-padding: 5;">
+                                        <padding>
+                                            <Insets left="10.0" />
+                                        </padding>
+                                    </TextField>
+                                </HBox>                                <TableView fx:id="userTable" layoutX="50.0" layoutY="100.0" prefHeight="400.0" prefWidth="911.0" style="-fx-background-color: #ffffff; -fx-border-color: #f0f1f5;">
                                     <columns>
                                         <TableColumn fx:id="nameCol" prefWidth="150" text="Nom" />
                                         <TableColumn fx:id="emailCol" prefWidth="200" text="Email" />
@@ -123,6 +146,12 @@
                                         <Font size="16.0" />
                                     </font>
                                 </Button>
+                                <Button fx:id="exportButton" alignment="CENTER" layoutX="870.0" layoutY="32.0" mnemonicParsing="false" onAction="#exportUsers" style="-fx-background-color: #4CAF50; -fx-background-radius: 50px;" text="Exporter" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Button>
+
                             </children>
                         </Pane>
                     </children>

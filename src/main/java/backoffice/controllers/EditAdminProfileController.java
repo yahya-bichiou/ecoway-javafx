@@ -52,7 +52,7 @@ public class EditAdminProfileController {
         if (currentUser != null) {
             nameField.setText(currentUser.getName());
             previewImage.setImage(new Image("file:" + currentUser.getImageProfile()));
-            // If needed, you can store the current user for further editing
+
         }
     }
     @FXML

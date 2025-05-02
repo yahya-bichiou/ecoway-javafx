@@ -124,7 +124,7 @@ public class EditUserListController {
 
         File selectedFile = fileChooser.showOpenDialog(profileImageView.getScene().getWindow());
         if (selectedFile != null) {
-            imagePath = selectedFile.toURI().toString(); // Save selected image path
+            imagePath = selectedFile.toURI().toString();
 
             Image image = new Image(imagePath);
             profileImageView.setImage(image);

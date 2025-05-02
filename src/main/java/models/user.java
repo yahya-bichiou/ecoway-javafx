@@ -8,6 +8,8 @@ public class user {
     private String profile_picture;
     private String roles;
     private String resetToken;
+    private boolean blocked;
+
 
 
 
@@ -95,6 +97,15 @@ public class user {
     public void setResetToken(String resetToken) {
         this.resetToken = resetToken;
     }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
 
 
     @Override

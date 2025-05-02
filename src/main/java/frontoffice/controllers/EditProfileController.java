@@ -97,6 +97,7 @@ public class EditProfileController {
             Parent root = FXMLLoader.load(getClass().getResource("/frontoffices/fxml/profile.fxml"));
             Stage stage = (Stage) nameField.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setMaximized(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

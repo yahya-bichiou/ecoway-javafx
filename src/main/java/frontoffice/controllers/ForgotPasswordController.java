@@ -54,6 +54,7 @@ public class ForgotPasswordController {
                 // Open new scene
                 Stage stage = (Stage) emailField.getScene().getWindow();
                 stage.setScene(new Scene(root));
+                stage.setMaximized(true);
                 stage.show();
 
             } catch (IOException e) {
@@ -65,6 +66,20 @@ public class ForgotPasswordController {
             messageLabel.setText("Email not found.");
         }
     }
+
+    @FXML
+    private void handleBackToLogin() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/frontoffices/fxml/login.fxml"));
+            Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 

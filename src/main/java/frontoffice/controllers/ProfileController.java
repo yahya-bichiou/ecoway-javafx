@@ -93,6 +93,7 @@ public class ProfileController {
             Parent root = FXMLLoader.load(getClass().getResource("/frontoffices/fxml/editProfile.fxml"));
             Stage stage = (Stage) welcomeMessage.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setMaximized(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,6 +113,7 @@ public class ProfileController {
             Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
             Stage stage = (Stage) welcomeMessage.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setMaximized(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,6 +130,7 @@ public class ProfileController {
             Parent root = FXMLLoader.load(getClass().getResource("/frontoffices/fxml/login.fxml"));
             Stage stage = (Stage) welcomeMessage.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setMaximized(true);
             stage.show();
             System.out.println("User logged out.");
         } catch (IOException e) {

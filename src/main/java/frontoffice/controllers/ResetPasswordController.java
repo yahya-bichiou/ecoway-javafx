@@ -26,7 +26,7 @@ public class ResetPasswordController {
 
     @FXML
     public void initialize() {
-        tokenField.setVisible(false); // Hide the token field when page loads
+        tokenField.setVisible(false);
     }
 
 
@@ -68,7 +68,7 @@ public class ResetPasswordController {
         alert.setHeaderText(null);
         alert.setContentText(message);
 
-        // Show the confirmation dialog and wait for the user's response
+
         java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == javafx.scene.control.ButtonType.OK;
     }
@@ -95,6 +95,7 @@ public class ResetPasswordController {
             // Set the scene to the login screen
             Scene scene = new Scene(loginScreen);
             stage.setScene(scene);
+            stage.setMaximized(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace(); // Handle any exceptions that occur while loading the login screen

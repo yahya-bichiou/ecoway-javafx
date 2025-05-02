@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.user;
@@ -19,6 +20,12 @@ public class LoginController {
     @FXML
     private TextField emailField;
 
+    @FXML private ImageView captchaImageView;
+
+    @FXML private TextField captchaInputField;
+    private String currentCaptchaId;
+
+
     @FXML
     private PasswordField passwordField;
 
@@ -29,36 +36,59 @@ public class LoginController {
 
     @FXML
     public void initialize() {
+
         System.out.println("Error Label Initialized: " + errorLabel);
     }
 
     @FXML
     private void handleLoginAction() {
-        resetError(); // Clear previous errors
+        resetError();
 
         String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
 
         if (!validateInputs(email, password)) {
-            return; // Stop further processing if validation fails
+            return;
         }
 
-        if (userService.validateCredentials(email, password)) {
-            user loggedInUser = userService.getUserByEmail(email);
-            UserSession.initSession(loggedInUser);
+        int validationResult = userService.validateCredentials(email, password);
 
+        switch (validationResult) {
+            case 1: // Successful login
+                user loggedInUser = userService.getUserByEmail(email);
+                UserSession.initSession(loggedInUser);
 
-            if (loggedInUser.getRoles().contains("ROLE_ADMIN")) {
-                navigateTo("/backofice/fxml/userList.fxml"); // Back office dashboard
-            } else {
-                navigateTo("/frontoffices/fxml/profile.fxml"); // Front office profile
-            }
+                if (loggedInUser.getRoles().contains("ROLE_ADMIN")) {
+                    navigateTo("/backofice/fxml/userList.fxml");
+                } else {
+                    navigateTo("/frontoffices/fxml/profile.fxml");
+                }
+                break;
 
-        } else {
-            showError("Incorrect email or password.");
-            shakeField(emailField);
+            case 2: // Account blocked
+                showAlert("Account Blocked",
+                        "Your account has been blocked",
+                        "Please contact the administrator for assistance.");
+                break;
+
+            case 0: // Invalid credentials
+            default:
+                showError("Incorrect email or password.");
+                shakeField(emailField);
+                break;
         }
     }
+
+    // Add this method to show alert dialogs
+    private void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+
     private void navigateTo(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -66,6 +96,7 @@ public class LoginController {
 
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setMaximized(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,6 +142,7 @@ public class LoginController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/frontoffices/fxml/register.fxml"));
             Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setMaximized(true);
             stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
@@ -166,6 +198,7 @@ public class LoginController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/frontoffices/fxml/ForgotPassword.fxml"));
             Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setMaximized(true);
             stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
