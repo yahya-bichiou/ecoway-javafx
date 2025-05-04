@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b8328b75-6351-40e4-8793-de269f6df489" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2vLkoJeWR08byi26q5AXheP9Sal" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Maven.pijava [org.openjfx:javafx-maven-plugin:0.0.8:jlink].executor": "Run",
+    "Maven.pijava [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/projetsjava/pijava - Copie - git - Copie/src/main/resources/images",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "C:/projetsjava/pijava/src/main/java/org/example/Main.java",
+    "settings.editor.selected.configurable": "preferences.JavaFX",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\projetsjava\pijava - Copie - git - Copie\src\main\resources\images" />
+      <recent name="C:\projetsjava\pijava - Copie - git\src\main\resources\images" />
+      <recent name="C:\projetsjava\pijava - Copie - Copie\src\main\resources\images" />
+      <recent name="C:\projetsjava\pijava - Copie - Copie\src\main\resources" />
+      <recent name="C:\projetsjava\pijava\src\main\resources\images" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\projetsjava\pijava\src\main\resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.example.utile" />
+      <recent name="controllers" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="pijava - Copie - Copie" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="pijava - Copie - git" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b8328b75-6351-40e4-8793-de269f6df489" name="Changes" comment="" />
+      <created>1743931917440</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1743931917440</updated>
+      <workItem from="1743931918543" duration="7700000" />
+      <workItem from="1743969814506" duration="2212000" />
+      <workItem from="1744061762832" duration="2708000" />
+      <workItem from="1744100626991" duration="6537000" />
+      <workItem from="1744406104772" duration="752000" />
+      <workItem from="1744452509389" duration="27984000" />
+      <workItem from="1744491603749" duration="7211000" />
+      <workItem from="1744533919014" duration="23199000" />
+      <workItem from="1744634651485" duration="2603000" />
+      <workItem from="1744644144074" duration="8020000" />
+      <workItem from="1744667845226" duration="1832000" />
+      <workItem from="1744671623339" duration="20000" />
+      <workItem from="1744672034451" duration="2428000" />
+      <workItem from="1744674494275" duration="3492000" />
+      <workItem from="1744697463395" duration="2418000" />
+      <workItem from="1744703704153" duration="81000" />
+      <workItem from="1744703864446" duration="5130000" />
+      <workItem from="1744914884524" duration="1873000" />
+      <workItem from="1745061382363" duration="12199000" />
+      <workItem from="1745144350385" duration="26753000" />
+      <workItem from="1745261391377" duration="17635000" />
+      <workItem from="1745311447391" duration="2529000" />
+      <workItem from="1745351747587" duration="633000" />
+      <workItem from="1745352616921" duration="6067000" />
+      <workItem from="1745520311703" duration="13518000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

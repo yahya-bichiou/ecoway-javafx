@@ -1,0 +1,51 @@
+/* Popup Style */
+.popup {
+    -fx-background-color: #fff;
+    -fx-padding: 20;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 3);
+}
+
+/* Image in Popup */
+.popup .product-image {
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 3);
+}
+
+/* Title */
+.popup .product-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4CAF50;
+    -fx-alignment: center;
+}
+
+/* Description */
+.popup .product-description {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+    -fx-alignment: center;
+}
+
+/* Price */
+.popup .product-price {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4CAF50;
+    -fx-alignment: center;
+}
+
+/* Button Style */
+.popup .close-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+}
+
+/* Adding margin to the buttons */
+.popup .close-button:hover {
+    -fx-background-color: #45a049;
+}

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.controllers.ProduitFrontController"
+            stylesheets="@styles.css">
+
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox style="-fx-background-color: linear-gradient(to right, #2E7D32, #4CAF50);"
+                  alignment="CENTER" spacing="15">
+        <padding>
+            <Insets top="10" right="20" bottom="10" left="20"/>
+        </padding>
+
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
+                <image>
+                    <Image url="@images/logo.png" />
+                </image>
+            </ImageView>
+            <Label text="WELCOM" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+        </HBox>
+            <HBox alignment="CENTER" spacing="15" style="-fx-padding: 0 0 0 30;">
+                <Button text="Accueil" styleClass="nav-button" />
+                <Button text="Événements" styleClass="nav-button" />
+                <Button text="Dépôts" styleClass="nav-button" />
+                <Button text="Boutique" styleClass="nav-button" />
+                <Button text="Blog" styleClass="nav-button" />
+                <Button text="Produits" styleClass="nav-button" />
+            </HBox>
+
+            <Pane HBox.hgrow="ALWAYS" />
+
+        </HBox>
+    </top>
+
+    <!-- Center with products and inline popup -->
+    <center>
+        <StackPane fx:id="mainStack">
+
+            <!-- Scroll principal avec produits -->
+            <ScrollPane fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
+                <VBox style="-fx-background-color: #f5f5f5; -fx-padding: 30;" spacing="30">
+
+                    <!-- Logo -->
+                    <HBox alignment="CENTER" spacing="20">
+                        <Button style="-fx-background-color: transparent;">
+                            <graphic>
+                                <ImageView fitHeight="600" fitWidth="600" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/images/icon.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </HBox>
+
+                    <VBox alignment="CENTER" spacing="30" style="-fx-padding: 30;">
+                        <!-- Search Box - Modifié pour la recherche dynamique -->
+                        <HBox alignment="CENTER" spacing="10">
+                            <TextField fx:id="searchField" promptText="Rechercher un produit..." prefWidth="300">
+                                <style>
+                                    -fx-background-radius: 40;
+                                    -fx-border-radius: 20;
+                                    -fx-border-color: #4CAF50;
+                                    -fx-border-width: 1;
+                                    -fx-padding: 8 25 8 25;
+                                    -fx-font-size: 14px;
+                                </style>
+                            </TextField>
+                            <!-- Ce bouton peut rester pour les utilisateurs qui préfèrent cliquer -->
+                            <Button fx:id="searchButton" onAction="#handleSearch">
+                                <graphic>
+                                    <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                                        <image>
+                                            <Image url="@images/search.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                                <style>
+                                    -fx-background-color: #4CAF50;
+                                    -fx-background-radius: 20;
+                                </style>
+                            </Button>
+                        </HBox>
+
+                        <!-- Section Catégories -->
+                        <VBox alignment="CENTER" spacing="20">
+                            <Label text="Nos Catégories" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: rgba(53,13,8,0.65);" />
+                            <FlowPane fx:id="categoriesContainer" alignment="CENTER" hgap="15" vgap="15">
+                                <padding>
+                                    <Insets bottom="15"/>
+                                </padding>
+                            </FlowPane>
+                        </VBox>
+
+                        <!-- Séparateur visuel -->
+                        <Separator style="-fx-padding: 0 100;" />
+
+                        <!-- Section Produits -->
+                        <VBox alignment="CENTER" spacing="20">
+                            <Label text="Nos Produits" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: rgba(53,13,8,0.65);" />
+                            <ScrollPane fx:id="productsScrollPane" fitToWidth="true"
+                                        vbarPolicy="AS_NEEDED" hbarPolicy="NEVER"
+                                        style="-fx-background-color: transparent; -fx-padding: 10;">
+                                <FlowPane fx:id="productsContainer" alignment="CENTER" hgap="30" vgap="30"/>
+                            </ScrollPane>
+                        </VBox>
+                    </VBox>
+
+                    <!-- Pagination -->
+                    <Label fx:id="pageInfo" style="-fx-font-size: 16px; -fx-font-weight: normal; -fx-text-fill: #4CAF50;" />
+
+                    <HBox spacing="20" alignment="CENTER">
+                        <Button fx:id="previousPageBtn" text="Précédent" onAction="#previousPage"
+                                style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                        <Button fx:id="nextPageBtn" text="Suivant" onAction="#nextPage"
+                                style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                    </HBox>
+
+                </VBox>
+            </ScrollPane>
+
+            <!-- POPUP OVERLAY -->
+            <StackPane fx:id="popupOverlay" visible="false"
+                       style="-fx-background-color: rgba(0,0,0,0.5);"
+                       alignment="CENTER">
+                <VBox fx:id="popupContent" alignment="CENTER" spacing="15"
+                      style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 20;"
+                      maxWidth="400" maxHeight="500">
+
+                    <VBox spacing="2">
+                        <StackPane fx:id="popupImageContainer" minWidth="500" minHeight="500">
+                        </StackPane>
+                        <HBox spacing="1 ">
+                            <Label text="Nom :" style="-fx-font-weight: bold;" />
+                            <Label fx:id="popupTitle" />
+                        </HBox>
+
+                        <HBox spacing="1">
+                            <Label text="Prix :" style="-fx-font-weight: bold;" />
+                            <Label fx:id="popupPrice" />
+                        </HBox>
+
+                        <HBox spacing="1">
+                            <Label text="Qualité :" style="-fx-font-weight: bold;" />
+                            <Label fx:id="popupQualite" />
+                        </HBox>
+
+                        <HBox spacing="5">
+                            <Label text="Quantité disponible :" style="-fx-font-weight: bold;" />
+                            <Label fx:id="popupQuantitedispo" />
+                        </HBox>
+
+                        <HBox spacing="5">
+                            <Label text="Date d'ajout :" style="-fx-font-weight: bold;" />
+                            <Label fx:id="popupdate" />
+                        </HBox>
+
+                        <HBox spacing="5">
+                            <Label text="Description :" style="-fx-font-weight: bold;" />
+                            <Label fx:id="popupDescription" wrapText="true" />
+                        </HBox>
+                    </VBox>
+
+
+                    <HBox spacing="5" alignment="CENTER">
+                        <Button text="Fermer" onAction="#closeInlinePopup"
+                                style="-fx-background-color: #6c757d; -fx-text-fill: white;" />
+                    </HBox>
+                </VBox>
+
+            </StackPane>
+        </StackPane>
+    </center>
+</BorderPane>

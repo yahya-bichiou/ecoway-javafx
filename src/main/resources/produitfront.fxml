@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
+<<<<<<< HEAD
             fx:controller="controllers.ProductFrontController">
+=======
+>>>>>>> d542fc18a807ae13edc57de7eacfc0e15a16b40e
 
-    <!-- Top Navigation Bar - Version premium -->
     <top>
         <HBox style="-fx-background-color: linear-gradient(to right, #2E7D32, #4CAF50);
                     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);"
@@ -32,7 +31,6 @@
                 <Button text="Accueil" styleClass="nav-button" />
                 <Button text="Événements" styleClass="nav-button" />
                 <Button text="Dépôts" styleClass="nav-button" />
-                <Button onAction="#cart" text="Boutique" styleClass="nav-button" />
                 <Button text="Blog" styleClass="nav-button" />
                 <Button text="Produits" styleClass="nav-button" />
             </HBox>
@@ -41,13 +39,9 @@
         </HBox>
     </top>
 
-    <!-- Main Content Area -->
     <center>
         <ScrollPane fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
-            <VBox style="-fx-background-color: #f5f5f5; -fx-padding: 30;">
-                <spacing>30</spacing>
 
-                <!-- Logo/Title -->
                 <HBox alignment="CENTER" spacing="20">
                     <Button style="-fx-background-color: transparent;">
                         <graphic>
@@ -60,32 +54,18 @@
                     </Button>
                 </HBox>
 
-                <!-- Categories Filter -->
-                <VBox spacing="20">
-                    <Label text="Nos Catégories" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;"/>
-                    <FlowPane fx:id="categoriesContainer" hgap="15" vgap="15">
                         <padding>
                             <Insets bottom="15"/>
                         </padding>
                     </FlowPane>
                 </VBox>
 
-                <!-- Products Grid -->
-                <Label text="Nos Produits" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;"/>
-
-                <!-- Scrollable container for the products -->
-                <ScrollPane fx:id="productsScrollPane" fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
-                    <FlowPane fx:id="productsContainer" hgap="30" vgap="30"/>
 
                 </ScrollPane>
 
-                <!-- Pagination Information -->
                 <Label fx:id="pageInfo" style="-fx-font-size: 16px; -fx-font-weight: normal; -fx-text-fill: #4CAF50;"/>
 
-                <!-- Pagination Controls -->
                 <HBox spacing="20" alignment="CENTER">
-                    <Button fx:id="previousPageBtn" text="Précédent" onAction="#previousPage" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-                    <Button fx:id="nextPageBtn" text="Suivant" onAction="#nextPage" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
                 </HBox>
             </VBox>
         </ScrollPane>
