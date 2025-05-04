@@ -4,13 +4,13 @@ import jakarta.mail.MessagingException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import models.Collectes;
@@ -22,11 +22,16 @@ import services.MailSender;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 public class DepotsBack {
 
+    @FXML
+    public TextField searchField;
+    @FXML
+    public ChoiceBox tri;
     @FXML
     private TableView<Depots> depotsTableView;
     @FXML
@@ -161,6 +166,8 @@ public class DepotsBack {
 
     @FXML
     public void initialize() throws MessagingException, SQLException {
+        tri.getItems().addAll("Aucun", "Quantité", "Date");
+        tri.setValue("Aucun");
         System.out.println("Initializing table...");
         //mail
         DepotsServices ds = new DepotsServices();
@@ -192,7 +199,23 @@ public class DepotsBack {
             DepotsServices cs = new DepotsServices();
             List<Depots> depots = cs.select();
             ObservableList<Depots> observableList = FXCollections.observableArrayList(depots);
-            depotsTableView.setItems(observableList);
+            System.out.println("Table initialized successfully.");
+            FilteredList<Depots> filteredData = new FilteredList<>(observableList, b -> true);
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredData.setPredicate(depot -> {
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+                    String lowerCaseFilter = newValue.toLowerCase();
+                    if (depot.getNom().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                    return false;
+                });
+            });
+            SortedList<Depots> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(depotsTableView.comparatorProperty());
+            depotsTableView.setItems(sortedData);
 
             System.out.println("Table initialized successfully.");
 
@@ -209,9 +232,27 @@ public class DepotsBack {
 
             // Load data
             CollectesServices cs = new CollectesServices();
-            List<Collectes> collecte = cs.select();
-            ObservableList<Collectes> observableList = FXCollections.observableArrayList(collecte);
-            collectesTableView.setItems(observableList);
+            List<Collectes> collecteList = cs.select();
+            ObservableList<Collectes> observableList = FXCollections.observableArrayList(collecteList);
+            FilteredList<Collectes> filteredList = new FilteredList<>(observableList, p -> true);
+            SortedList<Collectes> sortedList = new SortedList<>(filteredList);
+            collectesTableView.setItems(sortedList);
+
+            tri.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                Comparator<Collectes> comparator = null;
+
+                if ("Quantité".equals(newVal)) {
+                    comparator = Comparator.comparing(Collectes::getQuantite);
+                } else if ("Date".equals(newVal)) {
+                    comparator = Comparator.comparing(Collectes::getDate);
+                }
+
+                if (comparator != null) {
+                    sortedList.setComparator(comparator);
+                } else {
+                    sortedList.setComparator(null); // reset sort
+                }
+            });
 
             System.out.println("Table initialized successfully.");
 
