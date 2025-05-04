@@ -19,10 +19,10 @@ import services.produitservice;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
-public class ProduitFrontController{
+public class ProductFrontController {
+
     @FXML private FlowPane categoriesContainer;
     @FXML private FlowPane productsContainer;
     @FXML private Label pageInfo;
