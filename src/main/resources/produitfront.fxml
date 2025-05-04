@@ -7,7 +7,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.ProduitFrontController">
+            fx:controller="controllers.ProductFrontController">
 
     <!-- Top Navigation Bar - Version premium -->
     <top>
