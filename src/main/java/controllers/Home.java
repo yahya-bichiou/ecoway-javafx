@@ -15,7 +15,11 @@ public class Home extends Application {
     @Override
     public void start(Stage stage)  {
         try {
+<<<<<<< HEAD
             Parent root = FXMLLoader.load(getClass().getResource("/DepotsFront.fxml"));
+=======
+            Parent root = FXMLLoader.load(getClass().getResource("/CommandesBack.fxml"));
+>>>>>>> origin/commande-livraison
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setFullScreen(true);
