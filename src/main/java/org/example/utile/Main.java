@@ -11,8 +11,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("/listeProduitBack.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("/produitfront.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("/produitfront.fxml"));
          //Parent root = FXMLLoader.load(getClass().getResource("/AddproduitBack.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("/AddcategorieBack.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("Gestion des produits");
         primaryStage.setScene(scene);

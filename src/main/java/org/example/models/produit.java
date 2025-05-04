@@ -26,7 +26,6 @@ public class produit {
         this.prix = prix;
         this.date_ajout = dateAjout;
         this.image = image;
-
     }
 
     // Constructeur avec ID
@@ -139,5 +138,14 @@ public class produit {
     public int getCategorieId() {
         return catégorie_id ;
     }
+    private int likes;  // Add this to your produit class
 
+    // Add getter and setter
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
 }

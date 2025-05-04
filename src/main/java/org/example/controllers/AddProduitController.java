@@ -6,9 +6,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.models.categorie;
 import org.example.models.produit;
+import org.example.services.SmsService;
 import org.example.services.categorieservice;
 import org.example.services.produitservice;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mysql.cj.conf.PropertyKey.logger;
+
 public class AddProduitController {
 
     @FXML private TextField nomTextField;
@@ -32,7 +34,7 @@ public class AddProduitController {
     @FXML private ComboBox<categorie> categorieComboBox;
     @FXML private Button addButton;
 
-    // Nouveaux éléments pour la gestion multiple des images
+
     @FXML private ListView<String> imagesListView;
     @FXML private Button addImagesButton;
     @FXML private Button removeImageButton;
@@ -40,7 +42,6 @@ public class AddProduitController {
     private List<File> selectedImages = new ArrayList<>();
     private final produitservice produitService;
     private final categorieservice categorieService;
-
     public AddProduitController() throws SQLException {
         produitService = new produitservice();
         categorieService = new categorieservice();
@@ -136,15 +137,26 @@ public class AddProduitController {
         );
 
         try {
+            // Ajout du produit
             produitService.addproduit(prod);
-            showSuccessAlert("Produit ajouté avec succès avec " + savedImagePaths.size() + " image(s) !");
 
-            // Fermer la fenêtre après l'ajout réussi
+            // ✅ Envoi du SMS après ajout réussi
+            SmsService smsService = new SmsService();
+            smsService.sendSms(
+                    "+21656442190",  // Remplacer par numéro utilisateur
+                    "Un nouveau produit est disponible dans notre boutique ! 🎉 Découvrez-le maintenant."
+            );
+
+            showSuccessAlert("Produit ajouté avec succès avec " + savedImagePaths.size() + " image(s) ! SMS envoyé !");
+
+            // ✅ Fermer la fenêtre
             ((Stage) addButton.getScene().getWindow()).close();
+
         } catch (Exception e) {
             showAlert("Erreur SQL", e.getMessage());
         }
     }
+
 
     @FXML
     private void handleClear() {

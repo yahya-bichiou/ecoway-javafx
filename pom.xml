@@ -29,6 +29,25 @@
             <artifactId>javafx-controls</artifactId>
             <version>22.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.vonage</groupId>
+            <artifactId>client</artifactId>
+            <version>7.3.0</version>
+        </dependency>
+        <!-- ZXing Core - Bibliothèque principale pour la génération de codes-barres -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
+        <!-- ZXing Java SE Extensions - Pour utiliser ZXing avec Java -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
     </dependencies>
 
 
@@ -39,7 +58,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>org.example.homecontroller</mainClass>
+                    <mainClass>org.example.utile.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>

@@ -7,8 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.models.produit;
@@ -51,7 +54,13 @@ public class ListeProduitBackController {
     private TableColumn<produit, Integer> categorieCol;
     @FXML
     private TableColumn<produit, Void> actionCol;
-
+    @FXML private Label totalLikesLabel;
+    @FXML private Label avgLikesLabel;
+    @FXML private Label topProductLabel;
+    @FXML private HBox statsContainer;
+    @FXML
+    private PieChart likesPieChart;
+    @FXML private BarChart<String, Number> likesChart;
     // Catégorie
     @FXML
     private TableView<categorie> categorieTableView;
@@ -122,7 +131,7 @@ public class ListeProduitBackController {
         produitTableView.setItems(produitList);
         categorieTableView.setItems(categorieList);
 
-        // Configurer les colonnes produit
+        // Configurer les colonnes
         NomCol.setCellValueFactory(new PropertyValueFactory<>("nom"));
         DescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         QualiteCol.setCellValueFactory(new PropertyValueFactory<>("qualite"));
@@ -150,10 +159,191 @@ public class ListeProduitBackController {
 
         // Configurer les colonnes d'actions
         setupActionColumns();
-
+        setupStatistics();
         // Charger les données initiales
         refreshproduitTable();
         refreshcategorieTable();
+    }
+
+    @FXML
+    private void setupStatistics() {
+        try {
+            produitservice pService = new produitservice();
+
+            // 1. Calculer les statistiques
+            int totalLikes = pService.getTotalLikes();
+            int productCount = pService.countAllProduits();
+            double avgLikes = productCount > 0 ? (double)totalLikes / productCount : 0;
+            List<produit> topProducts = pService.getMostLikedProducts(5); // Top 5 produits pour tous les graphiques
+
+            // 2. Mettre à jour les labels avec les indicateurs clés
+            Platform.runLater(() -> {
+                totalLikesLabel.setText("Total Likes: " + totalLikes);
+                avgLikesLabel.setText("Moyenne: " + String.format("%.1f", avgLikes));
+
+                // Format amélioré pour le top produit
+                if (!topProducts.isEmpty()) {
+                    produit top = topProducts.get(0);
+                    topProductLabel.setText("Top Produit: " + top.getNom() + " (" + top.getLikes() + " likes)");
+                } else {
+                    topProductLabel.setText("Top Produit: Aucun");
+                }
+            });
+
+            // 3. Configurer les graphiques
+            configureBarChart(topProducts);
+            configurePieChart(topProducts);
+
+        } catch (Exception e) {
+            Platform.runLater(() -> {
+                showAlert("Erreur", "Erreur lors du chargement des statistiques: " + e.getMessage());
+            });
+            e.printStackTrace();
+        }
+    }
+
+    private void configureBarChart(List<produit> topProducts) {
+        Platform.runLater(() -> {
+            try {
+                // Nettoyer les données existantes
+                likesChart.getData().clear();
+
+                // Configuration des axes
+                CategoryAxis xAxis = (CategoryAxis) likesChart.getXAxis();
+                NumberAxis yAxis = (NumberAxis) likesChart.getYAxis();
+
+                // Paramètres visuels
+                xAxis.setLabel("Produits");
+                yAxis.setLabel("Nombre de Likes");
+                likesChart.setTitle("Top 5 des Produits les Plus Aimés");
+                likesChart.setAnimated(false);
+
+                // Amélioration de la lisibilité des étiquettes
+                xAxis.setTickLabelRotation(-45);
+                xAxis.setTickLabelFont(Font.font("Arial", FontWeight.NORMAL, 10));
+                xAxis.setTickLabelGap(5);
+
+                // Création de la série de données
+                XYChart.Series<String, Number> series = new XYChart.Series<>();
+                series.setName("Likes");
+
+                // Ajout des données
+                for (produit p : topProducts) {
+                    // Tronquer les noms trop longs pour éviter débordement
+                    String nomCourt = p.getNom().length() > 15 ? p.getNom().substring(0, 15) + "..." : p.getNom();
+                    XYChart.Data<String, Number> data = new XYChart.Data<>(nomCourt, p.getLikes());
+                    series.getData().add(data);
+                }
+
+                // Ajout de la série au graphique
+                likesChart.getData().add(series);
+
+                // Style personnalisé pour les barres (couleur orange)
+                for (XYChart.Data<String, Number> data : series.getData()) {
+                    // Appliquer le style lorsque le nœud est disponible
+                    if (data.getNode() != null) {
+                        data.getNode().setStyle("-fx-bar-fill: #FF7D3C;");
+                    } else {
+                        // Si le nœud n'est pas encore disponible, utiliser un listener
+                        data.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                            if (newNode != null) {
+                                newNode.setStyle("-fx-bar-fill: #FF7D3C;");
+                            }
+                        });
+                    }
+
+                    // Ajouter des tooltips pour plus de détails au survol
+                    final XYChart.Data<String, Number> finalData = data;
+                    final int value = data.getYValue().intValue();
+
+                    // Trouver le produit complet pour les détails du tooltip
+                    produit matchingProduct = topProducts.stream()
+                            .filter(p -> p.getLikes() == value && p.getNom().startsWith(data.getXValue().replace("...", "")))
+                            .findFirst()
+                            .orElse(null);
+
+                    if (matchingProduct != null) {
+                        Tooltip tooltip = new Tooltip(
+                                matchingProduct.getNom() + "\n" +
+                                        "Likes: " + matchingProduct.getLikes() + "\n" +
+                                        "Prix: " + matchingProduct.getPrix() + "€"
+                        );
+
+                        // Appliquer le tooltip lorsque le nœud est disponible
+                        if (data.getNode() != null) {
+                            Tooltip.install(data.getNode(), tooltip);
+                        } else {
+                            data.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                                if (newNode != null) {
+                                    Tooltip.install(newNode, tooltip);
+                                }
+                            });
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Erreur lors de la configuration du graphique à barres: " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void configurePieChart(List<produit> topProducts) {
+        Platform.runLater(() -> {
+            try {
+                // Nettoyer les données existantes
+                likesPieChart.getData().clear();
+
+                // Configuration générale
+                likesPieChart.setTitle("Répartition des Likes");
+                likesPieChart.setLabelsVisible(true);
+                likesPieChart.setLegendVisible(false);
+                likesPieChart.setAnimated(false);
+
+                // Définir un jeu de couleurs pour le graphique
+                String[] colors = {"#FF7D3C", "#4D98CF", "#9E6DE0", "#5FAD56", "#FFB347"};
+                int totalLikes = topProducts.stream().mapToInt(produit::getLikes).sum();
+
+                // Créer les sections du graphique avec les données des produits
+                int colorIndex = 0;
+                for (produit p : topProducts) {
+                    // Ne pas afficher les produits sans likes
+                    if (p.getLikes() > 0) {
+                        PieChart.Data slice = new PieChart.Data(p.getNom(), p.getLikes());
+                        likesPieChart.getData().add(slice);
+
+                        // Stocker le produit pour le tooltip
+                        final produit finalProduct = p;
+
+                        // Appliquer le style et le tooltip lorsque le nœud est disponible
+                        int finalColorIndex = colorIndex;
+                        slice.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                            if (newNode != null) {
+                                // Appliquer une couleur
+                                String color = colors[finalColorIndex % colors.length];
+                                newNode.setStyle("-fx-pie-color: " + color + ";");
+
+                                // Calculer le pourcentage pour le tooltip
+                                double percentage = (finalProduct.getLikes() * 100.0) / totalLikes;
+
+                                // Créer un tooltip détaillé
+                                Tooltip tooltip = new Tooltip(
+                                        finalProduct.getNom() + "\n" +
+                                                "Likes: " + finalProduct.getLikes() + "\n" +
+                                                String.format("%.1f%%", percentage) + " du total"
+                                );
+                                Tooltip.install(newNode, tooltip);
+                            }
+                        });
+
+                        colorIndex++;
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Erreur lors de la configuration du graphique circulaire: " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
     }
 
     private void refreshproduitTable() {
@@ -393,7 +583,7 @@ public class ListeProduitBackController {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     void editcat(categorie cat) {
         try {
@@ -433,4 +623,5 @@ public class ListeProduitBackController {
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
     }
+
 }

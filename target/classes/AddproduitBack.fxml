@@ -4,74 +4,93 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.effect.DropShadow?>
 
 <BorderPane
         fx:controller="org.example.controllers.AddProduitController"
-        xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+        xmlns="http://javafx.com/javafx/17"
+        xmlns:fx="http://javafx.com/fxml/1"
+        style="-fx-background-color: #f8f9fa;">
 
     <center>
-        <StackPane>
-            <VBox alignment="CENTER" spacing="20" style="-fx-background-color: #f5f5f5;">
-                <padding>
-                    <Insets top="20" right="20" bottom="20" left="20"/>
-                </padding>
+        <VBox alignment="TOP_CENTER" spacing="20" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 0); -fx-padding: 30; -fx-max-width: 800;">
+            <padding>
+                <Insets top="30" right="40" bottom="30" left="40"/>
+            </padding>
 
-                <!-- Titre -->
-                <Label text="Ajouter un produit" style="-fx-font-weight: bold;">
-                    <font>
-                        <Font size="20.0"/>
-                    </font>
-                </Label>
+            <!-- Titre avec style moderne -->
+            <Label text="Ajouter un produit" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;">
+                <font>
+                    <Font size="24.0" name="System Bold"/>
+                </font>
+                <effect>
+                    <DropShadow color="rgba(0,0,0,0.05)" radius="3" spread="0.5"/>
+                </effect>
+            </Label>
 
-                <!-- Formulaire -->
-                <GridPane hgap="10" vgap="10">
-                    <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT" minWidth="100"/>
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="200"/>
-                    </columnConstraints>
+            <!-- Séparateur -->
+            <Separator style="-fx-background-color: #e0e0e0; -fx-padding: 0 0 5 0;"/>
 
-                    <Label text="Nom :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                    <TextField fx:id="nomTextField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <!-- Formulaire amélioré -->
+            <GridPane hgap="15" vgap="15">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" minWidth="120" prefWidth="150"/>
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="200" prefWidth="250"/>
+                </columnConstraints>
 
-                    <Label text="Description :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                    <TextField fx:id="descriptionTextField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <!-- Champ Nom -->
+                <Label text="Nom :" style="-fx-text-fill: #34495e;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="nomTextField" style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #bdc3c7; -fx-prompt-text-fill: #95a5a6;" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-                    <Label text="Qualité :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                    <ComboBox fx:id="qualiteComboBox" promptText="Choisir une qualité" prefWidth="300"
-                              GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <!-- Champ Description -->
+                <Label text="Description :" style="-fx-text-fill: #34495e;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="descriptionTextField" style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #bdc3c7; -fx-prompt-text-fill: #95a5a6;" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-                    <Label text="Quantité :" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                    <TextField fx:id="quantiteTextField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <!-- Champ Qualité -->
+                <Label text="Qualité :" style="-fx-text-fill: #34495e;" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="qualiteComboBox" promptText="Choisir une qualité" style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #bdc3c7; -fx-prompt-text-fill: #95a5a6;" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-                    <Label text="Prix :" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                    <TextField fx:id="prixTextField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                <!-- Champ Quantité -->
+                <Label text="Quantité :" style="-fx-text-fill: #34495e;" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="quantiteTextField" style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #bdc3c7; -fx-prompt-text-fill: #95a5a6;" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-                    <Label text="Date d'ajout :" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                    <DatePicker fx:id="dateAjoutDatePicker" promptText="jj/MM/aaaa"
-                                GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                <!-- Champ Prix -->
+                <Label text="Prix :" style="-fx-text-fill: #34495e;" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="prixTextField" style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #bdc3c7; -fx-prompt-text-fill: #95a5a6;" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
-                    <Label text="Image :" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                    <HBox spacing="5" alignment="CENTER_LEFT" GridPane.rowIndex="6" GridPane.columnIndex="1">
-                        <TextField fx:id="imageTextField" promptText="Chemin de l'image"
-                                   prefWidth="220" editable="false"/>
-                        <Button text="Choisir" onAction="#choisirImageAction"/>
+                <!-- Champ Date -->
+                <Label text="Date d'ajout :" style="-fx-text-fill: #34495e;" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <DatePicker fx:id="dateAjoutDatePicker" promptText="jj/MM/aaaa" style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #bdc3c7; -fx-prompt-text-fill: #95a5a6;" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <!-- Section Images améliorée -->
+                <Label text="Images :" style="-fx-text-fill: #34495e;" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <VBox spacing="8" GridPane.rowIndex="6" GridPane.columnIndex="1">
+                    <ListView fx:id="imagesListView" prefHeight="120" style="-fx-border-color: #bdc3c7; -fx-border-radius: 4; -fx-background-radius: 4;">
+                        <placeholder>
+                            <Label text="Aucune image sélectionnée" style="-fx-text-fill: #95a5a6;"/>
+                        </placeholder>
+                    </ListView>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button text="Ajouter image(s)" fx:id="addImagesButton" onAction="#handleAddImages"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 4; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1); -fx-padding: 8 15;"/>
+                        <Button text="Supprimer" fx:id="removeImageButton" onAction="#handleRemoveImage"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 4; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1); -fx-padding: 8 15;"/>
                     </HBox>
-                    <Label text="Catégorie :" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-                    <ComboBox fx:id="categorieComboBox" promptText="Choisir une catégorie" prefWidth="300"
-                              GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                </VBox>
 
+                <!-- Champ Catégorie -->
+                <Label text="Catégorie :" style="-fx-text-fill: #34495e;" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="categorieComboBox" promptText="Choisir une catégorie" style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-border-color: #bdc3c7; -fx-prompt-text-fill: #95a5a6;" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+            </GridPane>
 
-
-                </GridPane>
-
-                <!-- Boutons -->
-                <HBox spacing="15" alignment="CENTER">
-                    <Button text="Ajouter" fx:id="addButton" onAction="#handleAdd"
-                            style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-                    <Button text="Annuler" onAction="#handleClear"
-                            style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
-                </HBox>
-            </VBox>
-        </StackPane>
+            <!-- Boutons avec style moderne -->
+            <HBox spacing="20" alignment="CENTER" style="-fx-padding: 20 0 0 0;">
+                <Button text="Ajouter" fx:id="addButton" onAction="#handleAdd"
+                        style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 4; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 10 25;"/>
+                <Button text="Annuler" onAction="#handleClear"
+                        style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 4; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 10 25;"/>
+            </HBox>
+        </VBox>
     </center>
 </BorderPane>

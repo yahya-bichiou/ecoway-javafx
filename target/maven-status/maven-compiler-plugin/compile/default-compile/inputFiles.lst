@@ -1,14 +1,18 @@
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\Interfaces\Iproduit.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\models\produit.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\controllers\categoriecontroller.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\models\categorie.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\controllers\categorieback.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\controllers\detaillecategorie.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\controllers\produitcontroller.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\homecontroller.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\utile\MaConnexion.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\controllers\produitfrontcontroller.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\Interfaces\Icategorie.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\services\produitservice.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\controllers\detailleproduit.java
-C:\projetsjava\pijava - Copie - Copie\src\main\java\org\example\services\categorieservice.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\controllers\AddProduitController.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\services\produitservice.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\models\categorie.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\utile\MaConnexion.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\controllers\EditProduitBackController.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\utile\Main.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\Interfaces\Iproduit.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\models\produit.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\controllers\DetailleCategorieController.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\controllers\AddCategorieController.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\services\SmsService.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\services\categorieservice.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\controllers\DetailleProduitFrontController.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\controllers\ListeProduitBackController.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\Interfaces\Icategorie.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\controllers\EditCategorieBackController.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\controllers\DetailleProduitController.java
+C:\projetsjava\pifinal\ecoway-javafx\src\main\java\org\example\controllers\ProduitFrontController.java

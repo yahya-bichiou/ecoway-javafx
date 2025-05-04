@@ -97,6 +97,84 @@ public class produitservice implements Iproduit<produit> {
         return produits;
     }
 
+    // Nouvelle méthode pour la recherche de tous les produits par mots-clés
+    public List<produit> searchProducts(String keyword, int page, int itemsPerPage) {
+        List<produit> produits = new ArrayList<>();
+        int offset = (page - 1) * itemsPerPage;
+
+        String query = "SELECT * FROM produit WHERE nom LIKE ? OR description LIKE ? LIMIT ? OFFSET ?";
+        try (PreparedStatement st = con.prepareStatement(query)) {
+            String searchTerm = "%" + keyword + "%";
+            st.setString(1, searchTerm);
+            st.setString(2, searchTerm);
+            st.setInt(3, itemsPerPage);
+            st.setInt(4, offset);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                produits.add(extractProduitFromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la recherche de produits : " + e.getMessage());
+        }
+        return produits;
+    }
+
+    // Nouvelle méthode pour la recherche de produits par catégorie et mots-clés
+    public List<produit> searchProductsByCategorie(int categorieId, String keyword, int page, int itemsPerPage) {
+        List<produit> produits = new ArrayList<>();
+        int offset = (page - 1) * itemsPerPage;
+
+        String query = "SELECT * FROM produit WHERE catégorie_id = ? AND (nom LIKE ? OR description LIKE ?) LIMIT ? OFFSET ?";
+        try (PreparedStatement st = con.prepareStatement(query)) {
+            String searchTerm = "%" + keyword + "%";
+            st.setInt(1, categorieId);
+            st.setString(2, searchTerm);
+            st.setString(3, searchTerm);
+            st.setInt(4, itemsPerPage);
+            st.setInt(5, offset);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                produits.add(extractProduitFromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la recherche de produits par catégorie : " + e.getMessage());
+        }
+        return produits;
+    }
+
+    // Méthode pour compter les résultats de recherche
+    public int countSearchResults(String keyword) {
+        String query = "SELECT COUNT(*) FROM produit WHERE nom LIKE ? OR description LIKE ?";
+        try (PreparedStatement st = con.prepareStatement(query)) {
+            String searchTerm = "%" + keyword + "%";
+            st.setString(1, searchTerm);
+            st.setString(2, searchTerm);
+            ResultSet rs = st.executeQuery();
+            return rs.next() ? rs.getInt(1) : 0;
+        } catch (SQLException e) {
+            System.out.println("Erreur lors du comptage des résultats de recherche : " + e.getMessage());
+            return 0;
+        }
+    }
+
+    // Méthode pour compter les résultats de recherche par catégorie
+    public int countSearchResultsByCategorie(int categorieId, String keyword) {
+        String query = "SELECT COUNT(*) FROM produit WHERE catégorie_id = ? AND (nom LIKE ? OR description LIKE ?)";
+        try (PreparedStatement st = con.prepareStatement(query)) {
+            String searchTerm = "%" + keyword + "%";
+            st.setInt(1, categorieId);
+            st.setString(2, searchTerm);
+            st.setString(3, searchTerm);
+            ResultSet rs = st.executeQuery();
+            return rs.next() ? rs.getInt(1) : 0;
+        } catch (SQLException e) {
+            System.out.println("Erreur lors du comptage des résultats de recherche par catégorie : " + e.getMessage());
+            return 0;
+        }
+    }
+
 
     // Méthode utilitaire pour extraire un produit d'un ResultSet
     private produit extractProduitFromResultSet(ResultSet rs) throws SQLException {
@@ -110,6 +188,8 @@ public class produitservice implements Iproduit<produit> {
         p.setDateAjout(rs.getTimestamp("date_ajout").toLocalDateTime());
         p.setImage(rs.getString("image"));
         p.setCategorieId(rs.getInt("catégorie_id"));  // Assurez-vous que c'est bien "categorie_id" avec é
+        p.setLikes(rs.getInt("likes"));
+
         return p;
     }
 
@@ -175,6 +255,29 @@ public class produitservice implements Iproduit<produit> {
         } catch (SQLException e) {
             System.out.println("Erreur lors de l'incrémentation du like : " + e.getMessage());
         }
-    }
 
+    }
+    public int getTotalLikes() {
+        String query = "SELECT SUM(likes) FROM produit";
+        try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(query)) {
+            return rs.next() ? rs.getInt(1) : 0;
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération du total des likes : " + e.getMessage());
+            return 0;
+        }
+    }
+    public List<produit> getMostLikedProducts(int limit) {
+        List<produit> produits = new ArrayList<>();
+        String query = "SELECT * FROM produit ORDER BY likes DESC LIMIT ?";
+        try (PreparedStatement st = con.prepareStatement(query)) {
+            st.setInt(1, limit);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                produits.add(extractProduitFromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération des produits les plus aimés : " + e.getMessage());
+        }
+        return produits;
+    }
 }

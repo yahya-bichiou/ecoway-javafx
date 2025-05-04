@@ -9,7 +9,6 @@
     <children>
         <VBox spacing="15" alignment="TOP_CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
             <children>
-
                 <Label text="Modifier le produit">
                     <font>
                         <Font name="System Bold" size="24"/>
@@ -23,34 +22,38 @@
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints minHeight="30"/>
+                        <RowConstraints minHeight="30"/>
+                        <RowConstraints minHeight="30"/>
+                        <RowConstraints minHeight="30"/>
+                        <RowConstraints minHeight="30"/>
+                        <RowConstraints minHeight="30"/>
+                        <RowConstraints minHeight="30"/>
                     </rowConstraints>
 
                     <children>
                         <!-- Champs du formulaire -->
-                        <Label text="nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                         <TextField fx:id="nomField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                         <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                         <TextField fx:id="descriptionArea" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-                        <Label text="qualité:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                        <ComboBox fx:id="qualiteComboBox" promptText="Qualité" prefWidth="300"/>
-                        <Label text="catégorie:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                        <ComboBox fx:id="categorieComboBox" promptText="catégorie" prefWidth="300"/>
+                        <Label text="Qualité:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="qualiteComboBox" GridPane.rowIndex="2" GridPane.columnIndex="1" promptText="Qualité"/>
 
-                        <Label text="prix:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                        <TextField fx:id="prixField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                        <Label text="Catégorie:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="categorieComboBox" GridPane.rowIndex="3" GridPane.columnIndex="1" promptText="Catégorie"/>
 
-                        <Label text="Date_ajout:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                        <DatePicker fx:id="dateAjoutPicker" promptText="jj/MM/aaaa" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                        <Label text="Prix:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <TextField fx:id="prixField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
-                        <Label text="image:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                        <!-- Champ de texte pour afficher le chemin de l'image -->
-                        <TextField fx:id="imageTextField" promptText="Chemin de l'image" prefWidth="300" editable="false"/>
+                        <Label text="Date ajout:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                        <DatePicker fx:id="dateAjoutPicker" GridPane.rowIndex="5" GridPane.columnIndex="1" promptText="jj/MM/aaaa"/>
 
-                        <!-- Bouton pour choisir une image -->
-                        <HBox spacing="10">
-                            <Button text="Choisir Image" onAction="#choisirImageAction"/>
+                        <Label text="Image:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                        <HBox GridPane.rowIndex="6" GridPane.columnIndex="1" spacing="10" alignment="CENTER_LEFT">
+                            <TextField fx:id="imageTextField" promptText="Chemin de l'image" editable="false" HBox.hgrow="ALWAYS"/>
+                            <Button text="Choisir Image" onAction="#handleAddImages"/>
                         </HBox>
                     </children>
                 </GridPane>
