@@ -24,6 +24,7 @@
 /* Changes the text size for all table cells */
 .table-view .table-cell {
     -fx-font-size: 14px;
+    -fx-text-fill: #a1a1a1;
 }
 
 /* Changes the text size for table header labels */

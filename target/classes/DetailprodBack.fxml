@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.controllers.DetailleProduitController">
+    <children>
+        <VBox spacing="15" alignment="TOP_CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+            <children>
+
+                <Label text="Détail de produit">
+                    <font>
+                        <Font name="System Bold" size="24"/>
+                    </font>
+                </Label>
+
+                <GridPane hgap="15" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" minWidth="120"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <children>
+                        <!-- Champs du formulaire -->
+                        <Label text="nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="nomTextField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextField fx:id="descriptionTextField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="qualité:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="qualiteComboBox" promptText="Qualité" prefWidth="300"/>
+                        <Label text="catégorie:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="categorieComboBox" promptText="Qualité" prefWidth="300"/>
+
+                        <Label text="prix:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextField fx:id="prixTextField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Date_ajout:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <DatePicker fx:id="dateAjoutDatePicker" promptText="jj/MM/aaaa" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                        <Label text="image:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                        <!-- Champ de texte pour afficher le chemin de l'image -->
+                        <TextField fx:id="imageTextField" promptText="Chemin de l'image" prefWidth="300" editable="false"/>
+                    </children>
+                </GridPane>
+
+                <HBox spacing="20" alignment="CENTER">
+                    <Button text="Retour" onAction="#handleBack" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                </HBox>
+            </children>
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>
