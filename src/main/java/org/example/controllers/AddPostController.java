@@ -60,6 +60,7 @@ public class AddPostController {
                     imageField.getText().trim()
             );
 
+
             try {
                 service.createPost(newPost);
                 showSuccessAlert("Post ajouté avec succès !");
