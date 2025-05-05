@@ -5,8 +5,8 @@ import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
 public class TwilioService {
-    public static final String ACCOUNT_SID = System.getenv("TWILIO_SID");
-    public static final String AUTH_TOKEN = System.getenv("TWILIO_TOKEN");
+    public static final String ACCOUNT_SID = "ACe5b2fe08dbc829c8b524c29cf09879cd";
+    public static final String AUTH_TOKEN = "8a2f5ad5c9f6380fc41955169e3db69e";
     public static final String FROM_NUMBER = "+13526757255"; // Ton numéro Twilio
 
     static {
