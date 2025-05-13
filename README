@@ -1,1 +1,79 @@
+# ♻️ EcoWay – Application Desktop JavaFX
 
+EcoWay est une application desktop moderne développée en JavaFX, destinée à la gestion d’une entreprise de recyclage des déchets ménagers en engrais naturels. Cette version desktop permet aux utilisateurs et administrateurs d’interagir facilement avec le système via une interface intuitive, rapide et performante.
+
+---
+
+## 🚀 Fonctionnalités
+
+- ♻️ Gestion du recyclage des déchets en engrais
+- 👤 Interfaces dédiées pour **Administrateur** et **Utilisateur**
+- 📦 Système de gestion des commandes, dépôts, publications et utilisateurs
+- 📊 Statistiques et système de réactions (like/dislike)
+- 🖼️ Téléversement et affichage d’images pour les publications
+- 🔐 Authentification et rôles utilisateur
+- 💾 Connexion à une base de données MySQL locale via XAMPP
+- 🧩 Architecture MVC claire et extensible
+- 💼 Prêt pour une intégration future avec des APIs (paiement, SMS...)
+
+---
+
+## 🛠️ Stack Technique
+
+- **Langage** : Java
+- **Interface** : JavaFX
+- **Base de données** : MySQL (via XAMPP)
+- **Architecture** : MVC (Modèle-Vue-Contrôleur)
+- **Build Tool** : Maven
+- **IDE recommandé** : IntelliJ IDEA
+
+---
+
+## ⚙️ Installation & Lancement
+
+1. **Cloner le dépôt :**
+   ```bash
+   git clone https://github.com/yahya-bichiou/ecoway-javafx.git
+   cd ecoway-javafx
+
+2. Ouvrir avec IntelliJ IDEA
+
+3. Configurer la base de données MySQL via XAMPP :
+
+Créer une base de données nommée ecoway
+
+Importer le fichier SQL dans phpMyAdmin
+
+Configurer la connexion à la BDD dans le code
+
+4. Lancer l’application :
+
+Maven > javafx:run
+
+Créer un utilisateur admin manuellement dans la table user
+
+👥 Rôles Utilisateurs
+
+Administrateur : gestion des posts, utilisateurs, dépôts, commandes, statistiques.
+
+Utilisateur : consultation des articles, réactions, commandes, localisation des points de dépôt.
+
+📁 Structure du Projet
+
+src/controller/ – Contrôleurs JavaFX
+
+src/model/ – Modèles (entités)
+
+src/resources/ – Fichiers FXML ou classes Java des vues
+
+src/services/ – Fonctions utilitaires et services
+
+pom.xml – Fichier Maven pour les dépendances
+
+🤝 Contribution
+
+Les contributions sont les bienvenues ! Forkez le projet, proposez des idées ou corrigez des bugs via une Pull Request.
+
+📄 Licence
+
+Ce projet est sous licence MIT. Vous êtes libre de l’utiliser, modifier et redistribuer avec attribution.
