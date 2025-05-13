@@ -31,8 +31,7 @@ EcoWay est une application desktop moderne développée en JavaFX, destinée à 
 
 ## ⚙️ Installation & Lancement
 
-1. **Cloner le dépôt :**
-   ```bash
+1. Cloner le dépôt :
    git clone https://github.com/yahya-bichiou/ecoway-javafx.git
    cd ecoway-javafx
 
